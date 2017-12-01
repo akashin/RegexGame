@@ -1,4 +1,4 @@
-package com.regxkcd;
+package com.regexgame;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
@@ -22,40 +22,40 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.8.0)",
-    comments = "Source: regxkcd_service.proto")
-public final class RegxkcdGrpc {
+    comments = "Source: game_service.proto")
+public final class RegexGameGrpc {
 
-  private RegxkcdGrpc() {}
+  private RegexGameGrpc() {}
 
-  public static final String SERVICE_NAME = "regxkcd.Regxkcd";
+  public static final String SERVICE_NAME = "regexgame.RegexGame";
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetMessageMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<com.regxkcd.GetMessageRequest,
-      com.regxkcd.GetMessageReply> METHOD_GET_MESSAGE = getGetMessageMethod();
+  public static final io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest,
+      com.regexgame.GetMessageReply> METHOD_GET_MESSAGE = getGetMessageMethod();
 
-  private static volatile io.grpc.MethodDescriptor<com.regxkcd.GetMessageRequest,
-      com.regxkcd.GetMessageReply> getGetMessageMethod;
+  private static volatile io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest,
+      com.regexgame.GetMessageReply> getGetMessageMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<com.regxkcd.GetMessageRequest,
-      com.regxkcd.GetMessageReply> getGetMessageMethod() {
-    io.grpc.MethodDescriptor<com.regxkcd.GetMessageRequest, com.regxkcd.GetMessageReply> getGetMessageMethod;
-    if ((getGetMessageMethod = RegxkcdGrpc.getGetMessageMethod) == null) {
-      synchronized (RegxkcdGrpc.class) {
-        if ((getGetMessageMethod = RegxkcdGrpc.getGetMessageMethod) == null) {
-          RegxkcdGrpc.getGetMessageMethod = getGetMessageMethod = 
-              io.grpc.MethodDescriptor.<com.regxkcd.GetMessageRequest, com.regxkcd.GetMessageReply>newBuilder()
+  public static io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest,
+      com.regexgame.GetMessageReply> getGetMessageMethod() {
+    io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest, com.regexgame.GetMessageReply> getGetMessageMethod;
+    if ((getGetMessageMethod = RegexGameGrpc.getGetMessageMethod) == null) {
+      synchronized (RegexGameGrpc.class) {
+        if ((getGetMessageMethod = RegexGameGrpc.getGetMessageMethod) == null) {
+          RegexGameGrpc.getGetMessageMethod = getGetMessageMethod = 
+              io.grpc.MethodDescriptor.<com.regexgame.GetMessageRequest, com.regexgame.GetMessageReply>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "regxkcd.Regxkcd", "GetMessage"))
+                  "regexgame.RegexGame", "GetMessage"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.regxkcd.GetMessageRequest.getDefaultInstance()))
+                  com.regexgame.GetMessageRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.regxkcd.GetMessageReply.getDefaultInstance()))
-                  .setSchemaDescriptor(new RegxkcdMethodDescriptorSupplier("GetMessage"))
+                  com.regexgame.GetMessageReply.getDefaultInstance()))
+                  .setSchemaDescriptor(new RegexGameMethodDescriptorSupplier("GetMessage"))
                   .build();
           }
         }
@@ -66,24 +66,24 @@ public final class RegxkcdGrpc {
   /**
    * Creates a new async stub that supports all call types for the service
    */
-  public static RegxkcdStub newStub(io.grpc.Channel channel) {
-    return new RegxkcdStub(channel);
+  public static RegexGameStub newStub(io.grpc.Channel channel) {
+    return new RegexGameStub(channel);
   }
 
   /**
    * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
-  public static RegxkcdBlockingStub newBlockingStub(
+  public static RegexGameBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new RegxkcdBlockingStub(channel);
+    return new RegexGameBlockingStub(channel);
   }
 
   /**
    * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
-  public static RegxkcdFutureStub newFutureStub(
+  public static RegexGameFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new RegxkcdFutureStub(channel);
+    return new RegexGameFutureStub(channel);
   }
 
   /**
@@ -91,15 +91,15 @@ public final class RegxkcdGrpc {
    * The greeting service definition.
    * </pre>
    */
-  public static abstract class RegxkcdImplBase implements io.grpc.BindableService {
+  public static abstract class RegexGameImplBase implements io.grpc.BindableService {
 
     /**
      * <pre>
      * Sends a message
      * </pre>
      */
-    public void getMessage(com.regxkcd.GetMessageRequest request,
-        io.grpc.stub.StreamObserver<com.regxkcd.GetMessageReply> responseObserver) {
+    public void getMessage(com.regexgame.GetMessageRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.GetMessageReply> responseObserver) {
       asyncUnimplementedUnaryCall(getGetMessageMethod(), responseObserver);
     }
 
@@ -109,8 +109,8 @@ public final class RegxkcdGrpc {
             getGetMessageMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.regxkcd.GetMessageRequest,
-                com.regxkcd.GetMessageReply>(
+                com.regexgame.GetMessageRequest,
+                com.regexgame.GetMessageReply>(
                   this, METHODID_GET_MESSAGE)))
           .build();
     }
@@ -121,20 +121,20 @@ public final class RegxkcdGrpc {
    * The greeting service definition.
    * </pre>
    */
-  public static final class RegxkcdStub extends io.grpc.stub.AbstractStub<RegxkcdStub> {
-    private RegxkcdStub(io.grpc.Channel channel) {
+  public static final class RegexGameStub extends io.grpc.stub.AbstractStub<RegexGameStub> {
+    private RegexGameStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private RegxkcdStub(io.grpc.Channel channel,
+    private RegexGameStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected RegxkcdStub build(io.grpc.Channel channel,
+    protected RegexGameStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new RegxkcdStub(channel, callOptions);
+      return new RegexGameStub(channel, callOptions);
     }
 
     /**
@@ -142,8 +142,8 @@ public final class RegxkcdGrpc {
      * Sends a message
      * </pre>
      */
-    public void getMessage(com.regxkcd.GetMessageRequest request,
-        io.grpc.stub.StreamObserver<com.regxkcd.GetMessageReply> responseObserver) {
+    public void getMessage(com.regexgame.GetMessageRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.GetMessageReply> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetMessageMethod(), getCallOptions()), request, responseObserver);
     }
@@ -154,20 +154,20 @@ public final class RegxkcdGrpc {
    * The greeting service definition.
    * </pre>
    */
-  public static final class RegxkcdBlockingStub extends io.grpc.stub.AbstractStub<RegxkcdBlockingStub> {
-    private RegxkcdBlockingStub(io.grpc.Channel channel) {
+  public static final class RegexGameBlockingStub extends io.grpc.stub.AbstractStub<RegexGameBlockingStub> {
+    private RegexGameBlockingStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private RegxkcdBlockingStub(io.grpc.Channel channel,
+    private RegexGameBlockingStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected RegxkcdBlockingStub build(io.grpc.Channel channel,
+    protected RegexGameBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new RegxkcdBlockingStub(channel, callOptions);
+      return new RegexGameBlockingStub(channel, callOptions);
     }
 
     /**
@@ -175,7 +175,7 @@ public final class RegxkcdGrpc {
      * Sends a message
      * </pre>
      */
-    public com.regxkcd.GetMessageReply getMessage(com.regxkcd.GetMessageRequest request) {
+    public com.regexgame.GetMessageReply getMessage(com.regexgame.GetMessageRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetMessageMethod(), getCallOptions(), request);
     }
@@ -186,20 +186,20 @@ public final class RegxkcdGrpc {
    * The greeting service definition.
    * </pre>
    */
-  public static final class RegxkcdFutureStub extends io.grpc.stub.AbstractStub<RegxkcdFutureStub> {
-    private RegxkcdFutureStub(io.grpc.Channel channel) {
+  public static final class RegexGameFutureStub extends io.grpc.stub.AbstractStub<RegexGameFutureStub> {
+    private RegexGameFutureStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private RegxkcdFutureStub(io.grpc.Channel channel,
+    private RegexGameFutureStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected RegxkcdFutureStub build(io.grpc.Channel channel,
+    protected RegexGameFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new RegxkcdFutureStub(channel, callOptions);
+      return new RegexGameFutureStub(channel, callOptions);
     }
 
     /**
@@ -207,8 +207,8 @@ public final class RegxkcdGrpc {
      * Sends a message
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.regxkcd.GetMessageReply> getMessage(
-        com.regxkcd.GetMessageRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.regexgame.GetMessageReply> getMessage(
+        com.regexgame.GetMessageRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getGetMessageMethod(), getCallOptions()), request);
     }
@@ -221,10 +221,10 @@ public final class RegxkcdGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final RegxkcdImplBase serviceImpl;
+    private final RegexGameImplBase serviceImpl;
     private final int methodId;
 
-    MethodHandlers(RegxkcdImplBase serviceImpl, int methodId) {
+    MethodHandlers(RegexGameImplBase serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -234,8 +234,8 @@ public final class RegxkcdGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_GET_MESSAGE:
-          serviceImpl.getMessage((com.regxkcd.GetMessageRequest) request,
-              (io.grpc.stub.StreamObserver<com.regxkcd.GetMessageReply>) responseObserver);
+          serviceImpl.getMessage((com.regexgame.GetMessageRequest) request,
+              (io.grpc.stub.StreamObserver<com.regexgame.GetMessageReply>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -253,32 +253,32 @@ public final class RegxkcdGrpc {
     }
   }
 
-  private static abstract class RegxkcdBaseDescriptorSupplier
+  private static abstract class RegexGameBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
-    RegxkcdBaseDescriptorSupplier() {}
+    RegexGameBaseDescriptorSupplier() {}
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return com.regxkcd.RegxkcdProto.getDescriptor();
+      return com.regexgame.RegexGameProto.getDescriptor();
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
-      return getFileDescriptor().findServiceByName("Regxkcd");
+      return getFileDescriptor().findServiceByName("RegexGame");
     }
   }
 
-  private static final class RegxkcdFileDescriptorSupplier
-      extends RegxkcdBaseDescriptorSupplier {
-    RegxkcdFileDescriptorSupplier() {}
+  private static final class RegexGameFileDescriptorSupplier
+      extends RegexGameBaseDescriptorSupplier {
+    RegexGameFileDescriptorSupplier() {}
   }
 
-  private static final class RegxkcdMethodDescriptorSupplier
-      extends RegxkcdBaseDescriptorSupplier
+  private static final class RegexGameMethodDescriptorSupplier
+      extends RegexGameBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
     private final String methodName;
 
-    RegxkcdMethodDescriptorSupplier(String methodName) {
+    RegexGameMethodDescriptorSupplier(String methodName) {
       this.methodName = methodName;
     }
 
@@ -293,11 +293,11 @@ public final class RegxkcdGrpc {
   public static io.grpc.ServiceDescriptor getServiceDescriptor() {
     io.grpc.ServiceDescriptor result = serviceDescriptor;
     if (result == null) {
-      synchronized (RegxkcdGrpc.class) {
+      synchronized (RegexGameGrpc.class) {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new RegxkcdFileDescriptorSupplier())
+              .setSchemaDescriptor(new RegexGameFileDescriptorSupplier())
               .addMethod(getGetMessageMethod())
               .build();
         }

@@ -1,14 +1,14 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.regxkcd";
-option java_outer_classname = "RegxkcdProto";
+option java_package = "com.regexgame";
+option java_outer_classname = "RegexGameProto";
 option objc_class_prefix = "HLW";
 
-package regxkcd;
+package regexgame;
 
 // The greeting service definition.
-service Regxkcd {
+service RegexGame {
   // Sends a message
   rpc GetMessage (GetMessageRequest) returns (GetMessageReply) {}
 }

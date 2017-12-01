@@ -1,11 +1,11 @@
-package com.regxkcd.server;
+package com.regexgame.server;
 
-import com.regxkcd.GetMessageReply;
-import com.regxkcd.GetMessageRequest;
-import com.regxkcd.RegxkcdGrpc;
+import com.regexgame.GetMessageReply;
+import com.regexgame.GetMessageRequest;
+import com.regexgame.RegexGameGrpc;
 import io.grpc.stub.StreamObserver;
 
-public class RegxkcdImpl extends RegxkcdGrpc.RegxkcdImplBase {
+public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
     @Override
     public void getMessage(GetMessageRequest request, StreamObserver<GetMessageReply> responseObserver) {
         GetMessageReply reply = GetMessageReply.newBuilder().setMessage("Hello, " + request.getName() + "!").build();

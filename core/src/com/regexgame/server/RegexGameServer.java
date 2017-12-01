@@ -1,18 +1,18 @@
-package com.regxkcd.server;
+package com.regexgame.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 import java.io.IOException;
 
-public class RegxkcdServer {
+public class RegexGameServer {
 
     private Server server;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        RegxkcdServer regxkcdServer = new RegxkcdServer();
-        regxkcdServer.start();
-        regxkcdServer.blockUntilShutdown();
+        RegexGameServer regexGameServer = new RegexGameServer();
+        regexGameServer.start();
+        regexGameServer.blockUntilShutdown();
     }
 
     private void stop() {
@@ -29,7 +29,7 @@ public class RegxkcdServer {
 
     private void start() throws IOException {
         server = ServerBuilder.forPort(6001)
-                .addService(new RegxkcdImpl())
+                .addService(new RegexGameImpl())
                 .build()
                 .start();
 
@@ -38,7 +38,7 @@ public class RegxkcdServer {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                RegxkcdServer.this.stop();
+                RegexGameServer.this.stop();
                 super.run();
             }
         });
