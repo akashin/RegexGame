@@ -8,15 +8,20 @@ public interface MakeActionRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.regexgame.GameAction action = 1;</code>
+   * <code>int64 match_id = 1;</code>
+   */
+  long getMatchId();
+
+  /**
+   * <code>.regexgame.GameAction action = 2;</code>
    */
   boolean hasAction();
   /**
-   * <code>.regexgame.GameAction action = 1;</code>
+   * <code>.regexgame.GameAction action = 2;</code>
    */
   com.regexgame.GameAction getAction();
   /**
-   * <code>.regexgame.GameAction action = 1;</code>
+   * <code>.regexgame.GameAction action = 2;</code>
    */
   com.regexgame.GameActionOrBuilder getActionOrBuilder();
 }

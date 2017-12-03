@@ -4,24 +4,18 @@
 package com.regexgame;
 
 /**
- * <pre>
- * The request message to get game events.
- * </pre>
- *
- * Protobuf type {@code regexgame.GetEventsRequest}
+ * Protobuf type {@code regexgame.CreateMatchRequest}
  */
-public  final class GetEventsRequest extends
+public  final class CreateMatchRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:regexgame.GetEventsRequest)
-    GetEventsRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:regexgame.CreateMatchRequest)
+    CreateMatchRequestOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use GetEventsRequest.newBuilder() to construct.
-  private GetEventsRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use CreateMatchRequest.newBuilder() to construct.
+  private CreateMatchRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private GetEventsRequest() {
-    matchId_ = 0L;
-    startTimestamp_ = 0;
+  private CreateMatchRequest() {
   }
 
   @java.lang.Override
@@ -29,7 +23,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private GetEventsRequest(
+  private CreateMatchRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -37,7 +31,6 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
-    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -55,16 +48,6 @@ private static final long serialVersionUID = 0L;
             }
             break;
           }
-          case 8: {
-
-            matchId_ = input.readInt64();
-            break;
-          }
-          case 16: {
-
-            startTimestamp_ = input.readInt32();
-            break;
-          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -79,32 +62,14 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.regexgame.GameService.internal_static_regexgame_GetEventsRequest_descriptor;
+    return com.regexgame.GameService.internal_static_regexgame_CreateMatchRequest_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.regexgame.GameService.internal_static_regexgame_GetEventsRequest_fieldAccessorTable
+    return com.regexgame.GameService.internal_static_regexgame_CreateMatchRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.regexgame.GetEventsRequest.class, com.regexgame.GetEventsRequest.Builder.class);
-  }
-
-  public static final int MATCH_ID_FIELD_NUMBER = 1;
-  private long matchId_;
-  /**
-   * <code>int64 match_id = 1;</code>
-   */
-  public long getMatchId() {
-    return matchId_;
-  }
-
-  public static final int START_TIMESTAMP_FIELD_NUMBER = 2;
-  private int startTimestamp_;
-  /**
-   * <code>int32 start_timestamp = 2;</code>
-   */
-  public int getStartTimestamp() {
-    return startTimestamp_;
+            com.regexgame.CreateMatchRequest.class, com.regexgame.CreateMatchRequest.Builder.class);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -119,12 +84,6 @@ private static final long serialVersionUID = 0L;
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (matchId_ != 0L) {
-      output.writeInt64(1, matchId_);
-    }
-    if (startTimestamp_ != 0) {
-      output.writeInt32(2, startTimestamp_);
-    }
     unknownFields.writeTo(output);
   }
 
@@ -133,14 +92,6 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (matchId_ != 0L) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(1, matchId_);
-    }
-    if (startTimestamp_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, startTimestamp_);
-    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -151,16 +102,12 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.regexgame.GetEventsRequest)) {
+    if (!(obj instanceof com.regexgame.CreateMatchRequest)) {
       return super.equals(obj);
     }
-    com.regexgame.GetEventsRequest other = (com.regexgame.GetEventsRequest) obj;
+    com.regexgame.CreateMatchRequest other = (com.regexgame.CreateMatchRequest) obj;
 
     boolean result = true;
-    result = result && (getMatchId()
-        == other.getMatchId());
-    result = result && (getStartTimestamp()
-        == other.getStartTimestamp());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -172,79 +119,74 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + MATCH_ID_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        getMatchId());
-    hash = (37 * hash) + START_TIMESTAMP_FIELD_NUMBER;
-    hash = (53 * hash) + getStartTimestamp();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(byte[] data)
+  public static com.regexgame.CreateMatchRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(java.io.InputStream input)
+  public static com.regexgame.CreateMatchRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.regexgame.GetEventsRequest parseDelimitedFrom(java.io.InputStream input)
+  public static com.regexgame.CreateMatchRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.regexgame.GetEventsRequest parseDelimitedFrom(
+  public static com.regexgame.CreateMatchRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.regexgame.GetEventsRequest parseFrom(
+  public static com.regexgame.CreateMatchRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -256,7 +198,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.regexgame.GetEventsRequest prototype) {
+  public static Builder newBuilder(com.regexgame.CreateMatchRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -271,29 +213,25 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * The request message to get game events.
-   * </pre>
-   *
-   * Protobuf type {@code regexgame.GetEventsRequest}
+   * Protobuf type {@code regexgame.CreateMatchRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:regexgame.GetEventsRequest)
-      com.regexgame.GetEventsRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:regexgame.CreateMatchRequest)
+      com.regexgame.CreateMatchRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.regexgame.GameService.internal_static_regexgame_GetEventsRequest_descriptor;
+      return com.regexgame.GameService.internal_static_regexgame_CreateMatchRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.regexgame.GameService.internal_static_regexgame_GetEventsRequest_fieldAccessorTable
+      return com.regexgame.GameService.internal_static_regexgame_CreateMatchRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.regexgame.GetEventsRequest.class, com.regexgame.GetEventsRequest.Builder.class);
+              com.regexgame.CreateMatchRequest.class, com.regexgame.CreateMatchRequest.Builder.class);
     }
 
-    // Construct using com.regexgame.GetEventsRequest.newBuilder()
+    // Construct using com.regexgame.CreateMatchRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -310,34 +248,28 @@ private static final long serialVersionUID = 0L;
     }
     public Builder clear() {
       super.clear();
-      matchId_ = 0L;
-
-      startTimestamp_ = 0;
-
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.regexgame.GameService.internal_static_regexgame_GetEventsRequest_descriptor;
+      return com.regexgame.GameService.internal_static_regexgame_CreateMatchRequest_descriptor;
     }
 
-    public com.regexgame.GetEventsRequest getDefaultInstanceForType() {
-      return com.regexgame.GetEventsRequest.getDefaultInstance();
+    public com.regexgame.CreateMatchRequest getDefaultInstanceForType() {
+      return com.regexgame.CreateMatchRequest.getDefaultInstance();
     }
 
-    public com.regexgame.GetEventsRequest build() {
-      com.regexgame.GetEventsRequest result = buildPartial();
+    public com.regexgame.CreateMatchRequest build() {
+      com.regexgame.CreateMatchRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public com.regexgame.GetEventsRequest buildPartial() {
-      com.regexgame.GetEventsRequest result = new com.regexgame.GetEventsRequest(this);
-      result.matchId_ = matchId_;
-      result.startTimestamp_ = startTimestamp_;
+    public com.regexgame.CreateMatchRequest buildPartial() {
+      com.regexgame.CreateMatchRequest result = new com.regexgame.CreateMatchRequest(this);
       onBuilt();
       return result;
     }
@@ -369,22 +301,16 @@ private static final long serialVersionUID = 0L;
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.regexgame.GetEventsRequest) {
-        return mergeFrom((com.regexgame.GetEventsRequest)other);
+      if (other instanceof com.regexgame.CreateMatchRequest) {
+        return mergeFrom((com.regexgame.CreateMatchRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.regexgame.GetEventsRequest other) {
-      if (other == com.regexgame.GetEventsRequest.getDefaultInstance()) return this;
-      if (other.getMatchId() != 0L) {
-        setMatchId(other.getMatchId());
-      }
-      if (other.getStartTimestamp() != 0) {
-        setStartTimestamp(other.getStartTimestamp());
-      }
+    public Builder mergeFrom(com.regexgame.CreateMatchRequest other) {
+      if (other == com.regexgame.CreateMatchRequest.getDefaultInstance()) return this;
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -398,69 +324,17 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.regexgame.GetEventsRequest parsedMessage = null;
+      com.regexgame.CreateMatchRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.regexgame.GetEventsRequest) e.getUnfinishedMessage();
+        parsedMessage = (com.regexgame.CreateMatchRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
           mergeFrom(parsedMessage);
         }
       }
-      return this;
-    }
-
-    private long matchId_ ;
-    /**
-     * <code>int64 match_id = 1;</code>
-     */
-    public long getMatchId() {
-      return matchId_;
-    }
-    /**
-     * <code>int64 match_id = 1;</code>
-     */
-    public Builder setMatchId(long value) {
-      
-      matchId_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int64 match_id = 1;</code>
-     */
-    public Builder clearMatchId() {
-      
-      matchId_ = 0L;
-      onChanged();
-      return this;
-    }
-
-    private int startTimestamp_ ;
-    /**
-     * <code>int32 start_timestamp = 2;</code>
-     */
-    public int getStartTimestamp() {
-      return startTimestamp_;
-    }
-    /**
-     * <code>int32 start_timestamp = 2;</code>
-     */
-    public Builder setStartTimestamp(int value) {
-      
-      startTimestamp_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 start_timestamp = 2;</code>
-     */
-    public Builder clearStartTimestamp() {
-      
-      startTimestamp_ = 0;
-      onChanged();
       return this;
     }
     public final Builder setUnknownFields(
@@ -474,39 +348,39 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:regexgame.GetEventsRequest)
+    // @@protoc_insertion_point(builder_scope:regexgame.CreateMatchRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:regexgame.GetEventsRequest)
-  private static final com.regexgame.GetEventsRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:regexgame.CreateMatchRequest)
+  private static final com.regexgame.CreateMatchRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.regexgame.GetEventsRequest();
+    DEFAULT_INSTANCE = new com.regexgame.CreateMatchRequest();
   }
 
-  public static com.regexgame.GetEventsRequest getDefaultInstance() {
+  public static com.regexgame.CreateMatchRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<GetEventsRequest>
-      PARSER = new com.google.protobuf.AbstractParser<GetEventsRequest>() {
-    public GetEventsRequest parsePartialFrom(
+  private static final com.google.protobuf.Parser<CreateMatchRequest>
+      PARSER = new com.google.protobuf.AbstractParser<CreateMatchRequest>() {
+    public CreateMatchRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new GetEventsRequest(input, extensionRegistry);
+      return new CreateMatchRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<GetEventsRequest> parser() {
+  public static com.google.protobuf.Parser<CreateMatchRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GetEventsRequest> getParserForType() {
+  public com.google.protobuf.Parser<CreateMatchRequest> getParserForType() {
     return PARSER;
   }
 
-  public com.regexgame.GetEventsRequest getDefaultInstanceForType() {
+  public com.regexgame.CreateMatchRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

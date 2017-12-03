@@ -3,17 +3,12 @@
 
 package com.regexgame;
 
-public interface GetEventsRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:regexgame.GetEventsRequest)
+public interface CreateMatchReplyOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:regexgame.CreateMatchReply)
     com.google.protobuf.MessageOrBuilder {
 
   /**
    * <code>int64 match_id = 1;</code>
    */
   long getMatchId();
-
-  /**
-   * <code>int32 start_timestamp = 2;</code>
-   */
-  int getStartTimestamp();
 }
