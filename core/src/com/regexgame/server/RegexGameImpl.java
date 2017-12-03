@@ -2,6 +2,7 @@ package com.regexgame.server;
 
 import com.regexgame.*;
 import com.regexgame.CreateMatchReply;
+import com.regexgame.CreateMatchReplyOrBuilder;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
@@ -13,7 +14,20 @@ import com.regexgame.NumberChanged;
 import com.regexgame.RegexGameGrpc;
 import io.grpc.stub.StreamObserver;
 
+import java.util.HashMap;
+
 public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
+    HashMap<Long, GameMatch> active_matches;
+    long first_free_match_index = 0;
+
+    public RegexGameImpl() {
+        this.active_matches = new HashMap<Long, GameMatch>();
+    }
+
+    private long generate_match_index() {
+        return first_free_match_index++;
+    }
+
     @Override
     public void getMessage(GetMessageRequest request, StreamObserver<GetMessageReply> responseObserver) {
         GetMessageReply reply = GetMessageReply.newBuilder().setMessage("Hello, " + request.getName() + "!").build();
@@ -35,6 +49,9 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
 
     @Override
     public void createMatch(CreateMatchRequest request, StreamObserver<CreateMatchReply> responseObserver) {
-        // TODO(akashin): Create new match here.
+        long new_match_index = generate_match_index();
+        this.active_matches.put(new_match_index, new GameMatch());
+        responseObserver.onNext(CreateMatchReply.newBuilder().setMatchId(new_match_index).build());
+        responseObserver.onCompleted();
     }
 }
