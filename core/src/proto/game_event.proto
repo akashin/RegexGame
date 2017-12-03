@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.regexgame";
+option java_outer_classname = "RegexGameProto";
+option objc_class_prefix = "HLW";
+
+package regexgame;
+
+// Events that are happening in the game, that server sends to the clients.
+message GameEvent {
+    oneof event {
+        NumberChanged number_changed = 1;
+    }
+}
+
+// Indicates that the number have changed.
+message NumberChanged {
+    int value = 1;
+}
