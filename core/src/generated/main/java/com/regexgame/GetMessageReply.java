@@ -74,12 +74,12 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.regexgame.RegexGameProto.internal_static_regexgame_GetMessageReply_descriptor;
+    return com.regexgame.GameService.internal_static_regexgame_GetMessageReply_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.regexgame.RegexGameProto.internal_static_regexgame_GetMessageReply_fieldAccessorTable
+    return com.regexgame.GameService.internal_static_regexgame_GetMessageReply_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.regexgame.GetMessageReply.class, com.regexgame.GetMessageReply.Builder.class);
   }
@@ -281,12 +281,12 @@ private static final long serialVersionUID = 0L;
       com.regexgame.GetMessageReplyOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.regexgame.RegexGameProto.internal_static_regexgame_GetMessageReply_descriptor;
+      return com.regexgame.GameService.internal_static_regexgame_GetMessageReply_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.regexgame.RegexGameProto.internal_static_regexgame_GetMessageReply_fieldAccessorTable
+      return com.regexgame.GameService.internal_static_regexgame_GetMessageReply_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.regexgame.GetMessageReply.class, com.regexgame.GetMessageReply.Builder.class);
     }
@@ -315,7 +315,7 @@ private static final long serialVersionUID = 0L;
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.regexgame.RegexGameProto.internal_static_regexgame_GetMessageReply_descriptor;
+      return com.regexgame.GameService.internal_static_regexgame_GetMessageReply_descriptor;
     }
 
     public com.regexgame.GetMessageReply getDefaultInstanceForType() {

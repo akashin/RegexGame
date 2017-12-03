@@ -5,22 +5,21 @@ package com.regexgame;
 
 /**
  * <pre>
- * The request message containing the user's name.
+ * The request message to make an action.
  * </pre>
  *
- * Protobuf type {@code regexgame.GetMessageRequest}
+ * Protobuf type {@code regexgame.MakeActionRequest}
  */
-public  final class GetMessageRequest extends
+public  final class MakeActionRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:regexgame.GetMessageRequest)
-    GetMessageRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:regexgame.MakeActionRequest)
+    MakeActionRequestOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use GetMessageRequest.newBuilder() to construct.
-  private GetMessageRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use MakeActionRequest.newBuilder() to construct.
+  private MakeActionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private GetMessageRequest() {
-    name_ = "";
+  private MakeActionRequest() {
   }
 
   @java.lang.Override
@@ -28,7 +27,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private GetMessageRequest(
+  private MakeActionRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -55,9 +54,16 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+            com.regexgame.GameAction.Builder subBuilder = null;
+            if (action_ != null) {
+              subBuilder = action_.toBuilder();
+            }
+            action_ = input.readMessage(com.regexgame.GameAction.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(action_);
+              action_ = subBuilder.buildPartial();
+            }
 
-            name_ = s;
             break;
           }
         }
@@ -74,48 +80,35 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.regexgame.GameService.internal_static_regexgame_GetMessageRequest_descriptor;
+    return com.regexgame.GameService.internal_static_regexgame_MakeActionRequest_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.regexgame.GameService.internal_static_regexgame_GetMessageRequest_fieldAccessorTable
+    return com.regexgame.GameService.internal_static_regexgame_MakeActionRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.regexgame.GetMessageRequest.class, com.regexgame.GetMessageRequest.Builder.class);
+            com.regexgame.MakeActionRequest.class, com.regexgame.MakeActionRequest.Builder.class);
   }
 
-  public static final int NAME_FIELD_NUMBER = 1;
-  private volatile java.lang.Object name_;
+  public static final int ACTION_FIELD_NUMBER = 1;
+  private com.regexgame.GameAction action_;
   /**
-   * <code>string name = 1;</code>
+   * <code>.regexgame.GameAction action = 1;</code>
    */
-  public java.lang.String getName() {
-    java.lang.Object ref = name_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      name_ = s;
-      return s;
-    }
+  public boolean hasAction() {
+    return action_ != null;
   }
   /**
-   * <code>string name = 1;</code>
+   * <code>.regexgame.GameAction action = 1;</code>
    */
-  public com.google.protobuf.ByteString
-      getNameBytes() {
-    java.lang.Object ref = name_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      name_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public com.regexgame.GameAction getAction() {
+    return action_ == null ? com.regexgame.GameAction.getDefaultInstance() : action_;
+  }
+  /**
+   * <code>.regexgame.GameAction action = 1;</code>
+   */
+  public com.regexgame.GameActionOrBuilder getActionOrBuilder() {
+    return getAction();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -130,8 +123,8 @@ private static final long serialVersionUID = 0L;
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
+    if (action_ != null) {
+      output.writeMessage(1, getAction());
     }
     unknownFields.writeTo(output);
   }
@@ -141,8 +134,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
+    if (action_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(1, getAction());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -154,14 +148,17 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.regexgame.GetMessageRequest)) {
+    if (!(obj instanceof com.regexgame.MakeActionRequest)) {
       return super.equals(obj);
     }
-    com.regexgame.GetMessageRequest other = (com.regexgame.GetMessageRequest) obj;
+    com.regexgame.MakeActionRequest other = (com.regexgame.MakeActionRequest) obj;
 
     boolean result = true;
-    result = result && getName()
-        .equals(other.getName());
+    result = result && (hasAction() == other.hasAction());
+    if (hasAction()) {
+      result = result && getAction()
+          .equals(other.getAction());
+    }
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -173,76 +170,78 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + NAME_FIELD_NUMBER;
-    hash = (53 * hash) + getName().hashCode();
+    if (hasAction()) {
+      hash = (37 * hash) + ACTION_FIELD_NUMBER;
+      hash = (53 * hash) + getAction().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(byte[] data)
+  public static com.regexgame.MakeActionRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(java.io.InputStream input)
+  public static com.regexgame.MakeActionRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.regexgame.GetMessageRequest parseDelimitedFrom(java.io.InputStream input)
+  public static com.regexgame.MakeActionRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.regexgame.GetMessageRequest parseDelimitedFrom(
+  public static com.regexgame.MakeActionRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.regexgame.GetMessageRequest parseFrom(
+  public static com.regexgame.MakeActionRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -254,7 +253,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.regexgame.GetMessageRequest prototype) {
+  public static Builder newBuilder(com.regexgame.MakeActionRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -270,28 +269,28 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * The request message containing the user's name.
+   * The request message to make an action.
    * </pre>
    *
-   * Protobuf type {@code regexgame.GetMessageRequest}
+   * Protobuf type {@code regexgame.MakeActionRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:regexgame.GetMessageRequest)
-      com.regexgame.GetMessageRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:regexgame.MakeActionRequest)
+      com.regexgame.MakeActionRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.regexgame.GameService.internal_static_regexgame_GetMessageRequest_descriptor;
+      return com.regexgame.GameService.internal_static_regexgame_MakeActionRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.regexgame.GameService.internal_static_regexgame_GetMessageRequest_fieldAccessorTable
+      return com.regexgame.GameService.internal_static_regexgame_MakeActionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.regexgame.GetMessageRequest.class, com.regexgame.GetMessageRequest.Builder.class);
+              com.regexgame.MakeActionRequest.class, com.regexgame.MakeActionRequest.Builder.class);
     }
 
-    // Construct using com.regexgame.GetMessageRequest.newBuilder()
+    // Construct using com.regexgame.MakeActionRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -308,31 +307,39 @@ private static final long serialVersionUID = 0L;
     }
     public Builder clear() {
       super.clear();
-      name_ = "";
-
+      if (actionBuilder_ == null) {
+        action_ = null;
+      } else {
+        action_ = null;
+        actionBuilder_ = null;
+      }
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.regexgame.GameService.internal_static_regexgame_GetMessageRequest_descriptor;
+      return com.regexgame.GameService.internal_static_regexgame_MakeActionRequest_descriptor;
     }
 
-    public com.regexgame.GetMessageRequest getDefaultInstanceForType() {
-      return com.regexgame.GetMessageRequest.getDefaultInstance();
+    public com.regexgame.MakeActionRequest getDefaultInstanceForType() {
+      return com.regexgame.MakeActionRequest.getDefaultInstance();
     }
 
-    public com.regexgame.GetMessageRequest build() {
-      com.regexgame.GetMessageRequest result = buildPartial();
+    public com.regexgame.MakeActionRequest build() {
+      com.regexgame.MakeActionRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public com.regexgame.GetMessageRequest buildPartial() {
-      com.regexgame.GetMessageRequest result = new com.regexgame.GetMessageRequest(this);
-      result.name_ = name_;
+    public com.regexgame.MakeActionRequest buildPartial() {
+      com.regexgame.MakeActionRequest result = new com.regexgame.MakeActionRequest(this);
+      if (actionBuilder_ == null) {
+        result.action_ = action_;
+      } else {
+        result.action_ = actionBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -364,19 +371,18 @@ private static final long serialVersionUID = 0L;
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.regexgame.GetMessageRequest) {
-        return mergeFrom((com.regexgame.GetMessageRequest)other);
+      if (other instanceof com.regexgame.MakeActionRequest) {
+        return mergeFrom((com.regexgame.MakeActionRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.regexgame.GetMessageRequest other) {
-      if (other == com.regexgame.GetMessageRequest.getDefaultInstance()) return this;
-      if (!other.getName().isEmpty()) {
-        name_ = other.name_;
-        onChanged();
+    public Builder mergeFrom(com.regexgame.MakeActionRequest other) {
+      if (other == com.regexgame.MakeActionRequest.getDefaultInstance()) return this;
+      if (other.hasAction()) {
+        mergeAction(other.getAction());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -391,11 +397,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.regexgame.GetMessageRequest parsedMessage = null;
+      com.regexgame.MakeActionRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.regexgame.GetMessageRequest) e.getUnfinishedMessage();
+        parsedMessage = (com.regexgame.MakeActionRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -405,73 +411,121 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object name_ = "";
+    private com.regexgame.GameAction action_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.regexgame.GameAction, com.regexgame.GameAction.Builder, com.regexgame.GameActionOrBuilder> actionBuilder_;
     /**
-     * <code>string name = 1;</code>
+     * <code>.regexgame.GameAction action = 1;</code>
      */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        name_ = s;
-        return s;
+    public boolean hasAction() {
+      return actionBuilder_ != null || action_ != null;
+    }
+    /**
+     * <code>.regexgame.GameAction action = 1;</code>
+     */
+    public com.regexgame.GameAction getAction() {
+      if (actionBuilder_ == null) {
+        return action_ == null ? com.regexgame.GameAction.getDefaultInstance() : action_;
       } else {
-        return (java.lang.String) ref;
+        return actionBuilder_.getMessage();
       }
     }
     /**
-     * <code>string name = 1;</code>
+     * <code>.regexgame.GameAction action = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
+    public Builder setAction(com.regexgame.GameAction value) {
+      if (actionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        action_ = value;
+        onChanged();
       } else {
-        return (com.google.protobuf.ByteString) ref;
+        actionBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.regexgame.GameAction action = 1;</code>
+     */
+    public Builder setAction(
+        com.regexgame.GameAction.Builder builderForValue) {
+      if (actionBuilder_ == null) {
+        action_ = builderForValue.build();
+        onChanged();
+      } else {
+        actionBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>.regexgame.GameAction action = 1;</code>
+     */
+    public Builder mergeAction(com.regexgame.GameAction value) {
+      if (actionBuilder_ == null) {
+        if (action_ != null) {
+          action_ =
+            com.regexgame.GameAction.newBuilder(action_).mergeFrom(value).buildPartial();
+        } else {
+          action_ = value;
+        }
+        onChanged();
+      } else {
+        actionBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.regexgame.GameAction action = 1;</code>
+     */
+    public Builder clearAction() {
+      if (actionBuilder_ == null) {
+        action_ = null;
+        onChanged();
+      } else {
+        action_ = null;
+        actionBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>.regexgame.GameAction action = 1;</code>
+     */
+    public com.regexgame.GameAction.Builder getActionBuilder() {
+      
+      onChanged();
+      return getActionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.regexgame.GameAction action = 1;</code>
+     */
+    public com.regexgame.GameActionOrBuilder getActionOrBuilder() {
+      if (actionBuilder_ != null) {
+        return actionBuilder_.getMessageOrBuilder();
+      } else {
+        return action_ == null ?
+            com.regexgame.GameAction.getDefaultInstance() : action_;
       }
     }
     /**
-     * <code>string name = 1;</code>
+     * <code>.regexgame.GameAction action = 1;</code>
      */
-    public Builder setName(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      name_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string name = 1;</code>
-     */
-    public Builder clearName() {
-      
-      name_ = getDefaultInstance().getName();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string name = 1;</code>
-     */
-    public Builder setNameBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      name_ = value;
-      onChanged();
-      return this;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.regexgame.GameAction, com.regexgame.GameAction.Builder, com.regexgame.GameActionOrBuilder> 
+        getActionFieldBuilder() {
+      if (actionBuilder_ == null) {
+        actionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.regexgame.GameAction, com.regexgame.GameAction.Builder, com.regexgame.GameActionOrBuilder>(
+                getAction(),
+                getParentForChildren(),
+                isClean());
+        action_ = null;
+      }
+      return actionBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -484,39 +538,39 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:regexgame.GetMessageRequest)
+    // @@protoc_insertion_point(builder_scope:regexgame.MakeActionRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:regexgame.GetMessageRequest)
-  private static final com.regexgame.GetMessageRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:regexgame.MakeActionRequest)
+  private static final com.regexgame.MakeActionRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.regexgame.GetMessageRequest();
+    DEFAULT_INSTANCE = new com.regexgame.MakeActionRequest();
   }
 
-  public static com.regexgame.GetMessageRequest getDefaultInstance() {
+  public static com.regexgame.MakeActionRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<GetMessageRequest>
-      PARSER = new com.google.protobuf.AbstractParser<GetMessageRequest>() {
-    public GetMessageRequest parsePartialFrom(
+  private static final com.google.protobuf.Parser<MakeActionRequest>
+      PARSER = new com.google.protobuf.AbstractParser<MakeActionRequest>() {
+    public MakeActionRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new GetMessageRequest(input, extensionRegistry);
+      return new MakeActionRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<GetMessageRequest> parser() {
+  public static com.google.protobuf.Parser<MakeActionRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GetMessageRequest> getParserForType() {
+  public com.google.protobuf.Parser<MakeActionRequest> getParserForType() {
     return PARSER;
   }
 
-  public com.regexgame.GetMessageRequest getDefaultInstanceForType() {
+  public com.regexgame.MakeActionRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

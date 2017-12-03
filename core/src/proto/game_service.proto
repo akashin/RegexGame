@@ -2,10 +2,10 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 option java_package = "com.regexgame";
-option java_outer_classname = "RegexGameProto";
 option objc_class_prefix = "HLW";
 
-import "proto/game_event.proto";
+import "game_event.proto";
+import "game_action.proto";
 
 package regexgame;
 
@@ -15,17 +15,28 @@ service RegexGame {
   rpc GetMessage (GetMessageRequest) returns (GetMessageReply) {}
 
   // Gets events.
-  rpc GetEvents (GetEventsRequest) returns (GetEventsReply) {}
+  rpc GetEvents (GetEventsRequest) returns (stream GameEvent) {}
+
+  // Makes an action.
+  rpc MakeAction (MakeActionRequest) returns (MakeActionReply) {}
 }
 
 // The request message to get game events.
 message GetEventsRequest {
-  int32 timestamp = 1;
+  // TODO(akashin): Add a field for author identification.
+
+  int32 start_timestamp = 1;
 }
 
-// The response message with game events.
-message GetEventsReply {
-  repeated GameEvent events = 1;
+// The request message to make an action.
+message MakeActionRequest {
+  // TODO(akashin): Add a field for author identification.
+
+  GameAction action = 1;
+}
+
+// The request message to make an action.
+message MakeActionReply {
 }
 
 // The request message containing the user's name.

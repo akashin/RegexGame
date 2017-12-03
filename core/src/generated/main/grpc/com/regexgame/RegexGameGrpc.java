@@ -62,6 +62,70 @@ public final class RegexGameGrpc {
      }
      return getGetMessageMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getGetEventsMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.regexgame.GetEventsRequest,
+      com.regexgame.GameEvent> METHOD_GET_EVENTS = getGetEventsMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.regexgame.GetEventsRequest,
+      com.regexgame.GameEvent> getGetEventsMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.regexgame.GetEventsRequest,
+      com.regexgame.GameEvent> getGetEventsMethod() {
+    io.grpc.MethodDescriptor<com.regexgame.GetEventsRequest, com.regexgame.GameEvent> getGetEventsMethod;
+    if ((getGetEventsMethod = RegexGameGrpc.getGetEventsMethod) == null) {
+      synchronized (RegexGameGrpc.class) {
+        if ((getGetEventsMethod = RegexGameGrpc.getGetEventsMethod) == null) {
+          RegexGameGrpc.getGetEventsMethod = getGetEventsMethod = 
+              io.grpc.MethodDescriptor.<com.regexgame.GetEventsRequest, com.regexgame.GameEvent>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "regexgame.RegexGame", "GetEvents"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.regexgame.GetEventsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.regexgame.GameEvent.getDefaultInstance()))
+                  .setSchemaDescriptor(new RegexGameMethodDescriptorSupplier("GetEvents"))
+                  .build();
+          }
+        }
+     }
+     return getGetEventsMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getMakeActionMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.regexgame.MakeActionRequest,
+      com.regexgame.MakeActionReply> METHOD_MAKE_ACTION = getMakeActionMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.regexgame.MakeActionRequest,
+      com.regexgame.MakeActionReply> getMakeActionMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.regexgame.MakeActionRequest,
+      com.regexgame.MakeActionReply> getMakeActionMethod() {
+    io.grpc.MethodDescriptor<com.regexgame.MakeActionRequest, com.regexgame.MakeActionReply> getMakeActionMethod;
+    if ((getMakeActionMethod = RegexGameGrpc.getMakeActionMethod) == null) {
+      synchronized (RegexGameGrpc.class) {
+        if ((getMakeActionMethod = RegexGameGrpc.getMakeActionMethod) == null) {
+          RegexGameGrpc.getMakeActionMethod = getMakeActionMethod = 
+              io.grpc.MethodDescriptor.<com.regexgame.MakeActionRequest, com.regexgame.MakeActionReply>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "regexgame.RegexGame", "MakeAction"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.regexgame.MakeActionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.regexgame.MakeActionReply.getDefaultInstance()))
+                  .setSchemaDescriptor(new RegexGameMethodDescriptorSupplier("MakeAction"))
+                  .build();
+          }
+        }
+     }
+     return getMakeActionMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -103,6 +167,26 @@ public final class RegexGameGrpc {
       asyncUnimplementedUnaryCall(getGetMessageMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Gets events.
+     * </pre>
+     */
+    public void getEvents(com.regexgame.GetEventsRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.GameEvent> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetEventsMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Makes an action.
+     * </pre>
+     */
+    public void makeAction(com.regexgame.MakeActionRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.MakeActionReply> responseObserver) {
+      asyncUnimplementedUnaryCall(getMakeActionMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -112,6 +196,20 @@ public final class RegexGameGrpc {
                 com.regexgame.GetMessageRequest,
                 com.regexgame.GetMessageReply>(
                   this, METHODID_GET_MESSAGE)))
+          .addMethod(
+            getGetEventsMethod(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                com.regexgame.GetEventsRequest,
+                com.regexgame.GameEvent>(
+                  this, METHODID_GET_EVENTS)))
+          .addMethod(
+            getMakeActionMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.regexgame.MakeActionRequest,
+                com.regexgame.MakeActionReply>(
+                  this, METHODID_MAKE_ACTION)))
           .build();
     }
   }
@@ -147,6 +245,28 @@ public final class RegexGameGrpc {
       asyncUnaryCall(
           getChannel().newCall(getGetMessageMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Gets events.
+     * </pre>
+     */
+    public void getEvents(com.regexgame.GetEventsRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.GameEvent> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getGetEventsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Makes an action.
+     * </pre>
+     */
+    public void makeAction(com.regexgame.MakeActionRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.MakeActionReply> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getMakeActionMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -178,6 +298,27 @@ public final class RegexGameGrpc {
     public com.regexgame.GetMessageReply getMessage(com.regexgame.GetMessageRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetMessageMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Gets events.
+     * </pre>
+     */
+    public java.util.Iterator<com.regexgame.GameEvent> getEvents(
+        com.regexgame.GetEventsRequest request) {
+      return blockingServerStreamingCall(
+          getChannel(), getGetEventsMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Makes an action.
+     * </pre>
+     */
+    public com.regexgame.MakeActionReply makeAction(com.regexgame.MakeActionRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getMakeActionMethod(), getCallOptions(), request);
     }
   }
 
@@ -212,9 +353,22 @@ public final class RegexGameGrpc {
       return futureUnaryCall(
           getChannel().newCall(getGetMessageMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Makes an action.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.regexgame.MakeActionReply> makeAction(
+        com.regexgame.MakeActionRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getMakeActionMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_MESSAGE = 0;
+  private static final int METHODID_GET_EVENTS = 1;
+  private static final int METHODID_MAKE_ACTION = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -236,6 +390,14 @@ public final class RegexGameGrpc {
         case METHODID_GET_MESSAGE:
           serviceImpl.getMessage((com.regexgame.GetMessageRequest) request,
               (io.grpc.stub.StreamObserver<com.regexgame.GetMessageReply>) responseObserver);
+          break;
+        case METHODID_GET_EVENTS:
+          serviceImpl.getEvents((com.regexgame.GetEventsRequest) request,
+              (io.grpc.stub.StreamObserver<com.regexgame.GameEvent>) responseObserver);
+          break;
+        case METHODID_MAKE_ACTION:
+          serviceImpl.makeAction((com.regexgame.MakeActionRequest) request,
+              (io.grpc.stub.StreamObserver<com.regexgame.MakeActionReply>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -259,7 +421,7 @@ public final class RegexGameGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return com.regexgame.RegexGameProto.getDescriptor();
+      return com.regexgame.GameService.getDescriptor();
     }
 
     @java.lang.Override
@@ -299,6 +461,8 @@ public final class RegexGameGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new RegexGameFileDescriptorSupplier())
               .addMethod(getGetMessageMethod())
+              .addMethod(getGetEventsMethod())
+              .addMethod(getMakeActionMethod())
               .build();
         }
       }
