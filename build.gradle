@@ -45,6 +45,14 @@ project(":desktop") {
     }
 }
 
+project(":server") {
+    apply plugin: "java"
+
+    dependencies {
+        compile project(":core")
+    }
+}
+
 def grpcVersion = '1.8.0'
 
 project(":core") {

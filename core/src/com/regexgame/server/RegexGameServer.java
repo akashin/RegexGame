@@ -5,29 +5,22 @@ import io.grpc.ServerBuilder;
 
 import java.io.IOException;
 
-public class RegexGameServer {
-
+class RegexGameServer {
     private Server server;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        RegexGameServer regexGameServer = new RegexGameServer();
-        regexGameServer.start();
-        regexGameServer.blockUntilShutdown();
-    }
-
-    private void stop() {
+    void stop() {
         if (server != null) {
             server.shutdown();
         }
     }
 
-    private void blockUntilShutdown() throws InterruptedException {
+    void blockUntilShutdown() throws InterruptedException {
         if (server != null) {
             server.awaitTermination();
         }
     }
 
-    private void start() throws IOException {
+    void start() throws IOException {
         server = ServerBuilder.forPort(6001)
                 .addService(new RegexGameImpl())
                 .build()
