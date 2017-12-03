@@ -6,6 +6,11 @@ sourceCompatibility = 1.6
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.proto.srcDirs = [ "src/proto" ]
 
+idea {
+    module {
+        sourceDirs += file("${projectDir}/src/proto")
+    }
+}
 
 eclipse.project {
     name = appName + "-core"

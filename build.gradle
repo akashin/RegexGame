@@ -86,13 +86,6 @@ project(":core") {
     }
 }
 
-idea {
-    module {
-        sourceDirs += file("${projectDir}/src/generated/main/java");
-        sourceDirs += file("${projectDir}/src/generated/main/grpc");
-    }
-}
-
 tasks.eclipse.doLast {
     delete ".project"
 }
