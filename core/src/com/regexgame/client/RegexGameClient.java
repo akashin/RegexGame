@@ -27,6 +27,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.inprocess.InProcessChannelBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
+import io.grpc.okhttp.OkHttpChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class RegexGameClient extends Game {
             }
             channel = InProcessChannelBuilder.forName("regexgame_server").usePlaintext(true).build();
         } else {
-            channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
+            channel = OkHttpChannelBuilder.forAddress(address, port).usePlaintext(true).build();
         }
         stub = RegexGameGrpc.newStub(channel);
         blockingStub = RegexGameGrpc.newBlockingStub(channel);
