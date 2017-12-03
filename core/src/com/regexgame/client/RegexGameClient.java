@@ -1,6 +1,8 @@
 package com.regexgame.client;
 
 import com.badlogic.gdx.Game;
+import com.regexgame.CreateMatchReply;
+import com.regexgame.CreateMatchRequest;
 import com.regexgame.GetMessageReply;
 import com.regexgame.GetMessageRequest;
 import com.regexgame.RegexGameGrpc;
@@ -21,6 +23,10 @@ public class RegexGameClient extends Game {
     @Override
     public void create() {
         connectToServer("localhost", 6001);
+
+        CreateMatchReply reply = blockingStub.createMatch(CreateMatchRequest.getDefaultInstance());
+        System.err.println("Match created: " + reply.getMatchId());
+
         setScreen(new GameScreen(this));
     }
 

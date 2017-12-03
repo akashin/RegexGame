@@ -1,8 +1,6 @@
 package com.regexgame.server;
 
-import com.regexgame.*;
 import com.regexgame.CreateMatchReply;
-import com.regexgame.CreateMatchReplyOrBuilder;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
@@ -37,9 +35,13 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
 
     @Override
     public void getEvents(GetEventsRequest request, StreamObserver<GameEvent> responseObserver) {
-        GameEvent event = GameEvent.newBuilder().setNumberChanged(NumberChanged.newBuilder().setValue(42)).build();
-        responseObserver.onNext(event);
-        responseObserver.onCompleted();
+        if (!this.active_matches.containsKey(request.getMatchId())) {
+            // TODO(akashin): Raise error here.
+            responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
+            return;
+        }
+        GameMatch match = this.active_matches.get(request.getMatchId());
+        match.subscribeForEvents(responseObserver);
     }
 
     @Override
