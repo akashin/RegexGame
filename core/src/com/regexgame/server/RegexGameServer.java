@@ -1,11 +1,11 @@
 package com.regexgame.server;
 
 import io.grpc.Server;
-import io.grpc.ServerBuilder;
+import io.grpc.inprocess.InProcessServerBuilder;
 
 import java.io.IOException;
 
-class RegexGameServer {
+public class RegexGameServer {
     private Server server;
 
     void stop() {
@@ -20,11 +20,16 @@ class RegexGameServer {
         }
     }
 
-    void start(int port) throws IOException {
-        server = ServerBuilder.forPort(port)
+    public void start(int port) throws IOException {
+        server = InProcessServerBuilder.forName("regexgame_server")
                 .addService(new RegexGameImpl())
                 .build()
                 .start();
+
+//        server = ServerBuilder.forPort(port)
+//                .addService(new RegexGameImpl())
+//                .build()
+//                .start();
 
         System.out.println("Started server");
 

@@ -22,9 +22,14 @@ import com.regexgame.IncreaseNumber;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
 import com.regexgame.client.screen.GameScreen;
+import com.regexgame.server.RegexGameServer;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.inprocess.InProcessChannelBuilder;
+import io.grpc.inprocess.InProcessServerBuilder;
 import io.grpc.stub.StreamObserver;
+
+import java.io.IOException;
 
 public class RegexGameClient extends Game {
     // Objects to maintain the connection with the game server.
@@ -35,19 +40,35 @@ public class RegexGameClient extends Game {
     private AssetManager assetManager;
 
     private void connectToServer(String address, int port) {
-        channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
+//        channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
+        channel = InProcessChannelBuilder.forName("regexgame_server").usePlaintext(true).build();
         stub = RegexGameGrpc.newStub(channel);
         blockingStub = RegexGameGrpc.newBlockingStub(channel);
+    }
+
+    private void startServer() {
+        RegexGameServer server = new RegexGameServer();
+        try {
+            server.start(6001);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void create() {
         loadAssets();
 
+        // Starting server.
+        startServer();
+
         connectToServer("localhost", 6001);
 
+        System.err.println("Creating match");
+        long start = System.currentTimeMillis();
         CreateMatchReply reply = blockingStub.createMatch(CreateMatchRequest.getDefaultInstance());
-        System.err.println("Match created: " + reply.getMatchId());
+        long end = System.currentTimeMillis();
+        System.err.println("Match created: " + reply.getMatchId() + " in " + (end - start) / 1000.0);
 
         stub.getEvents(GetEventsRequest.newBuilder().setMatchId(reply.getMatchId()).build(), new StreamObserver<com.regexgame.GameEvent>() {
             @Override
@@ -93,10 +114,8 @@ public class RegexGameClient extends Game {
     @Override
     public void render() {
         super.render();
-        System.err.println("Sending message...");
         GameAction action = GameAction.newBuilder().setIncreaseNumber(IncreaseNumber.getDefaultInstance()).build();
         blockingStub.makeAction(MakeActionRequest.newBuilder().setAction(action).build());
-        System.err.println("Done!");
     }
 
     @Override
