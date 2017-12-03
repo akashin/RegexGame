@@ -45,6 +45,17 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
 
     @Override
     public void makeAction(MakeActionRequest request, StreamObserver<MakeActionReply> responseObserver) {
+        if (!this.active_matches.containsKey(request.getMatchId())) {
+            responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
+            return;
+        }
+        GameMatch match = this.active_matches.get(request.getMatchId());
+
+        switch (request.getAction().getActionCase()) {
+            case INCREASE_NUMBER: { match.increaseValue(); break; }
+            case DECREASE_NUMBER: { match.decreaseValue(); break; }
+            default: { responseObserver.onError(new Exception("Unexpected action.")); return; }
+        }
         responseObserver.onCompleted();
     }
 

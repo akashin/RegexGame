@@ -15,7 +15,15 @@ public class GameMatch {
         observers = new ArrayList<StreamObserver<GameEvent>>();
     }
 
-    public void setValue(int new_value) {
+    public void increaseValue() {
+        setValue(current_value + 1);
+    }
+
+    public void decreaseValue() {
+        setValue(current_value - 1);
+    }
+
+    private void setValue(int new_value) {
         current_value = new_value;
         GameEvent event = GameEvent.newBuilder().setNumberChanged(NumberChanged.newBuilder().setValue(new_value)).build();
         for (StreamObserver<GameEvent> observer : observers) {
