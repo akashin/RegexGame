@@ -36,7 +36,6 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
     @Override
     public void getEvents(GetEventsRequest request, StreamObserver<GameEvent> responseObserver) {
         if (!this.active_matches.containsKey(request.getMatchId())) {
-            // TODO(akashin): Raise error here.
             responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
             return;
         }
