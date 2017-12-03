@@ -2,12 +2,25 @@ package com.regexgame.client.screen;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.regexgame.client.RegexGameClient;
+import com.regexgame.client.view.CardView;
+import com.regexgame.game.Card;
 
 public class GameScreen extends BasicScreen {
+    private HorizontalGroup enemyHandGroup;
+
+    private HorizontalGroup enemyPlayGroup;
+
+    private HorizontalGroup playerPlayGroup;
+
+    private HorizontalGroup playerHandGroup;
+
+
     public GameScreen(RegexGameClient client) {
         super(client);
     }
@@ -16,22 +29,55 @@ public class GameScreen extends BasicScreen {
     public void show() {
         super.show();
         Table table = new Table();
-        HorizontalGroup playGroup = new HorizontalGroup();
-        HorizontalGroup handGroup = new HorizontalGroup();
 
-        table.add(playGroup);
+        enemyHandGroup = new HorizontalGroup();;
+        enemyPlayGroup = new HorizontalGroup();;
+        playerPlayGroup = new HorizontalGroup();;
+        playerHandGroup = new HorizontalGroup();;
+
+        table.add(enemyHandGroup);
         table.row();
-        table.add(handGroup);
+        table.add(enemyPlayGroup);
+        table.row();
+        table.add(playerPlayGroup);
+        table.row();
+        table.add(playerHandGroup);
+        table.row();
 
         table.setFillParent(true);
 
+        initCards();
+
         stage.addActor(table);
+    }
 
+    private void initCards() {
+        for (int i = 0; i < 4; ++i) {
+            Card card = new Card();
+            card.title = Integer.toString(i);
+            Actor cardView = new CardView(card, client.getAssetManager());
+            enemyHandGroup.addActor(cardView);
+        }
 
-        BitmapFont bitmapFont = new BitmapFont();
-        Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.YELLOW);
-        Label testLabel = new Label("HELLO GAME", labelStyle);
+        for (int i = 0; i < 3; ++i) {
+            Card card = new Card();
+            card.title = Integer.toString(i);
+            Actor cardView = new CardView(card, client.getAssetManager());
+            enemyPlayGroup.addActor(cardView);
+        }
 
-        playGroup.addActor(testLabel);
+        for (int i = 0; i < 3; ++i) {
+            Card card = new Card();
+            card.title = Integer.toString(i);
+            Actor cardView = new CardView(card, client.getAssetManager());
+            playerPlayGroup.addActor(cardView);
+        }
+
+        for (int i = 0; i < 4; ++i) {
+            Card card = new Card();
+            card.title = Integer.toString(i);
+            Actor cardView = new CardView(card, client.getAssetManager());
+            playerHandGroup.addActor(cardView);
+        }
     }
 }

@@ -1,6 +1,16 @@
 package com.regexgame.client;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.GetMessageReply;
@@ -15,6 +25,8 @@ public class RegexGameClient extends Game {
     private ManagedChannel channel;
     private RegexGameGrpc.RegexGameBlockingStub blockingStub;
 
+    private AssetManager assetManager;
+
     private void connectToServer(String address, int port) {
         channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
         blockingStub = RegexGameGrpc.newBlockingStub(channel);
@@ -27,15 +39,43 @@ public class RegexGameClient extends Game {
         CreateMatchReply reply = blockingStub.createMatch(CreateMatchRequest.getDefaultInstance());
         System.err.println("Match created: " + reply.getMatchId());
 
+        loadAssets();
         setScreen(new GameScreen(this));
+    }
+
+    private void loadAssets() {
+        assetManager = new AssetManager();
+        assetManager.load("empty.png", Texture.class);
+
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreeTypeFontLoaderParameter fontLoaderParameters = new FreeTypeFontLoaderParameter();
+        fontLoaderParameters.fontFileName = "arial.ttf";
+        fontLoaderParameters.fontParameters.size = 10;
+        fontLoaderParameters.fontParameters.color = Color.BLACK;
+        assetManager.load("size15.ttf", BitmapFont.class, fontLoaderParameters);
+
+        assetManager.finishLoading();
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
 
     @Override
     public void render() {
         super.render();
-        System.err.println("Doing some networking shit...");
+        System.err.println("Sending message...");
         GetMessageRequest request = GetMessageRequest.newBuilder().setName("client").build();
         GetMessageReply reply = blockingStub.getMessage(request);
-        System.err.println("Done with all this networking shit!");
+        System.err.println("Done!");
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        assetManager.dispose();
     }
 }
