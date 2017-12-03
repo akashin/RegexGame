@@ -1,6 +1,7 @@
 package com.regexgame.server;
 
 import io.grpc.Server;
+import io.grpc.ServerBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
 
 import java.io.IOException;
@@ -20,16 +21,18 @@ public class RegexGameServer {
         }
     }
 
-    public void start(int port) throws IOException {
-        server = InProcessServerBuilder.forName("regexgame_server")
-                .addService(new RegexGameImpl())
-                .build()
-                .start();
-
-//        server = ServerBuilder.forPort(port)
-//                .addService(new RegexGameImpl())
-//                .build()
-//                .start();
+    public void start(int port, boolean start_local) throws IOException {
+        if (start_local) {
+            server = InProcessServerBuilder.forName("regexgame_server")
+                    .addService(new RegexGameImpl())
+                    .build()
+                    .start();
+        } else {
+            server = ServerBuilder.forPort(port)
+                    .addService(new RegexGameImpl())
+                    .build()
+                    .start();
+        }
 
         System.out.println("Started server");
 

@@ -39,30 +39,27 @@ public class RegexGameClient extends Game {
 
     private AssetManager assetManager;
 
-    private void connectToServer(String address, int port) {
-//        channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
-        channel = InProcessChannelBuilder.forName("regexgame_server").usePlaintext(true).build();
+    private void connectToServer(String address, int port, boolean start_local_server) {
+        if (start_local_server) {
+            RegexGameServer server = new RegexGameServer();
+            try {
+                server.start(port, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            channel = InProcessChannelBuilder.forName("regexgame_server").usePlaintext(true).build();
+        } else {
+            channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
+        }
         stub = RegexGameGrpc.newStub(channel);
         blockingStub = RegexGameGrpc.newBlockingStub(channel);
-    }
-
-    private void startServer() {
-        RegexGameServer server = new RegexGameServer();
-        try {
-            server.start(6001);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void create() {
         loadAssets();
 
-        // Starting server.
-        startServer();
-
-        connectToServer("localhost", 6001);
+        connectToServer("localhost", 6001, true);
 
         System.err.println("Creating match");
         long start = System.currentTimeMillis();
