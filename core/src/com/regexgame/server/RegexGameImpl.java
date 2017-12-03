@@ -56,6 +56,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
             case DECREASE_NUMBER: { match.decreaseValue(); break; }
             default: { responseObserver.onError(new Exception("Unexpected action.")); return; }
         }
+        responseObserver.onNext(MakeActionReply.getDefaultInstance());
         responseObserver.onCompleted();
     }
 

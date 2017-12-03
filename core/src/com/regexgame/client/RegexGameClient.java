@@ -13,33 +13,59 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
+import com.regexgame.GameAction;
+import com.regexgame.GameEvent;
+import com.regexgame.GetEventsRequest;
 import com.regexgame.GetMessageReply;
 import com.regexgame.GetMessageRequest;
+import com.regexgame.IncreaseNumber;
+import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
 import com.regexgame.client.screen.GameScreen;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 
 public class RegexGameClient extends Game {
     // Objects to maintain the connection with the game server.
     private ManagedChannel channel;
+    private RegexGameGrpc.RegexGameStub stub;
     private RegexGameGrpc.RegexGameBlockingStub blockingStub;
 
     private AssetManager assetManager;
 
     private void connectToServer(String address, int port) {
         channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
+        stub = RegexGameGrpc.newStub(channel);
         blockingStub = RegexGameGrpc.newBlockingStub(channel);
     }
 
     @Override
     public void create() {
+        loadAssets();
+
         connectToServer("localhost", 6001);
 
         CreateMatchReply reply = blockingStub.createMatch(CreateMatchRequest.getDefaultInstance());
         System.err.println("Match created: " + reply.getMatchId());
 
-        loadAssets();
+        stub.getEvents(GetEventsRequest.newBuilder().setMatchId(reply.getMatchId()).build(), new StreamObserver<com.regexgame.GameEvent>() {
+            @Override
+            public void onNext(GameEvent value) {
+                System.err.println("Event received: " + value.toString());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.err.println("Error received: " + t.toString());
+            }
+
+            @Override
+            public void onCompleted() {
+                System.err.println("Match completed");
+            }
+        });
+
         setScreen(new GameScreen(this));
     }
 
@@ -68,8 +94,8 @@ public class RegexGameClient extends Game {
     public void render() {
         super.render();
         System.err.println("Sending message...");
-        GetMessageRequest request = GetMessageRequest.newBuilder().setName("client").build();
-        GetMessageReply reply = blockingStub.getMessage(request);
+        GameAction action = GameAction.newBuilder().setIncreaseNumber(IncreaseNumber.getDefaultInstance()).build();
+        blockingStub.makeAction(MakeActionRequest.newBuilder().setAction(action).build());
         System.err.println("Done!");
     }
 
