@@ -20,8 +20,8 @@ class RegexGameServer {
         }
     }
 
-    void start() throws IOException {
-        server = ServerBuilder.forPort(6001)
+    void start(int port) throws IOException {
+        server = ServerBuilder.forPort(port)
                 .addService(new RegexGameImpl())
                 .build()
                 .start();

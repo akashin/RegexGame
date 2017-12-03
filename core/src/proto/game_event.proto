@@ -16,5 +16,5 @@ message GameEvent {
 
 // Indicates that the number have changed.
 message NumberChanged {
-    int value = 1;
+    int32 value = 1;
 }

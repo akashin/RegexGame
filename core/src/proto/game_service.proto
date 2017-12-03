@@ -5,12 +5,27 @@ option java_package = "com.regexgame";
 option java_outer_classname = "RegexGameProto";
 option objc_class_prefix = "HLW";
 
+import "proto/game_event.proto";
+
 package regexgame;
 
 // The greeting service definition.
 service RegexGame {
   // Sends a message
   rpc GetMessage (GetMessageRequest) returns (GetMessageReply) {}
+
+  // Gets events.
+  rpc GetEvents (GetEventsRequest) returns (GetEventsReply) {}
+}
+
+// The request message to get game events.
+message GetEventsRequest {
+  int32 timestamp = 1;
+}
+
+// The response message with game events.
+message GetEventsReply {
+  repeated GameEvent events = 1;
 }
 
 // The request message containing the user's name.

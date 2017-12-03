@@ -9,13 +9,18 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
 public class RegexGameClient extends Game {
+    // Objects to maintain the connection with the game server.
     private ManagedChannel channel;
     private RegexGameGrpc.RegexGameBlockingStub blockingStub;
 
+    private void connectToServer(String address, int port) {
+        channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
+        blockingStub = RegexGameGrpc.newBlockingStub(channel);
+    }
+
     @Override
     public void create() {
-        channel = ManagedChannelBuilder.forAddress("localhost", 6001).usePlaintext(true).build();
-        blockingStub = RegexGameGrpc.newBlockingStub(channel);
+        connectToServer("localhost", 6001);
         setScreen(new GameScreen(this));
     }
 
