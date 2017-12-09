@@ -100,23 +100,23 @@ public class RegexGameClient extends Game {
             public void onNext(GameEvent value) {
                 switch (value.getEventCase()) {
                     case CARD_ATTACKED: {
-                        System.err.println("Card attacked: " + value);
+                        Gdx.app.log("INFO","Card attacked: " + value);
                         break;
                     }
                     default: {
-                        System.err.println("Unrecognized event: " + value);
+                        Gdx.app.log("ERROR", "Unrecognized event: " + value);
                     }
                 }
             }
 
             @Override
             public void onError(Throwable t) {
-                System.err.println("Error received: " + t.toString());
+                Gdx.app.log("ERROR", "Error received: " + t.toString());
             }
 
             @Override
             public void onCompleted() {
-                System.err.println("Match completed");
+                Gdx.app.log("INFO", "Match completed.");
             }
         });
 
@@ -156,7 +156,7 @@ public class RegexGameClient extends Game {
     }
 
     public void sendAttackAction(Array<Integer> playerCards, Array<Integer> enemyCards) {
-        System.err.println("Attack: " + playerCards + " -> " + enemyCards);
+        Gdx.app.log("DEBUG", "Attack: " + playerCards + " -> " + enemyCards);
         GameAction action = GameAction.newBuilder()
                 .setAttackCard(
                         AttackCard.newBuilder()
