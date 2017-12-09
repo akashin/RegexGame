@@ -32,7 +32,7 @@ public class CardView extends Actor {
         cardSprite.setColor(Color.WHITE);
 
         font = assetManager.get("size15.ttf", BitmapFont.class);
-        glyphLayout = new GlyphLayout(font, card.title);
+        glyphLayout = new GlyphLayout(font, card.attack);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CardView extends Actor {
 
         font.draw(
                 batch,
-                card.title,
+                card.attack,
                 getX() + CARD_BORDER + CARD_PADDING,
                 getY() + CARD_BORDER + CARD_PADDING + glyphLayout.height
         );

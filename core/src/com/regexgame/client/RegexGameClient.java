@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
+import com.badlogic.gdx.utils.Array;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.GameAction;
@@ -128,5 +129,9 @@ public class RegexGameClient extends Game {
     public void dispose() {
         super.dispose();
         assetManager.dispose();
+    }
+
+    public void sendAtackAction(Array<Integer> playerCards, Array<Integer> enemyCards) {
+        System.err.println("Attack: " + playerCards + " -> " + enemyCards);
     }
 }
