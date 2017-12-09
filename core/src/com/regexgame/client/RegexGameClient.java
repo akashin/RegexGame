@@ -18,8 +18,6 @@ import com.regexgame.CreateMatchRequest;
 import com.regexgame.GameAction;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
-import com.regexgame.GetMessageReply;
-import com.regexgame.GetMessageRequest;
 import com.regexgame.IncreaseNumber;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;

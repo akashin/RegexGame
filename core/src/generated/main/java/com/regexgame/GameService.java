@@ -49,16 +49,6 @@ public final class GameService {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_regexgame_MakeActionReply_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_regexgame_GetMessageRequest_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_regexgame_GetMessageRequest_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_regexgame_GetMessageReply_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_regexgame_GetMessageReply_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -77,19 +67,15 @@ public final class GameService {
       "\005\022\027\n\017start_timestamp\030\003 \001(\005\"_\n\021MakeAction" +
       "Request\022\020\n\010match_id\030\001 \001(\003\022\021\n\tplayer_id\030\002" +
       " \001(\005\022%\n\006action\030\003 \001(\0132\025.regexgame.GameAct" +
-      "ion\"\021\n\017MakeActionReply\"!\n\021GetMessageRequ" +
-      "est\022\014\n\004name\030\001 \001(\t\"\"\n\017GetMessageReply\022\017\n\007" +
-      "message\030\001 \001(\t2\367\002\n\tRegexGame\022H\n\nGetMessag" +
-      "e\022\034.regexgame.GetMessageRequest\032\032.regexg" +
-      "ame.GetMessageReply\"\000\022K\n\013CreateMatch\022\035.r" +
-      "egexgame.CreateMatchRequest\032\033.regexgame." +
-      "CreateMatchReply\"\000\022E\n\tJoinMatch\022\033.regexg" +
-      "ame.JoinMatchRequest\032\031.regexgame.JoinMat" +
-      "chReply\"\000\022B\n\tGetEvents\022\033.regexgame.GetEv" +
-      "entsRequest\032\024.regexgame.GameEvent\"\0000\001\022H\n" +
-      "\nMakeAction\022\034.regexgame.MakeActionReques" +
-      "t\032\032.regexgame.MakeActionReply\"\000B\027\n\rcom.r" +
-      "egexgameP\001\242\002\003HLWb\006proto3"
+      "ion\"\021\n\017MakeActionReply2\255\002\n\tRegexGame\022K\n\013" +
+      "CreateMatch\022\035.regexgame.CreateMatchReque" +
+      "st\032\033.regexgame.CreateMatchReply\"\000\022E\n\tJoi" +
+      "nMatch\022\033.regexgame.JoinMatchRequest\032\031.re" +
+      "gexgame.JoinMatchReply\"\000\022B\n\tGetEvents\022\033." +
+      "regexgame.GetEventsRequest\032\024.regexgame.G" +
+      "ameEvent\"\0000\001\022H\n\nMakeAction\022\034.regexgame.M" +
+      "akeActionRequest\032\032.regexgame.MakeActionR" +
+      "eply\"\000B\027\n\rcom.regexgameP\001\242\002\003HLWb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -147,18 +133,6 @@ public final class GameService {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_regexgame_MakeActionReply_descriptor,
         new java.lang.String[] { });
-    internal_static_regexgame_GetMessageRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_regexgame_GetMessageRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_regexgame_GetMessageRequest_descriptor,
-        new java.lang.String[] { "Name", });
-    internal_static_regexgame_GetMessageReply_descriptor =
-      getDescriptor().getMessageTypes().get(8);
-    internal_static_regexgame_GetMessageReply_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_regexgame_GetMessageReply_descriptor,
-        new java.lang.String[] { "Message", });
     com.regexgame.GameEventOuterClass.getDescriptor();
     com.regexgame.GameActionOuterClass.getDescriptor();
   }

@@ -4,8 +4,6 @@ import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
-import com.regexgame.GetMessageReply;
-import com.regexgame.GetMessageRequest;
 import com.regexgame.MakeActionReply;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.NumberChanged;
@@ -24,13 +22,6 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
 
     private long generate_match_index() {
         return first_free_match_index++;
-    }
-
-    @Override
-    public void getMessage(GetMessageRequest request, StreamObserver<GetMessageReply> responseObserver) {
-        GetMessageReply reply = GetMessageReply.newBuilder().setMessage("Hello, " + request.getName() + "!").build();
-        responseObserver.onNext(reply);
-        responseObserver.onCompleted();
     }
 
     @Override

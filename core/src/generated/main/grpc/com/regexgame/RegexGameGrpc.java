@@ -31,38 +31,6 @@ public final class RegexGameGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  @java.lang.Deprecated // Use {@link #getGetMessageMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest,
-      com.regexgame.GetMessageReply> METHOD_GET_MESSAGE = getGetMessageMethod();
-
-  private static volatile io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest,
-      com.regexgame.GetMessageReply> getGetMessageMethod;
-
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest,
-      com.regexgame.GetMessageReply> getGetMessageMethod() {
-    io.grpc.MethodDescriptor<com.regexgame.GetMessageRequest, com.regexgame.GetMessageReply> getGetMessageMethod;
-    if ((getGetMessageMethod = RegexGameGrpc.getGetMessageMethod) == null) {
-      synchronized (RegexGameGrpc.class) {
-        if ((getGetMessageMethod = RegexGameGrpc.getGetMessageMethod) == null) {
-          RegexGameGrpc.getGetMessageMethod = getGetMessageMethod = 
-              io.grpc.MethodDescriptor.<com.regexgame.GetMessageRequest, com.regexgame.GetMessageReply>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "regexgame.RegexGame", "GetMessage"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.regexgame.GetMessageRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.regexgame.GetMessageReply.getDefaultInstance()))
-                  .setSchemaDescriptor(new RegexGameMethodDescriptorSupplier("GetMessage"))
-                  .build();
-          }
-        }
-     }
-     return getGetMessageMethod;
-  }
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getCreateMatchMethod()} instead. 
   public static final io.grpc.MethodDescriptor<com.regexgame.CreateMatchRequest,
       com.regexgame.CreateMatchReply> METHOD_CREATE_MATCH = getCreateMatchMethod();
@@ -223,16 +191,6 @@ public final class RegexGameGrpc {
 
     /**
      * <pre>
-     * Sends a message
-     * </pre>
-     */
-    public void getMessage(com.regexgame.GetMessageRequest request,
-        io.grpc.stub.StreamObserver<com.regexgame.GetMessageReply> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetMessageMethod(), responseObserver);
-    }
-
-    /**
-     * <pre>
      * Creates new match.
      * </pre>
      */
@@ -273,13 +231,6 @@ public final class RegexGameGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getGetMessageMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                com.regexgame.GetMessageRequest,
-                com.regexgame.GetMessageReply>(
-                  this, METHODID_GET_MESSAGE)))
           .addMethod(
             getCreateMatchMethod(),
             asyncUnaryCall(
@@ -331,17 +282,6 @@ public final class RegexGameGrpc {
     protected RegexGameStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new RegexGameStub(channel, callOptions);
-    }
-
-    /**
-     * <pre>
-     * Sends a message
-     * </pre>
-     */
-    public void getMessage(com.regexgame.GetMessageRequest request,
-        io.grpc.stub.StreamObserver<com.regexgame.GetMessageReply> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetMessageMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -412,16 +352,6 @@ public final class RegexGameGrpc {
 
     /**
      * <pre>
-     * Sends a message
-     * </pre>
-     */
-    public com.regexgame.GetMessageReply getMessage(com.regexgame.GetMessageRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getGetMessageMethod(), getCallOptions(), request);
-    }
-
-    /**
-     * <pre>
      * Creates new match.
      * </pre>
      */
@@ -485,17 +415,6 @@ public final class RegexGameGrpc {
 
     /**
      * <pre>
-     * Sends a message
-     * </pre>
-     */
-    public com.google.common.util.concurrent.ListenableFuture<com.regexgame.GetMessageReply> getMessage(
-        com.regexgame.GetMessageRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getGetMessageMethod(), getCallOptions()), request);
-    }
-
-    /**
-     * <pre>
      * Creates new match.
      * </pre>
      */
@@ -528,11 +447,10 @@ public final class RegexGameGrpc {
     }
   }
 
-  private static final int METHODID_GET_MESSAGE = 0;
-  private static final int METHODID_CREATE_MATCH = 1;
-  private static final int METHODID_JOIN_MATCH = 2;
-  private static final int METHODID_GET_EVENTS = 3;
-  private static final int METHODID_MAKE_ACTION = 4;
+  private static final int METHODID_CREATE_MATCH = 0;
+  private static final int METHODID_JOIN_MATCH = 1;
+  private static final int METHODID_GET_EVENTS = 2;
+  private static final int METHODID_MAKE_ACTION = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -551,10 +469,6 @@ public final class RegexGameGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_GET_MESSAGE:
-          serviceImpl.getMessage((com.regexgame.GetMessageRequest) request,
-              (io.grpc.stub.StreamObserver<com.regexgame.GetMessageReply>) responseObserver);
-          break;
         case METHODID_CREATE_MATCH:
           serviceImpl.createMatch((com.regexgame.CreateMatchRequest) request,
               (io.grpc.stub.StreamObserver<com.regexgame.CreateMatchReply>) responseObserver);
@@ -632,7 +546,6 @@ public final class RegexGameGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new RegexGameFileDescriptorSupplier())
-              .addMethod(getGetMessageMethod())
               .addMethod(getCreateMatchMethod())
               .addMethod(getJoinMatchMethod())
               .addMethod(getGetEventsMethod())

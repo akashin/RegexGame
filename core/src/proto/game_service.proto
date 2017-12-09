@@ -11,9 +11,6 @@ package regexgame;
 
 // The greeting service definition.
 service RegexGame {
-  // Sends a message
-  rpc GetMessage (GetMessageRequest) returns (GetMessageReply) {}
-
   // Creates new match.
   rpc CreateMatch (CreateMatchRequest) returns (CreateMatchReply) {}
 
@@ -67,12 +64,3 @@ message MakeActionRequest {
 message MakeActionReply {
 }
 
-// The request message containing the user's name.
-message GetMessageRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message GetMessageReply {
-  string message = 1;
-}
