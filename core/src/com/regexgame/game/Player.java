@@ -18,7 +18,7 @@ public enum Player {
         }
     }
 
-    public Player getByIndex(int index) {
+    static public Player getByIndex(int index) {
         if (index == First.index) {
             return First;
         } else if (index == Second.index) {

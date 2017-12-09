@@ -1,11 +1,10 @@
 package com.regexgame.server;
 
-import com.regexgame.*;
 import com.regexgame.AttackCard;
 import com.regexgame.CardAttacked;
-import com.regexgame.CardAttackedOrBuilder;
 import com.regexgame.GameEvent;
 import com.regexgame.NumberChanged;
+import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
@@ -13,17 +12,18 @@ import java.util.ArrayList;
 // Represents a single game between players.
 public class GameMatch {
     private int current_value;
-    private int current_player_id;
+    private Player current_player;
     private ArrayList<StreamObserver<GameEvent>> observers;
 
     public GameMatch() {
         observers = new ArrayList<StreamObserver<GameEvent>>();
         // TODO(akashin): Make this an enum.
-        current_player_id = 1;
+        current_player = Player.First;
     }
 
     public void attackCard(int player_id, AttackCard action) throws Exception {
-        if (player_id != current_player_id) {
+        Player player = Player.getByIndex(player_id);
+        if (player != current_player) {
             throw new Exception("Unexpected player move.");
         }
 
@@ -32,7 +32,7 @@ public class GameMatch {
         broadcastEvent(
                 GameEvent.newBuilder().setCardAttacked(
                         CardAttacked.newBuilder()
-                                .setPlayerId(player_id)
+                                .setPlayerId(player.index)
                                 .setDamage(1)
                                 .addAllAttackerCards(action.getAttackerCardsList())
                                 .setAttackedCard(action.getAttackedCard())
