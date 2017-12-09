@@ -13,15 +13,20 @@ public interface MakeActionRequestOrBuilder extends
   long getMatchId();
 
   /**
-   * <code>.regexgame.GameAction action = 2;</code>
+   * <code>int32 player_id = 2;</code>
+   */
+  int getPlayerId();
+
+  /**
+   * <code>.regexgame.GameAction action = 3;</code>
    */
   boolean hasAction();
   /**
-   * <code>.regexgame.GameAction action = 2;</code>
+   * <code>.regexgame.GameAction action = 3;</code>
    */
   com.regexgame.GameAction getAction();
   /**
-   * <code>.regexgame.GameAction action = 2;</code>
+   * <code>.regexgame.GameAction action = 3;</code>
    */
   com.regexgame.GameActionOrBuilder getActionOrBuilder();
 }

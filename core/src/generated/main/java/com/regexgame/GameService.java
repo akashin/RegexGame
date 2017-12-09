@@ -62,20 +62,20 @@ public final class GameService {
       "ent.proto\032\021game_action.proto\"\024\n\022CreateMa" +
       "tchRequest\"$\n\020CreateMatchReply\022\020\n\010match_" +
       "id\030\001 \001(\003\"=\n\020GetEventsRequest\022\020\n\010match_id" +
-      "\030\001 \001(\003\022\027\n\017start_timestamp\030\002 \001(\005\"L\n\021MakeA" +
-      "ctionRequest\022\020\n\010match_id\030\001 \001(\003\022%\n\006action" +
-      "\030\002 \001(\0132\025.regexgame.GameAction\"\021\n\017MakeAct" +
-      "ionReply\"!\n\021GetMessageRequest\022\014\n\004name\030\001 " +
-      "\001(\t\"\"\n\017GetMessageReply\022\017\n\007message\030\001 \001(\t2" +
-      "\260\002\n\tRegexGame\022H\n\nGetMessage\022\034.regexgame." +
-      "GetMessageRequest\032\032.regexgame.GetMessage" +
-      "Reply\"\000\022K\n\013CreateMatch\022\035.regexgame.Creat" +
-      "eMatchRequest\032\033.regexgame.CreateMatchRep" +
-      "ly\"\000\022B\n\tGetEvents\022\033.regexgame.GetEventsR" +
-      "equest\032\024.regexgame.GameEvent\"\0000\001\022H\n\nMake" +
-      "Action\022\034.regexgame.MakeActionRequest\032\032.r" +
-      "egexgame.MakeActionReply\"\000B\027\n\rcom.regexg" +
-      "ameP\001\242\002\003HLWb\006proto3"
+      "\030\001 \001(\003\022\027\n\017start_timestamp\030\002 \001(\005\"_\n\021MakeA" +
+      "ctionRequest\022\020\n\010match_id\030\001 \001(\003\022\021\n\tplayer" +
+      "_id\030\002 \001(\005\022%\n\006action\030\003 \001(\0132\025.regexgame.Ga" +
+      "meAction\"\021\n\017MakeActionReply\"!\n\021GetMessag" +
+      "eRequest\022\014\n\004name\030\001 \001(\t\"\"\n\017GetMessageRepl" +
+      "y\022\017\n\007message\030\001 \001(\t2\260\002\n\tRegexGame\022H\n\nGetM" +
+      "essage\022\034.regexgame.GetMessageRequest\032\032.r" +
+      "egexgame.GetMessageReply\"\000\022K\n\013CreateMatc" +
+      "h\022\035.regexgame.CreateMatchRequest\032\033.regex" +
+      "game.CreateMatchReply\"\000\022B\n\tGetEvents\022\033.r" +
+      "egexgame.GetEventsRequest\032\024.regexgame.Ga" +
+      "meEvent\"\0000\001\022H\n\nMakeAction\022\034.regexgame.Ma" +
+      "keActionRequest\032\032.regexgame.MakeActionRe" +
+      "ply\"\000B\027\n\rcom.regexgameP\001\242\002\003HLWb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -114,7 +114,7 @@ public final class GameService {
     internal_static_regexgame_MakeActionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_regexgame_MakeActionRequest_descriptor,
-        new java.lang.String[] { "MatchId", "Action", });
+        new java.lang.String[] { "MatchId", "PlayerId", "Action", });
     internal_static_regexgame_MakeActionReply_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_regexgame_MakeActionReply_fieldAccessorTable = new

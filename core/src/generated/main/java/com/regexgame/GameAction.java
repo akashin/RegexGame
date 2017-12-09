@@ -77,6 +77,20 @@ private static final long serialVersionUID = 0L;
             actionCase_ = 2;
             break;
           }
+          case 26: {
+            com.regexgame.AttackCard.Builder subBuilder = null;
+            if (actionCase_ == 3) {
+              subBuilder = ((com.regexgame.AttackCard) action_).toBuilder();
+            }
+            action_ =
+                input.readMessage(com.regexgame.AttackCard.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.regexgame.AttackCard) action_);
+              action_ = subBuilder.buildPartial();
+            }
+            actionCase_ = 3;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -107,6 +121,7 @@ private static final long serialVersionUID = 0L;
       implements com.google.protobuf.Internal.EnumLite {
     INCREASE_NUMBER(1),
     DECREASE_NUMBER(2),
+    ATTACK_CARD(3),
     ACTION_NOT_SET(0);
     private final int value;
     private ActionCase(int value) {
@@ -124,6 +139,7 @@ private static final long serialVersionUID = 0L;
       switch (value) {
         case 1: return INCREASE_NUMBER;
         case 2: return DECREASE_NUMBER;
+        case 3: return ATTACK_CARD;
         case 0: return ACTION_NOT_SET;
         default: return null;
       }
@@ -191,6 +207,32 @@ private static final long serialVersionUID = 0L;
     return com.regexgame.DecreaseNumber.getDefaultInstance();
   }
 
+  public static final int ATTACK_CARD_FIELD_NUMBER = 3;
+  /**
+   * <code>.regexgame.AttackCard attack_card = 3;</code>
+   */
+  public boolean hasAttackCard() {
+    return actionCase_ == 3;
+  }
+  /**
+   * <code>.regexgame.AttackCard attack_card = 3;</code>
+   */
+  public com.regexgame.AttackCard getAttackCard() {
+    if (actionCase_ == 3) {
+       return (com.regexgame.AttackCard) action_;
+    }
+    return com.regexgame.AttackCard.getDefaultInstance();
+  }
+  /**
+   * <code>.regexgame.AttackCard attack_card = 3;</code>
+   */
+  public com.regexgame.AttackCardOrBuilder getAttackCardOrBuilder() {
+    if (actionCase_ == 3) {
+       return (com.regexgame.AttackCard) action_;
+    }
+    return com.regexgame.AttackCard.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -209,6 +251,9 @@ private static final long serialVersionUID = 0L;
     if (actionCase_ == 2) {
       output.writeMessage(2, (com.regexgame.DecreaseNumber) action_);
     }
+    if (actionCase_ == 3) {
+      output.writeMessage(3, (com.regexgame.AttackCard) action_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -224,6 +269,10 @@ private static final long serialVersionUID = 0L;
     if (actionCase_ == 2) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(2, (com.regexgame.DecreaseNumber) action_);
+    }
+    if (actionCase_ == 3) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(3, (com.regexgame.AttackCard) action_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -253,6 +302,10 @@ private static final long serialVersionUID = 0L;
         result = result && getDecreaseNumber()
             .equals(other.getDecreaseNumber());
         break;
+      case 3:
+        result = result && getAttackCard()
+            .equals(other.getAttackCard());
+        break;
       case 0:
       default:
     }
@@ -275,6 +328,10 @@ private static final long serialVersionUID = 0L;
       case 2:
         hash = (37 * hash) + DECREASE_NUMBER_FIELD_NUMBER;
         hash = (53 * hash) + getDecreaseNumber().hashCode();
+        break;
+      case 3:
+        hash = (37 * hash) + ATTACK_CARD_FIELD_NUMBER;
+        hash = (53 * hash) + getAttackCard().hashCode();
         break;
       case 0:
       default:
@@ -446,6 +503,13 @@ private static final long serialVersionUID = 0L;
           result.action_ = decreaseNumberBuilder_.build();
         }
       }
+      if (actionCase_ == 3) {
+        if (attackCardBuilder_ == null) {
+          result.action_ = action_;
+        } else {
+          result.action_ = attackCardBuilder_.build();
+        }
+      }
       result.actionCase_ = actionCase_;
       onBuilt();
       return result;
@@ -495,6 +559,10 @@ private static final long serialVersionUID = 0L;
         }
         case DECREASE_NUMBER: {
           mergeDecreaseNumber(other.getDecreaseNumber());
+          break;
+        }
+        case ATTACK_CARD: {
+          mergeAttackCard(other.getAttackCard());
           break;
         }
         case ACTION_NOT_SET: {
@@ -813,6 +881,142 @@ private static final long serialVersionUID = 0L;
       actionCase_ = 2;
       onChanged();;
       return decreaseNumberBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.regexgame.AttackCard, com.regexgame.AttackCard.Builder, com.regexgame.AttackCardOrBuilder> attackCardBuilder_;
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public boolean hasAttackCard() {
+      return actionCase_ == 3;
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public com.regexgame.AttackCard getAttackCard() {
+      if (attackCardBuilder_ == null) {
+        if (actionCase_ == 3) {
+          return (com.regexgame.AttackCard) action_;
+        }
+        return com.regexgame.AttackCard.getDefaultInstance();
+      } else {
+        if (actionCase_ == 3) {
+          return attackCardBuilder_.getMessage();
+        }
+        return com.regexgame.AttackCard.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public Builder setAttackCard(com.regexgame.AttackCard value) {
+      if (attackCardBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        action_ = value;
+        onChanged();
+      } else {
+        attackCardBuilder_.setMessage(value);
+      }
+      actionCase_ = 3;
+      return this;
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public Builder setAttackCard(
+        com.regexgame.AttackCard.Builder builderForValue) {
+      if (attackCardBuilder_ == null) {
+        action_ = builderForValue.build();
+        onChanged();
+      } else {
+        attackCardBuilder_.setMessage(builderForValue.build());
+      }
+      actionCase_ = 3;
+      return this;
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public Builder mergeAttackCard(com.regexgame.AttackCard value) {
+      if (attackCardBuilder_ == null) {
+        if (actionCase_ == 3 &&
+            action_ != com.regexgame.AttackCard.getDefaultInstance()) {
+          action_ = com.regexgame.AttackCard.newBuilder((com.regexgame.AttackCard) action_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          action_ = value;
+        }
+        onChanged();
+      } else {
+        if (actionCase_ == 3) {
+          attackCardBuilder_.mergeFrom(value);
+        }
+        attackCardBuilder_.setMessage(value);
+      }
+      actionCase_ = 3;
+      return this;
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public Builder clearAttackCard() {
+      if (attackCardBuilder_ == null) {
+        if (actionCase_ == 3) {
+          actionCase_ = 0;
+          action_ = null;
+          onChanged();
+        }
+      } else {
+        if (actionCase_ == 3) {
+          actionCase_ = 0;
+          action_ = null;
+        }
+        attackCardBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public com.regexgame.AttackCard.Builder getAttackCardBuilder() {
+      return getAttackCardFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    public com.regexgame.AttackCardOrBuilder getAttackCardOrBuilder() {
+      if ((actionCase_ == 3) && (attackCardBuilder_ != null)) {
+        return attackCardBuilder_.getMessageOrBuilder();
+      } else {
+        if (actionCase_ == 3) {
+          return (com.regexgame.AttackCard) action_;
+        }
+        return com.regexgame.AttackCard.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.regexgame.AttackCard attack_card = 3;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.regexgame.AttackCard, com.regexgame.AttackCard.Builder, com.regexgame.AttackCardOrBuilder> 
+        getAttackCardFieldBuilder() {
+      if (attackCardBuilder_ == null) {
+        if (!(actionCase_ == 3)) {
+          action_ = com.regexgame.AttackCard.getDefaultInstance();
+        }
+        attackCardBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.regexgame.AttackCard, com.regexgame.AttackCard.Builder, com.regexgame.AttackCardOrBuilder>(
+                (com.regexgame.AttackCard) action_,
+                getParentForChildren(),
+                isClean());
+        action_ = null;
+      }
+      actionCase_ = 3;
+      onChanged();;
+      return attackCardBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

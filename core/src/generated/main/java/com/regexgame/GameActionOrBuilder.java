@@ -33,5 +33,18 @@ public interface GameActionOrBuilder extends
    */
   com.regexgame.DecreaseNumberOrBuilder getDecreaseNumberOrBuilder();
 
+  /**
+   * <code>.regexgame.AttackCard attack_card = 3;</code>
+   */
+  boolean hasAttackCard();
+  /**
+   * <code>.regexgame.AttackCard attack_card = 3;</code>
+   */
+  com.regexgame.AttackCard getAttackCard();
+  /**
+   * <code>.regexgame.AttackCard attack_card = 3;</code>
+   */
+  com.regexgame.AttackCardOrBuilder getAttackCardOrBuilder();
+
   public com.regexgame.GameAction.ActionCase getActionCase();
 }

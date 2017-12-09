@@ -8,12 +8,12 @@ package regexgame;
 
 // Events that are happening in the game, that server sends to the clients.
 message GameEvent {
-    oneof event {
-        NumberChanged number_changed = 1;
-    }
+  oneof event {
+    NumberChanged number_changed = 1;
+  }
 }
 
 // Indicates that the number have changed.
 message NumberChanged {
-    int32 value = 1;
+  int32 value = 1;
 }

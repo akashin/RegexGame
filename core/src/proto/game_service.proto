@@ -43,7 +43,8 @@ message MakeActionRequest {
   // TODO(akashin): Add a field for author identification.
 
   int64 match_id = 1;
-  GameAction action = 2;
+  int32 player_id = 2;
+  GameAction action = 3;
 }
 
 // The request message to make an action.

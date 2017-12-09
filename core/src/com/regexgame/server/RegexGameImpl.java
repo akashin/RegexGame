@@ -54,6 +54,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
         switch (request.getAction().getActionCase()) {
             case INCREASE_NUMBER: { match.increaseValue(); break; }
             case DECREASE_NUMBER: { match.decreaseValue(); break; }
+            case ATTACK_CARD: { match.attackCard(request.getPlayerId(), request.getAction().getAttackCard()); break; }
             default: { responseObserver.onError(new Exception("Unexpected action.")); return; }
         }
         responseObserver.onNext(MakeActionReply.getDefaultInstance());

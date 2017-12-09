@@ -21,6 +21,7 @@ private static final long serialVersionUID = 0L;
   }
   private MakeActionRequest() {
     matchId_ = 0L;
+    playerId_ = 0;
   }
 
   @java.lang.Override
@@ -59,7 +60,12 @@ private static final long serialVersionUID = 0L;
             matchId_ = input.readInt64();
             break;
           }
-          case 18: {
+          case 16: {
+
+            playerId_ = input.readInt32();
+            break;
+          }
+          case 26: {
             com.regexgame.GameAction.Builder subBuilder = null;
             if (action_ != null) {
               subBuilder = action_.toBuilder();
@@ -105,22 +111,31 @@ private static final long serialVersionUID = 0L;
     return matchId_;
   }
 
-  public static final int ACTION_FIELD_NUMBER = 2;
+  public static final int PLAYER_ID_FIELD_NUMBER = 2;
+  private int playerId_;
+  /**
+   * <code>int32 player_id = 2;</code>
+   */
+  public int getPlayerId() {
+    return playerId_;
+  }
+
+  public static final int ACTION_FIELD_NUMBER = 3;
   private com.regexgame.GameAction action_;
   /**
-   * <code>.regexgame.GameAction action = 2;</code>
+   * <code>.regexgame.GameAction action = 3;</code>
    */
   public boolean hasAction() {
     return action_ != null;
   }
   /**
-   * <code>.regexgame.GameAction action = 2;</code>
+   * <code>.regexgame.GameAction action = 3;</code>
    */
   public com.regexgame.GameAction getAction() {
     return action_ == null ? com.regexgame.GameAction.getDefaultInstance() : action_;
   }
   /**
-   * <code>.regexgame.GameAction action = 2;</code>
+   * <code>.regexgame.GameAction action = 3;</code>
    */
   public com.regexgame.GameActionOrBuilder getActionOrBuilder() {
     return getAction();
@@ -141,8 +156,11 @@ private static final long serialVersionUID = 0L;
     if (matchId_ != 0L) {
       output.writeInt64(1, matchId_);
     }
+    if (playerId_ != 0) {
+      output.writeInt32(2, playerId_);
+    }
     if (action_ != null) {
-      output.writeMessage(2, getAction());
+      output.writeMessage(3, getAction());
     }
     unknownFields.writeTo(output);
   }
@@ -156,9 +174,13 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(1, matchId_);
     }
+    if (playerId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(2, playerId_);
+    }
     if (action_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, getAction());
+        .computeMessageSize(3, getAction());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -178,6 +200,8 @@ private static final long serialVersionUID = 0L;
     boolean result = true;
     result = result && (getMatchId()
         == other.getMatchId());
+    result = result && (getPlayerId()
+        == other.getPlayerId());
     result = result && (hasAction() == other.hasAction());
     if (hasAction()) {
       result = result && getAction()
@@ -197,6 +221,8 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + MATCH_ID_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getMatchId());
+    hash = (37 * hash) + PLAYER_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getPlayerId();
     if (hasAction()) {
       hash = (37 * hash) + ACTION_FIELD_NUMBER;
       hash = (53 * hash) + getAction().hashCode();
@@ -336,6 +362,8 @@ private static final long serialVersionUID = 0L;
       super.clear();
       matchId_ = 0L;
 
+      playerId_ = 0;
+
       if (actionBuilder_ == null) {
         action_ = null;
       } else {
@@ -365,6 +393,7 @@ private static final long serialVersionUID = 0L;
     public com.regexgame.MakeActionRequest buildPartial() {
       com.regexgame.MakeActionRequest result = new com.regexgame.MakeActionRequest(this);
       result.matchId_ = matchId_;
+      result.playerId_ = playerId_;
       if (actionBuilder_ == null) {
         result.action_ = action_;
       } else {
@@ -413,6 +442,9 @@ private static final long serialVersionUID = 0L;
       if (other == com.regexgame.MakeActionRequest.getDefaultInstance()) return this;
       if (other.getMatchId() != 0L) {
         setMatchId(other.getMatchId());
+      }
+      if (other.getPlayerId() != 0) {
+        setPlayerId(other.getPlayerId());
       }
       if (other.hasAction()) {
         mergeAction(other.getAction());
@@ -470,17 +502,43 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    private int playerId_ ;
+    /**
+     * <code>int32 player_id = 2;</code>
+     */
+    public int getPlayerId() {
+      return playerId_;
+    }
+    /**
+     * <code>int32 player_id = 2;</code>
+     */
+    public Builder setPlayerId(int value) {
+      
+      playerId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 player_id = 2;</code>
+     */
+    public Builder clearPlayerId() {
+      
+      playerId_ = 0;
+      onChanged();
+      return this;
+    }
+
     private com.regexgame.GameAction action_ = null;
     private com.google.protobuf.SingleFieldBuilderV3<
         com.regexgame.GameAction, com.regexgame.GameAction.Builder, com.regexgame.GameActionOrBuilder> actionBuilder_;
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public boolean hasAction() {
       return actionBuilder_ != null || action_ != null;
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public com.regexgame.GameAction getAction() {
       if (actionBuilder_ == null) {
@@ -490,7 +548,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public Builder setAction(com.regexgame.GameAction value) {
       if (actionBuilder_ == null) {
@@ -506,7 +564,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public Builder setAction(
         com.regexgame.GameAction.Builder builderForValue) {
@@ -520,7 +578,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public Builder mergeAction(com.regexgame.GameAction value) {
       if (actionBuilder_ == null) {
@@ -538,7 +596,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public Builder clearAction() {
       if (actionBuilder_ == null) {
@@ -552,7 +610,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public com.regexgame.GameAction.Builder getActionBuilder() {
       
@@ -560,7 +618,7 @@ private static final long serialVersionUID = 0L;
       return getActionFieldBuilder().getBuilder();
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     public com.regexgame.GameActionOrBuilder getActionOrBuilder() {
       if (actionBuilder_ != null) {
@@ -571,7 +629,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.regexgame.GameAction action = 2;</code>
+     * <code>.regexgame.GameAction action = 3;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         com.regexgame.GameAction, com.regexgame.GameAction.Builder, com.regexgame.GameActionOrBuilder> 

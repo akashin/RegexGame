@@ -1,5 +1,6 @@
 package com.regexgame.server;
 
+import com.regexgame.AttackCard;
 import com.regexgame.GameEvent;
 import com.regexgame.NumberChanged;
 import io.grpc.stub.StreamObserver;
@@ -13,6 +14,10 @@ public class GameMatch {
 
     public GameMatch() {
         observers = new ArrayList<StreamObserver<GameEvent>>();
+    }
+
+    public void attackCard(int player_id, AttackCard action) {
+        // TODO(akashin): Implement me.
     }
 
     public void increaseValue() {
