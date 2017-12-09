@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Array;
+import com.regexgame.AttackCard;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.GameAction;
@@ -38,6 +39,8 @@ public class RegexGameClient extends Game {
     private ManagedChannel channel;
     private RegexGameGrpc.RegexGameStub stub;
     private RegexGameGrpc.RegexGameBlockingStub blockingStub;
+    private long match_id;
+    private int player_id;
 
     private AssetManager assetManager;
 
@@ -69,7 +72,12 @@ public class RegexGameClient extends Game {
         long end = System.currentTimeMillis();
         System.err.println("Match created: " + reply.getMatchId() + " in " + (end - start) / 1000.0);
 
-        stub.getEvents(GetEventsRequest.newBuilder().setMatchId(reply.getMatchId()).build(), new StreamObserver<com.regexgame.GameEvent>() {
+        // TODO(akashin): Get player id from the server.
+        player_id = 1;
+        match_id = reply.getMatchId();
+        stub.getEvents(GetEventsRequest.newBuilder()
+                .setPlayerId(player_id)
+                .setMatchId(reply.getMatchId()).build(), new StreamObserver<com.regexgame.GameEvent>() {
             @Override
             public void onNext(GameEvent value) {
                 switch (value.getEventCase()) {
@@ -121,8 +129,6 @@ public class RegexGameClient extends Game {
     @Override
     public void render() {
         super.render();
-//        GameAction action = GameAction.newBuilder().setIncreaseNumber(IncreaseNumber.getDefaultInstance()).build();
-//        blockingStub.makeAction(MakeActionRequest.newBuilder().setAction(action).build());
     }
 
     @Override
@@ -131,7 +137,18 @@ public class RegexGameClient extends Game {
         assetManager.dispose();
     }
 
-    public void sendAtackAction(Array<Integer> playerCards, Array<Integer> enemyCards) {
+    public void sendAttackAction(Array<Integer> playerCards, Array<Integer> enemyCards) {
         System.err.println("Attack: " + playerCards + " -> " + enemyCards);
+        GameAction action = GameAction.newBuilder()
+                .setAttackCard(
+                        AttackCard.newBuilder()
+                                .addAllAttackerCards(playerCards)
+                                .setAttackedCard(enemyCards.get(0)))
+                .build();
+
+        blockingStub.makeAction(MakeActionRequest.newBuilder()
+                .setPlayerId(player_id)
+                .setMatchId(match_id)
+                .setAction(action).build());
     }
 }
