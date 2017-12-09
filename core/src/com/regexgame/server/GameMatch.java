@@ -12,20 +12,32 @@ import java.util.HashMap;
 
 // Represents a single game between players.
 public class GameMatch {
-    private int current_value;
-    private Player current_player;
+
+    enum MatchState {
+        WaitingForPlayers,
+        Started
+    }
+
+    private MatchState matchState;
+    private int currentValue;
+    private Player currentPlayer;
     private HashMap<Long, Player> players;
     private ArrayList<StreamObserver<GameEvent>> observers;
 
     public GameMatch() {
+        matchState = MatchState.WaitingForPlayers;
         players = new HashMap<>();
         observers = new ArrayList<StreamObserver<GameEvent>>();
-        current_player = Player.First;
+        currentPlayer = Player.First;
+    }
+
+    public MatchState getMatchState() {
+        return matchState;
     }
 
     public void attackCard(long session_token, AttackCard action) throws Exception {
         Player player = players.get(session_token);
-        if (player != current_player) {
+        if (player != currentPlayer) {
             throw new Exception("Unexpected player move.");
         }
 
@@ -42,11 +54,11 @@ public class GameMatch {
     }
 
     public void increaseValue() {
-        setValue(current_value + 1);
+        setValue(currentValue + 1);
     }
 
     public void decreaseValue() {
-        setValue(current_value - 1);
+        setValue(currentValue - 1);
     }
 
     // Broadcasts event to all observers.
@@ -57,7 +69,7 @@ public class GameMatch {
     }
 
     private void setValue(int new_value) {
-        current_value = new_value;
+        currentValue = new_value;
         broadcastEvent(GameEvent.newBuilder().setNumberChanged(NumberChanged.newBuilder().setValue(new_value)).build());
     }
 
@@ -68,8 +80,17 @@ public class GameMatch {
         }
     }
 
-    public void addPlayer(long session_token, Player player) {
+    public void addPlayer(long session_token) {
+        Player player;
+        if (players.size() == 0) {
+            player = Player.First;
+        } else {
+            player = Player.Second;
+        }
         players.put(session_token, player);
+        if (players.size() == 2) {
+            matchState = MatchState.Started;
+        }
     }
 
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {

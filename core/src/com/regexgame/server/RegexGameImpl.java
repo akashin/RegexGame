@@ -1,27 +1,31 @@
 package com.regexgame.server;
 
-import com.regexgame.*;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
+import com.regexgame.FindMatchReply;
+import com.regexgame.FindMatchRequest;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
+import com.regexgame.JoinMatchReply;
+import com.regexgame.JoinMatchRequest;
 import com.regexgame.LoginReply;
 import com.regexgame.LoginRequest;
 import com.regexgame.MakeActionReply;
 import com.regexgame.MakeActionRequest;
-import com.regexgame.NumberChanged;
 import com.regexgame.RegexGameGrpc;
+import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
 import java.util.HashMap;
 
 public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
-    HashMap<Long, GameMatch> active_matches;
-    long first_free_match_index = 0;
-    long first_free_session_token = 0;
+    // TODO(akashin): Use libgdx hashmap.
+    HashMap<Long, GameMatch> activeMatches;
+    long first_free_match_index = 1;
+    long first_free_session_token = 1;
 
     public RegexGameImpl() {
-        this.active_matches = new HashMap<Long, GameMatch>();
+        this.activeMatches = new HashMap<Long, GameMatch>();
     }
 
     private long generate_match_index() {
@@ -40,21 +44,21 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
 
     @Override
     public void getEvents(GetEventsRequest request, StreamObserver<GameEvent> responseObserver) {
-        if (!this.active_matches.containsKey(request.getMatchId())) {
+        if (!this.activeMatches.containsKey(request.getMatchId())) {
             responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
             return;
         }
-        GameMatch match = this.active_matches.get(request.getMatchId());
-//        match.subscribeForEvents(request.getPlayerId(), responseObserver);
+        GameMatch match = this.activeMatches.get(request.getMatchId());
+        match.subscribeForEvents(request.getSessionToken(), responseObserver);
     }
 
     @Override
     public void makeAction(MakeActionRequest request, StreamObserver<MakeActionReply> responseObserver) {
-        if (!this.active_matches.containsKey(request.getMatchId())) {
+        if (!this.activeMatches.containsKey(request.getMatchId())) {
             responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
             return;
         }
-        GameMatch match = this.active_matches.get(request.getMatchId());
+        GameMatch match = this.activeMatches.get(request.getMatchId());
 
         try {
             switch (request.getAction().getActionCase()) {
@@ -85,8 +89,34 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
     @Override
     public void createMatch(CreateMatchRequest request, StreamObserver<CreateMatchReply> responseObserver) {
         long new_match_index = generate_match_index();
-        this.active_matches.put(new_match_index, new GameMatch());
+        this.activeMatches.put(new_match_index, new GameMatch());
         responseObserver.onNext(CreateMatchReply.newBuilder().setMatchId(new_match_index).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void joinMatch(JoinMatchRequest request, StreamObserver<JoinMatchReply> responseObserver) {
+        // TODO(akashin): Move this to a separate function.
+        if (!this.activeMatches.containsKey(request.getMatchId())) {
+            responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
+            return;
+        }
+
+        this.activeMatches.get(request.getMatchId()).addPlayer(request.getSessionToken());
+        responseObserver.onNext(JoinMatchReply.getDefaultInstance());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void findMatch(FindMatchRequest request, StreamObserver<FindMatchReply> responseObserver) {
+        long matchId = 0;
+        for (HashMap.Entry<Long, GameMatch> match : activeMatches.entrySet()) {
+            if (match.getValue().getMatchState() == GameMatch.MatchState.WaitingForPlayers) {
+                matchId = match.getKey();
+                break;
+            }
+        }
+        responseObserver.onNext(FindMatchReply.newBuilder().setMatchId(matchId).build());
         responseObserver.onCompleted();
     }
 }

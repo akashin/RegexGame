@@ -20,6 +20,9 @@ service RegexGame {
   // Joins existing match.
   rpc JoinMatch (JoinMatchRequest) returns (JoinMatchReply) {}
 
+  // Finds available match.
+  rpc FindMatch (FindMatchRequest) returns (FindMatchReply) {}
+
   // Gets events.
   rpc GetEvents (GetEventsRequest) returns (stream GameEvent) {}
 
@@ -49,6 +52,14 @@ message JoinMatchRequest {
 }
 
 message JoinMatchReply {
+}
+
+message FindMatchRequest {
+  int64 session_token = 1;
+}
+
+message FindMatchReply {
+  int64 match_id = 1;
 }
 
 // The request message to get game events.

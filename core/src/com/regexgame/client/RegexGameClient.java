@@ -1,6 +1,7 @@
 package com.regexgame.client;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -12,13 +13,18 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Array;
+import com.regexgame.*;
 import com.regexgame.AttackCard;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
+import com.regexgame.FindMatchReply;
+import com.regexgame.FindMatchRequest;
 import com.regexgame.GameAction;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
 import com.regexgame.IncreaseNumber;
+import com.regexgame.JoinMatchReply;
+import com.regexgame.JoinMatchRequest;
 import com.regexgame.LoginReply;
 import com.regexgame.LoginRequest;
 import com.regexgame.MakeActionRequest;
@@ -62,8 +68,8 @@ public class RegexGameClient extends Game {
         long start = System.currentTimeMillis();
         LoginReply reply = blockingStub.login(LoginRequest.getDefaultInstance());
         long end = System.currentTimeMillis();
-        System.err.println("Logged in: " + (end - start) / 1000.0 + "s");
         session_token = reply.getSessionToken();
+        Gdx.app.log("INFO", "Logged in with token: " + session_token + ", in " + (end - start) / 1000.0 + "s");
     }
 
     @Override
@@ -72,9 +78,24 @@ public class RegexGameClient extends Game {
 
         connectToServer("localhost", 6001, true);
 
-        CreateMatchReply reply = blockingStub.createMatch(
-                CreateMatchRequest.newBuilder().setSessionToken(session_token).build());
-        match_id = reply.getMatchId();
+        {
+            FindMatchReply reply = blockingStub.findMatch(
+                    FindMatchRequest.newBuilder().setSessionToken(session_token).build());
+            match_id = reply.getMatchId();
+        }
+        if (match_id == 0) {
+            CreateMatchReply reply = blockingStub.createMatch(
+                    CreateMatchRequest.newBuilder().setSessionToken(session_token).build());
+            match_id = reply.getMatchId();
+        }
+
+        assert match_id != 0;
+        {
+            JoinMatchReply reply = blockingStub.joinMatch(JoinMatchRequest.newBuilder()
+                    .setSessionToken(session_token)
+                    .setMatchId(match_id).build());
+        }
+        Gdx.app.log("INFO", "Connected to match " + match_id);
 
         stub.getEvents(GetEventsRequest.newBuilder()
                 .setSessionToken(session_token)
