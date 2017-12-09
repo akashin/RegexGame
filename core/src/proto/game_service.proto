@@ -14,7 +14,11 @@ service RegexGame {
   // Sends a message
   rpc GetMessage (GetMessageRequest) returns (GetMessageReply) {}
 
+  // Creates new match.
   rpc CreateMatch (CreateMatchRequest) returns (CreateMatchReply) {}
+
+  // Joins existing match.
+  rpc JoinMatch (JoinMatchRequest) returns (JoinMatchReply) {}
 
   // Gets events.
   rpc GetEvents (GetEventsRequest) returns (stream GameEvent) {}
@@ -24,11 +28,22 @@ service RegexGame {
 }
 
 message CreateMatchRequest {
+  // TODO(akashin): Add a field for author identification.
 }
 
 message CreateMatchReply {
   int64 match_id = 1;
 }
+
+message JoinMatchRequest {
+  // TODO(akashin): Add a field for author identification.
+
+  int64 match_id = 1;
+}
+
+message JoinMatchReply {
+}
+
 
 // The request message to get game events.
 message GetEventsRequest {
