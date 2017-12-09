@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Array;
-import com.regexgame.*;
 import com.regexgame.AttackCard;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
@@ -22,7 +21,6 @@ import com.regexgame.FindMatchRequest;
 import com.regexgame.GameAction;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
-import com.regexgame.IncreaseNumber;
 import com.regexgame.JoinMatchReply;
 import com.regexgame.JoinMatchRequest;
 import com.regexgame.LoginReply;
@@ -32,9 +30,7 @@ import com.regexgame.RegexGameGrpc;
 import com.regexgame.client.screen.GameScreen;
 import com.regexgame.server.RegexGameServer;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.inprocess.InProcessChannelBuilder;
-import io.grpc.inprocess.InProcessServerBuilder;
 import io.grpc.okhttp.OkHttpChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
@@ -45,13 +41,13 @@ public class RegexGameClient extends Game {
     private ManagedChannel channel;
     private RegexGameGrpc.RegexGameStub stub;
     private RegexGameGrpc.RegexGameBlockingStub blockingStub;
-    private long session_token;
-    private long match_id;
+    private long sessionToken;
+    private long matchId;
 
     private AssetManager assetManager;
 
-    private void connectToServer(String address, int port, boolean start_local_server) {
-        if (start_local_server) {
+    private void connectToServer(String address, int port, boolean startLocalServer) {
+        if (startLocalServer) {
             RegexGameServer server = new RegexGameServer();
             try {
                 server.start(port, true);
@@ -68,8 +64,8 @@ public class RegexGameClient extends Game {
         long start = System.currentTimeMillis();
         LoginReply reply = blockingStub.login(LoginRequest.getDefaultInstance());
         long end = System.currentTimeMillis();
-        session_token = reply.getSessionToken();
-        Gdx.app.log("INFO", "Logged in with token: " + session_token + ", in " + (end - start) / 1000.0 + "s");
+        sessionToken = reply.getSessionToken();
+        Gdx.app.log("INFO", "Logged in with token: " + sessionToken + ", in " + (end - start) / 1000.0 + "s");
     }
 
     @Override
@@ -80,26 +76,26 @@ public class RegexGameClient extends Game {
 
         {
             FindMatchReply reply = blockingStub.findMatch(
-                    FindMatchRequest.newBuilder().setSessionToken(session_token).build());
-            match_id = reply.getMatchId();
+                    FindMatchRequest.newBuilder().setSessionToken(sessionToken).build());
+            matchId = reply.getMatchId();
         }
-        if (match_id == 0) {
+        if (matchId == 0) {
             CreateMatchReply reply = blockingStub.createMatch(
-                    CreateMatchRequest.newBuilder().setSessionToken(session_token).build());
-            match_id = reply.getMatchId();
+                    CreateMatchRequest.newBuilder().setSessionToken(sessionToken).build());
+            matchId = reply.getMatchId();
         }
 
-        assert match_id != 0;
+        assert matchId != 0;
         {
             JoinMatchReply reply = blockingStub.joinMatch(JoinMatchRequest.newBuilder()
-                    .setSessionToken(session_token)
-                    .setMatchId(match_id).build());
+                    .setSessionToken(sessionToken)
+                    .setMatchId(matchId).build());
         }
-        Gdx.app.log("INFO", "Connected to match " + match_id);
+        Gdx.app.log("INFO", "Connected to match " + matchId);
 
         stub.getEvents(GetEventsRequest.newBuilder()
-                .setSessionToken(session_token)
-                .setMatchId(match_id).build(), new StreamObserver<com.regexgame.GameEvent>() {
+                .setSessionToken(sessionToken)
+                .setMatchId(matchId).build(), new StreamObserver<com.regexgame.GameEvent>() {
             @Override
             public void onNext(GameEvent value) {
                 switch (value.getEventCase()) {
@@ -169,8 +165,8 @@ public class RegexGameClient extends Game {
                 .build();
 
         blockingStub.makeAction(MakeActionRequest.newBuilder()
-                .setSessionToken(session_token)
-                .setMatchId(match_id)
+                .setSessionToken(sessionToken)
+                .setMatchId(matchId)
                 .setAction(action).build());
     }
 }
