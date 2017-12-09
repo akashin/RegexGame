@@ -13,7 +13,6 @@ import com.regexgame.LoginRequest;
 import com.regexgame.MakeActionReply;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
-import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
 import java.util.HashMap;
@@ -21,24 +20,24 @@ import java.util.HashMap;
 public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
     // TODO(akashin): Use libgdx hashmap.
     HashMap<Long, GameMatch> activeMatches;
-    long first_free_match_index = 1;
-    long first_free_session_token = 1;
+    long firstFreeMatchIndex = 1;
+    long firstFreeSessionToken = 1;
 
     public RegexGameImpl() {
         this.activeMatches = new HashMap<Long, GameMatch>();
     }
 
-    private long generate_match_index() {
-        return first_free_match_index++;
+    private long generateMatchIndex() {
+        return firstFreeMatchIndex++;
     }
 
-    private long generate_session_token() {
-        return first_free_session_token++;
+    private long generateSessionToken() {
+        return firstFreeSessionToken++;
     }
 
     @Override
     public void login(LoginRequest request, StreamObserver<LoginReply> responseObserver) {
-        responseObserver.onNext(LoginReply.newBuilder().setSessionToken(generate_session_token()).build());
+        responseObserver.onNext(LoginReply.newBuilder().setSessionToken(generateSessionToken()).build());
         responseObserver.onCompleted();
     }
 
@@ -88,9 +87,9 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
 
     @Override
     public void createMatch(CreateMatchRequest request, StreamObserver<CreateMatchReply> responseObserver) {
-        long new_match_index = generate_match_index();
-        this.activeMatches.put(new_match_index, new GameMatch());
-        responseObserver.onNext(CreateMatchReply.newBuilder().setMatchId(new_match_index).build());
+        long newMatchIndex = generateMatchIndex();
+        this.activeMatches.put(newMatchIndex, new GameMatch());
+        responseObserver.onNext(CreateMatchReply.newBuilder().setMatchId(newMatchIndex).build());
         responseObserver.onCompleted();
     }
 
