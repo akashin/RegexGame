@@ -8,21 +8,23 @@ import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 // Represents a single game between players.
 public class GameMatch {
     private int current_value;
     private Player current_player;
+    private HashMap<Long, Player> players;
     private ArrayList<StreamObserver<GameEvent>> observers;
 
     public GameMatch() {
+        players = new HashMap<>();
         observers = new ArrayList<StreamObserver<GameEvent>>();
-        // TODO(akashin): Make this an enum.
         current_player = Player.First;
     }
 
-    public void attackCard(int player_id, AttackCard action) throws Exception {
-        Player player = Player.getByIndex(player_id);
+    public void attackCard(long session_token, AttackCard action) throws Exception {
+        Player player = players.get(session_token);
         if (player != current_player) {
             throw new Exception("Unexpected player move.");
         }
@@ -66,8 +68,11 @@ public class GameMatch {
         }
     }
 
+    public void addPlayer(long session_token, Player player) {
+        players.put(session_token, player);
+    }
 
-    public void subscribeForEvents(int player_id, StreamObserver<GameEvent> observer) {
+    public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {
         observers.add(observer);
     }
 }

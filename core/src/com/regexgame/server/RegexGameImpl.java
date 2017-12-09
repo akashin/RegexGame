@@ -1,9 +1,12 @@
 package com.regexgame.server;
 
+import com.regexgame.*;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
+import com.regexgame.LoginReply;
+import com.regexgame.LoginRequest;
 import com.regexgame.MakeActionReply;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.NumberChanged;
@@ -15,6 +18,7 @@ import java.util.HashMap;
 public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
     HashMap<Long, GameMatch> active_matches;
     long first_free_match_index = 0;
+    long first_free_session_token = 0;
 
     public RegexGameImpl() {
         this.active_matches = new HashMap<Long, GameMatch>();
@@ -24,6 +28,16 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
         return first_free_match_index++;
     }
 
+    private long generate_session_token() {
+        return first_free_session_token++;
+    }
+
+    @Override
+    public void login(LoginRequest request, StreamObserver<LoginReply> responseObserver) {
+        responseObserver.onNext(LoginReply.newBuilder().setSessionToken(generate_session_token()).build());
+        responseObserver.onCompleted();
+    }
+
     @Override
     public void getEvents(GetEventsRequest request, StreamObserver<GameEvent> responseObserver) {
         if (!this.active_matches.containsKey(request.getMatchId())) {
@@ -31,7 +45,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
             return;
         }
         GameMatch match = this.active_matches.get(request.getMatchId());
-        match.subscribeForEvents(request.getPlayerId(), responseObserver);
+//        match.subscribeForEvents(request.getPlayerId(), responseObserver);
     }
 
     @Override
@@ -53,7 +67,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
                     break;
                 }
                 case ATTACK_CARD: {
-                    match.attackCard(request.getPlayerId(), request.getAction().getAttackCard());
+                    match.attackCard(request.getSessionToken(), request.getAction().getAttackCard());
                     break;
                 }
                 default: {

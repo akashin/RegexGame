@@ -19,6 +19,8 @@ import com.regexgame.GameAction;
 import com.regexgame.GameEvent;
 import com.regexgame.GetEventsRequest;
 import com.regexgame.IncreaseNumber;
+import com.regexgame.LoginReply;
+import com.regexgame.LoginRequest;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
 import com.regexgame.client.screen.GameScreen;
@@ -37,8 +39,8 @@ public class RegexGameClient extends Game {
     private ManagedChannel channel;
     private RegexGameGrpc.RegexGameStub stub;
     private RegexGameGrpc.RegexGameBlockingStub blockingStub;
+    private long session_token;
     private long match_id;
-    private int player_id;
 
     private AssetManager assetManager;
 
@@ -56,6 +58,12 @@ public class RegexGameClient extends Game {
         }
         stub = RegexGameGrpc.newStub(channel);
         blockingStub = RegexGameGrpc.newBlockingStub(channel);
+
+        long start = System.currentTimeMillis();
+        LoginReply reply = blockingStub.login(LoginRequest.getDefaultInstance());
+        long end = System.currentTimeMillis();
+        System.err.println("Logged in: " + (end - start) / 1000.0 + "s");
+        session_token = reply.getSessionToken();
     }
 
     @Override
@@ -64,18 +72,13 @@ public class RegexGameClient extends Game {
 
         connectToServer("localhost", 6001, true);
 
-        System.err.println("Creating match");
-        long start = System.currentTimeMillis();
-        CreateMatchReply reply = blockingStub.createMatch(CreateMatchRequest.getDefaultInstance());
-        long end = System.currentTimeMillis();
-        System.err.println("Match created: " + reply.getMatchId() + " in " + (end - start) / 1000.0);
-
-        // TODO(akashin): Get player id from the server.
-        player_id = 1;
+        CreateMatchReply reply = blockingStub.createMatch(
+                CreateMatchRequest.newBuilder().setSessionToken(session_token).build());
         match_id = reply.getMatchId();
+
         stub.getEvents(GetEventsRequest.newBuilder()
-                .setPlayerId(player_id)
-                .setMatchId(reply.getMatchId()).build(), new StreamObserver<com.regexgame.GameEvent>() {
+                .setSessionToken(session_token)
+                .setMatchId(match_id).build(), new StreamObserver<com.regexgame.GameEvent>() {
             @Override
             public void onNext(GameEvent value) {
                 switch (value.getEventCase()) {
@@ -145,7 +148,7 @@ public class RegexGameClient extends Game {
                 .build();
 
         blockingStub.makeAction(MakeActionRequest.newBuilder()
-                .setPlayerId(player_id)
+                .setSessionToken(session_token)
                 .setMatchId(match_id)
                 .setAction(action).build());
     }
