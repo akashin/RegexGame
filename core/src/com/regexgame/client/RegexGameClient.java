@@ -71,7 +71,15 @@ public class RegexGameClient extends Game {
         stub.getEvents(GetEventsRequest.newBuilder().setMatchId(reply.getMatchId()).build(), new StreamObserver<com.regexgame.GameEvent>() {
             @Override
             public void onNext(GameEvent value) {
-                System.err.println("Event received: " + value.toString());
+                switch (value.getEventCase()) {
+                    case CARD_ATTACKED: {
+                        System.err.println("Card attacked: " + value);
+                        break;
+                    }
+                    default: {
+                        System.err.println("Unrecognized event: " + value);
+                    }
+                }
             }
 
             @Override
@@ -112,8 +120,8 @@ public class RegexGameClient extends Game {
     @Override
     public void render() {
         super.render();
-        GameAction action = GameAction.newBuilder().setIncreaseNumber(IncreaseNumber.getDefaultInstance()).build();
-        blockingStub.makeAction(MakeActionRequest.newBuilder().setAction(action).build());
+//        GameAction action = GameAction.newBuilder().setIncreaseNumber(IncreaseNumber.getDefaultInstance()).build();
+//        blockingStub.makeAction(MakeActionRequest.newBuilder().setAction(action).build());
     }
 
     @Override

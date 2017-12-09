@@ -49,9 +49,9 @@ public final class GameActionOuterClass {
       " \001(\0132\031.regexgame.DecreaseNumberH\000\022,\n\013att" +
       "ack_card\030\003 \001(\0132\025.regexgame.AttackCardH\000B" +
       "\010\n\006action\"\020\n\016IncreaseNumber\"\020\n\016DecreaseN" +
-      "umber\"9\n\nAttackCard\022\024\n\014player_cards\030\001 \003(" +
-      "\005\022\025\n\ropponent_card\030\002 \001(\005B\027\n\rcom.regexgam" +
-      "eP\001\242\002\003HLWb\006proto3"
+      "umber\";\n\nAttackCard\022\026\n\016attacker_cards\030\001 " +
+      "\003(\005\022\025\n\rattacked_card\030\002 \001(\005B\027\n\rcom.regexg" +
+      "ameP\001\242\002\003HLWb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -88,7 +88,7 @@ public final class GameActionOuterClass {
     internal_static_regexgame_AttackCard_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_regexgame_AttackCard_descriptor,
-        new java.lang.String[] { "PlayerCards", "OpponentCard", });
+        new java.lang.String[] { "AttackerCards", "AttackedCard", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

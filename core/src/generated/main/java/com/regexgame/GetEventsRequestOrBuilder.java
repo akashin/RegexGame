@@ -13,7 +13,12 @@ public interface GetEventsRequestOrBuilder extends
   long getMatchId();
 
   /**
-   * <code>int32 start_timestamp = 2;</code>
+   * <code>int32 player_id = 2;</code>
+   */
+  int getPlayerId();
+
+  /**
+   * <code>int32 start_timestamp = 3;</code>
    */
   int getStartTimestamp();
 }

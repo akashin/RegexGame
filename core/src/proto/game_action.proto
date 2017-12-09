@@ -21,6 +21,6 @@ message DecreaseNumber {
 }
 
 message AttackCard {
-  repeated int32 player_cards = 1;
-  int32 opponent_card = 2;
+  repeated int32 attacker_cards = 1;
+  int32 attacked_card = 2;
 }

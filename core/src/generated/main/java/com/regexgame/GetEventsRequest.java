@@ -21,6 +21,7 @@ private static final long serialVersionUID = 0L;
   }
   private GetEventsRequest() {
     matchId_ = 0L;
+    playerId_ = 0;
     startTimestamp_ = 0;
   }
 
@@ -62,6 +63,11 @@ private static final long serialVersionUID = 0L;
           }
           case 16: {
 
+            playerId_ = input.readInt32();
+            break;
+          }
+          case 24: {
+
             startTimestamp_ = input.readInt32();
             break;
           }
@@ -98,10 +104,19 @@ private static final long serialVersionUID = 0L;
     return matchId_;
   }
 
-  public static final int START_TIMESTAMP_FIELD_NUMBER = 2;
+  public static final int PLAYER_ID_FIELD_NUMBER = 2;
+  private int playerId_;
+  /**
+   * <code>int32 player_id = 2;</code>
+   */
+  public int getPlayerId() {
+    return playerId_;
+  }
+
+  public static final int START_TIMESTAMP_FIELD_NUMBER = 3;
   private int startTimestamp_;
   /**
-   * <code>int32 start_timestamp = 2;</code>
+   * <code>int32 start_timestamp = 3;</code>
    */
   public int getStartTimestamp() {
     return startTimestamp_;
@@ -122,8 +137,11 @@ private static final long serialVersionUID = 0L;
     if (matchId_ != 0L) {
       output.writeInt64(1, matchId_);
     }
+    if (playerId_ != 0) {
+      output.writeInt32(2, playerId_);
+    }
     if (startTimestamp_ != 0) {
-      output.writeInt32(2, startTimestamp_);
+      output.writeInt32(3, startTimestamp_);
     }
     unknownFields.writeTo(output);
   }
@@ -137,9 +155,13 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(1, matchId_);
     }
+    if (playerId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(2, playerId_);
+    }
     if (startTimestamp_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, startTimestamp_);
+        .computeInt32Size(3, startTimestamp_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -159,6 +181,8 @@ private static final long serialVersionUID = 0L;
     boolean result = true;
     result = result && (getMatchId()
         == other.getMatchId());
+    result = result && (getPlayerId()
+        == other.getPlayerId());
     result = result && (getStartTimestamp()
         == other.getStartTimestamp());
     result = result && unknownFields.equals(other.unknownFields);
@@ -175,6 +199,8 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + MATCH_ID_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getMatchId());
+    hash = (37 * hash) + PLAYER_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getPlayerId();
     hash = (37 * hash) + START_TIMESTAMP_FIELD_NUMBER;
     hash = (53 * hash) + getStartTimestamp();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -312,6 +338,8 @@ private static final long serialVersionUID = 0L;
       super.clear();
       matchId_ = 0L;
 
+      playerId_ = 0;
+
       startTimestamp_ = 0;
 
       return this;
@@ -337,6 +365,7 @@ private static final long serialVersionUID = 0L;
     public com.regexgame.GetEventsRequest buildPartial() {
       com.regexgame.GetEventsRequest result = new com.regexgame.GetEventsRequest(this);
       result.matchId_ = matchId_;
+      result.playerId_ = playerId_;
       result.startTimestamp_ = startTimestamp_;
       onBuilt();
       return result;
@@ -381,6 +410,9 @@ private static final long serialVersionUID = 0L;
       if (other == com.regexgame.GetEventsRequest.getDefaultInstance()) return this;
       if (other.getMatchId() != 0L) {
         setMatchId(other.getMatchId());
+      }
+      if (other.getPlayerId() != 0) {
+        setPlayerId(other.getPlayerId());
       }
       if (other.getStartTimestamp() != 0) {
         setStartTimestamp(other.getStartTimestamp());
@@ -438,15 +470,41 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    private int playerId_ ;
+    /**
+     * <code>int32 player_id = 2;</code>
+     */
+    public int getPlayerId() {
+      return playerId_;
+    }
+    /**
+     * <code>int32 player_id = 2;</code>
+     */
+    public Builder setPlayerId(int value) {
+      
+      playerId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 player_id = 2;</code>
+     */
+    public Builder clearPlayerId() {
+      
+      playerId_ = 0;
+      onChanged();
+      return this;
+    }
+
     private int startTimestamp_ ;
     /**
-     * <code>int32 start_timestamp = 2;</code>
+     * <code>int32 start_timestamp = 3;</code>
      */
     public int getStartTimestamp() {
       return startTimestamp_;
     }
     /**
-     * <code>int32 start_timestamp = 2;</code>
+     * <code>int32 start_timestamp = 3;</code>
      */
     public Builder setStartTimestamp(int value) {
       
@@ -455,7 +513,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>int32 start_timestamp = 2;</code>
+     * <code>int32 start_timestamp = 3;</code>
      */
     public Builder clearStartTimestamp() {
       

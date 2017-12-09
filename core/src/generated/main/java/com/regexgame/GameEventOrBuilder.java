@@ -20,5 +20,18 @@ public interface GameEventOrBuilder extends
    */
   com.regexgame.NumberChangedOrBuilder getNumberChangedOrBuilder();
 
+  /**
+   * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+   */
+  boolean hasCardAttacked();
+  /**
+   * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+   */
+  com.regexgame.CardAttacked getCardAttacked();
+  /**
+   * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+   */
+  com.regexgame.CardAttackedOrBuilder getCardAttackedOrBuilder();
+
   public com.regexgame.GameEvent.EventCase getEventCase();
 }

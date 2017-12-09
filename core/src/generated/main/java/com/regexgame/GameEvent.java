@@ -67,6 +67,20 @@ private static final long serialVersionUID = 0L;
             eventCase_ = 1;
             break;
           }
+          case 18: {
+            com.regexgame.CardAttacked.Builder subBuilder = null;
+            if (eventCase_ == 2) {
+              subBuilder = ((com.regexgame.CardAttacked) event_).toBuilder();
+            }
+            event_ =
+                input.readMessage(com.regexgame.CardAttacked.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.regexgame.CardAttacked) event_);
+              event_ = subBuilder.buildPartial();
+            }
+            eventCase_ = 2;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -96,6 +110,7 @@ private static final long serialVersionUID = 0L;
   public enum EventCase
       implements com.google.protobuf.Internal.EnumLite {
     NUMBER_CHANGED(1),
+    CARD_ATTACKED(2),
     EVENT_NOT_SET(0);
     private final int value;
     private EventCase(int value) {
@@ -112,6 +127,7 @@ private static final long serialVersionUID = 0L;
     public static EventCase forNumber(int value) {
       switch (value) {
         case 1: return NUMBER_CHANGED;
+        case 2: return CARD_ATTACKED;
         case 0: return EVENT_NOT_SET;
         default: return null;
       }
@@ -153,6 +169,32 @@ private static final long serialVersionUID = 0L;
     return com.regexgame.NumberChanged.getDefaultInstance();
   }
 
+  public static final int CARD_ATTACKED_FIELD_NUMBER = 2;
+  /**
+   * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+   */
+  public boolean hasCardAttacked() {
+    return eventCase_ == 2;
+  }
+  /**
+   * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+   */
+  public com.regexgame.CardAttacked getCardAttacked() {
+    if (eventCase_ == 2) {
+       return (com.regexgame.CardAttacked) event_;
+    }
+    return com.regexgame.CardAttacked.getDefaultInstance();
+  }
+  /**
+   * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+   */
+  public com.regexgame.CardAttackedOrBuilder getCardAttackedOrBuilder() {
+    if (eventCase_ == 2) {
+       return (com.regexgame.CardAttacked) event_;
+    }
+    return com.regexgame.CardAttacked.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -168,6 +210,9 @@ private static final long serialVersionUID = 0L;
     if (eventCase_ == 1) {
       output.writeMessage(1, (com.regexgame.NumberChanged) event_);
     }
+    if (eventCase_ == 2) {
+      output.writeMessage(2, (com.regexgame.CardAttacked) event_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -179,6 +224,10 @@ private static final long serialVersionUID = 0L;
     if (eventCase_ == 1) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, (com.regexgame.NumberChanged) event_);
+    }
+    if (eventCase_ == 2) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(2, (com.regexgame.CardAttacked) event_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -204,6 +253,10 @@ private static final long serialVersionUID = 0L;
         result = result && getNumberChanged()
             .equals(other.getNumberChanged());
         break;
+      case 2:
+        result = result && getCardAttacked()
+            .equals(other.getCardAttacked());
+        break;
       case 0:
       default:
     }
@@ -222,6 +275,10 @@ private static final long serialVersionUID = 0L;
       case 1:
         hash = (37 * hash) + NUMBER_CHANGED_FIELD_NUMBER;
         hash = (53 * hash) + getNumberChanged().hashCode();
+        break;
+      case 2:
+        hash = (37 * hash) + CARD_ATTACKED_FIELD_NUMBER;
+        hash = (53 * hash) + getCardAttacked().hashCode();
         break;
       case 0:
       default:
@@ -390,6 +447,13 @@ private static final long serialVersionUID = 0L;
           result.event_ = numberChangedBuilder_.build();
         }
       }
+      if (eventCase_ == 2) {
+        if (cardAttackedBuilder_ == null) {
+          result.event_ = event_;
+        } else {
+          result.event_ = cardAttackedBuilder_.build();
+        }
+      }
       result.eventCase_ = eventCase_;
       onBuilt();
       return result;
@@ -435,6 +499,10 @@ private static final long serialVersionUID = 0L;
       switch (other.getEventCase()) {
         case NUMBER_CHANGED: {
           mergeNumberChanged(other.getNumberChanged());
+          break;
+        }
+        case CARD_ATTACKED: {
+          mergeCardAttacked(other.getCardAttacked());
           break;
         }
         case EVENT_NOT_SET: {
@@ -617,6 +685,142 @@ private static final long serialVersionUID = 0L;
       eventCase_ = 1;
       onChanged();;
       return numberChangedBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.regexgame.CardAttacked, com.regexgame.CardAttacked.Builder, com.regexgame.CardAttackedOrBuilder> cardAttackedBuilder_;
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public boolean hasCardAttacked() {
+      return eventCase_ == 2;
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public com.regexgame.CardAttacked getCardAttacked() {
+      if (cardAttackedBuilder_ == null) {
+        if (eventCase_ == 2) {
+          return (com.regexgame.CardAttacked) event_;
+        }
+        return com.regexgame.CardAttacked.getDefaultInstance();
+      } else {
+        if (eventCase_ == 2) {
+          return cardAttackedBuilder_.getMessage();
+        }
+        return com.regexgame.CardAttacked.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public Builder setCardAttacked(com.regexgame.CardAttacked value) {
+      if (cardAttackedBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        event_ = value;
+        onChanged();
+      } else {
+        cardAttackedBuilder_.setMessage(value);
+      }
+      eventCase_ = 2;
+      return this;
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public Builder setCardAttacked(
+        com.regexgame.CardAttacked.Builder builderForValue) {
+      if (cardAttackedBuilder_ == null) {
+        event_ = builderForValue.build();
+        onChanged();
+      } else {
+        cardAttackedBuilder_.setMessage(builderForValue.build());
+      }
+      eventCase_ = 2;
+      return this;
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public Builder mergeCardAttacked(com.regexgame.CardAttacked value) {
+      if (cardAttackedBuilder_ == null) {
+        if (eventCase_ == 2 &&
+            event_ != com.regexgame.CardAttacked.getDefaultInstance()) {
+          event_ = com.regexgame.CardAttacked.newBuilder((com.regexgame.CardAttacked) event_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          event_ = value;
+        }
+        onChanged();
+      } else {
+        if (eventCase_ == 2) {
+          cardAttackedBuilder_.mergeFrom(value);
+        }
+        cardAttackedBuilder_.setMessage(value);
+      }
+      eventCase_ = 2;
+      return this;
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public Builder clearCardAttacked() {
+      if (cardAttackedBuilder_ == null) {
+        if (eventCase_ == 2) {
+          eventCase_ = 0;
+          event_ = null;
+          onChanged();
+        }
+      } else {
+        if (eventCase_ == 2) {
+          eventCase_ = 0;
+          event_ = null;
+        }
+        cardAttackedBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public com.regexgame.CardAttacked.Builder getCardAttackedBuilder() {
+      return getCardAttackedFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    public com.regexgame.CardAttackedOrBuilder getCardAttackedOrBuilder() {
+      if ((eventCase_ == 2) && (cardAttackedBuilder_ != null)) {
+        return cardAttackedBuilder_.getMessageOrBuilder();
+      } else {
+        if (eventCase_ == 2) {
+          return (com.regexgame.CardAttacked) event_;
+        }
+        return com.regexgame.CardAttacked.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.regexgame.CardAttacked card_attacked = 2;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.regexgame.CardAttacked, com.regexgame.CardAttacked.Builder, com.regexgame.CardAttackedOrBuilder> 
+        getCardAttackedFieldBuilder() {
+      if (cardAttackedBuilder_ == null) {
+        if (!(eventCase_ == 2)) {
+          event_ = com.regexgame.CardAttacked.getDefaultInstance();
+        }
+        cardAttackedBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.regexgame.CardAttacked, com.regexgame.CardAttacked.Builder, com.regexgame.CardAttackedOrBuilder>(
+                (com.regexgame.CardAttacked) event_,
+                getParentForChildren(),
+                isClean());
+        event_ = null;
+      }
+      eventCase_ = 2;
+      onChanged();;
+      return cardAttackedBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

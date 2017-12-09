@@ -35,7 +35,8 @@ message GetEventsRequest {
   // TODO(akashin): Add a field for author identification.
 
   int64 match_id = 1;
-  int32 start_timestamp = 2;
+  int32 player_id = 2;
+  int32 start_timestamp = 3;
 }
 
 // The request message to make an action.

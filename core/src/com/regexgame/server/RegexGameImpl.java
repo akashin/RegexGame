@@ -40,7 +40,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
             return;
         }
         GameMatch match = this.active_matches.get(request.getMatchId());
-        match.subscribeForEvents(responseObserver);
+        match.subscribeForEvents(request.getPlayerId(), responseObserver);
     }
 
     @Override
@@ -51,11 +51,27 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
         }
         GameMatch match = this.active_matches.get(request.getMatchId());
 
-        switch (request.getAction().getActionCase()) {
-            case INCREASE_NUMBER: { match.increaseValue(); break; }
-            case DECREASE_NUMBER: { match.decreaseValue(); break; }
-            case ATTACK_CARD: { match.attackCard(request.getPlayerId(), request.getAction().getAttackCard()); break; }
-            default: { responseObserver.onError(new Exception("Unexpected action.")); return; }
+        try {
+            switch (request.getAction().getActionCase()) {
+                case INCREASE_NUMBER: {
+                    match.increaseValue();
+                    break;
+                }
+                case DECREASE_NUMBER: {
+                    match.decreaseValue();
+                    break;
+                }
+                case ATTACK_CARD: {
+                    match.attackCard(request.getPlayerId(), request.getAction().getAttackCard());
+                    break;
+                }
+                default: {
+                    throw new Exception("Unexpected action.");
+                }
+            }
+        } catch (Exception e) {
+            responseObserver.onError(e);
+            return;
         }
         responseObserver.onNext(MakeActionReply.getDefaultInstance());
         responseObserver.onCompleted();

@@ -10,10 +10,18 @@ package regexgame;
 message GameEvent {
   oneof event {
     NumberChanged number_changed = 1;
+    CardAttacked card_attacked = 2;
   }
 }
 
 // Indicates that the number have changed.
 message NumberChanged {
   int32 value = 1;
+}
+
+message CardAttacked {
+  int32 player_id = 1;
+  int32 damage = 2;
+  repeated int32 attacker_cards = 3;
+  int32 attacked_card = 4;
 }
