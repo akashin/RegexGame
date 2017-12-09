@@ -95,6 +95,38 @@ public final class RegexGameGrpc {
      return getCreateMatchMethod;
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getJoinMatchMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.regexgame.JoinMatchRequest,
+      com.regexgame.JoinMatchReply> METHOD_JOIN_MATCH = getJoinMatchMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.regexgame.JoinMatchRequest,
+      com.regexgame.JoinMatchReply> getJoinMatchMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.regexgame.JoinMatchRequest,
+      com.regexgame.JoinMatchReply> getJoinMatchMethod() {
+    io.grpc.MethodDescriptor<com.regexgame.JoinMatchRequest, com.regexgame.JoinMatchReply> getJoinMatchMethod;
+    if ((getJoinMatchMethod = RegexGameGrpc.getJoinMatchMethod) == null) {
+      synchronized (RegexGameGrpc.class) {
+        if ((getJoinMatchMethod = RegexGameGrpc.getJoinMatchMethod) == null) {
+          RegexGameGrpc.getJoinMatchMethod = getJoinMatchMethod = 
+              io.grpc.MethodDescriptor.<com.regexgame.JoinMatchRequest, com.regexgame.JoinMatchReply>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "regexgame.RegexGame", "JoinMatch"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.regexgame.JoinMatchRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.regexgame.JoinMatchReply.getDefaultInstance()))
+                  .setSchemaDescriptor(new RegexGameMethodDescriptorSupplier("JoinMatch"))
+                  .build();
+          }
+        }
+     }
+     return getJoinMatchMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetEventsMethod()} instead. 
   public static final io.grpc.MethodDescriptor<com.regexgame.GetEventsRequest,
       com.regexgame.GameEvent> METHOD_GET_EVENTS = getGetEventsMethod();
@@ -200,10 +232,23 @@ public final class RegexGameGrpc {
     }
 
     /**
+     * <pre>
+     * Creates new match.
+     * </pre>
      */
     public void createMatch(com.regexgame.CreateMatchRequest request,
         io.grpc.stub.StreamObserver<com.regexgame.CreateMatchReply> responseObserver) {
       asyncUnimplementedUnaryCall(getCreateMatchMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Joins existing match.
+     * </pre>
+     */
+    public void joinMatch(com.regexgame.JoinMatchRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.JoinMatchReply> responseObserver) {
+      asyncUnimplementedUnaryCall(getJoinMatchMethod(), responseObserver);
     }
 
     /**
@@ -242,6 +287,13 @@ public final class RegexGameGrpc {
                 com.regexgame.CreateMatchRequest,
                 com.regexgame.CreateMatchReply>(
                   this, METHODID_CREATE_MATCH)))
+          .addMethod(
+            getJoinMatchMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.regexgame.JoinMatchRequest,
+                com.regexgame.JoinMatchReply>(
+                  this, METHODID_JOIN_MATCH)))
           .addMethod(
             getGetEventsMethod(),
             asyncServerStreamingCall(
@@ -293,11 +345,25 @@ public final class RegexGameGrpc {
     }
 
     /**
+     * <pre>
+     * Creates new match.
+     * </pre>
      */
     public void createMatch(com.regexgame.CreateMatchRequest request,
         io.grpc.stub.StreamObserver<com.regexgame.CreateMatchReply> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getCreateMatchMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Joins existing match.
+     * </pre>
+     */
+    public void joinMatch(com.regexgame.JoinMatchRequest request,
+        io.grpc.stub.StreamObserver<com.regexgame.JoinMatchReply> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getJoinMatchMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -355,10 +421,23 @@ public final class RegexGameGrpc {
     }
 
     /**
+     * <pre>
+     * Creates new match.
+     * </pre>
      */
     public com.regexgame.CreateMatchReply createMatch(com.regexgame.CreateMatchRequest request) {
       return blockingUnaryCall(
           getChannel(), getCreateMatchMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Joins existing match.
+     * </pre>
+     */
+    public com.regexgame.JoinMatchReply joinMatch(com.regexgame.JoinMatchRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getJoinMatchMethod(), getCallOptions(), request);
     }
 
     /**
@@ -416,11 +495,25 @@ public final class RegexGameGrpc {
     }
 
     /**
+     * <pre>
+     * Creates new match.
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.regexgame.CreateMatchReply> createMatch(
         com.regexgame.CreateMatchRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getCreateMatchMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Joins existing match.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.regexgame.JoinMatchReply> joinMatch(
+        com.regexgame.JoinMatchRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getJoinMatchMethod(), getCallOptions()), request);
     }
 
     /**
@@ -437,8 +530,9 @@ public final class RegexGameGrpc {
 
   private static final int METHODID_GET_MESSAGE = 0;
   private static final int METHODID_CREATE_MATCH = 1;
-  private static final int METHODID_GET_EVENTS = 2;
-  private static final int METHODID_MAKE_ACTION = 3;
+  private static final int METHODID_JOIN_MATCH = 2;
+  private static final int METHODID_GET_EVENTS = 3;
+  private static final int METHODID_MAKE_ACTION = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -464,6 +558,10 @@ public final class RegexGameGrpc {
         case METHODID_CREATE_MATCH:
           serviceImpl.createMatch((com.regexgame.CreateMatchRequest) request,
               (io.grpc.stub.StreamObserver<com.regexgame.CreateMatchReply>) responseObserver);
+          break;
+        case METHODID_JOIN_MATCH:
+          serviceImpl.joinMatch((com.regexgame.JoinMatchRequest) request,
+              (io.grpc.stub.StreamObserver<com.regexgame.JoinMatchReply>) responseObserver);
           break;
         case METHODID_GET_EVENTS:
           serviceImpl.getEvents((com.regexgame.GetEventsRequest) request,
@@ -536,6 +634,7 @@ public final class RegexGameGrpc {
               .setSchemaDescriptor(new RegexGameFileDescriptorSupplier())
               .addMethod(getGetMessageMethod())
               .addMethod(getCreateMatchMethod())
+              .addMethod(getJoinMatchMethod())
               .addMethod(getGetEventsMethod())
               .addMethod(getMakeActionMethod())
               .build();
