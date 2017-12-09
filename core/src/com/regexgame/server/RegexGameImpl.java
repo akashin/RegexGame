@@ -1,5 +1,6 @@
 package com.regexgame.server;
 
+import com.badlogic.gdx.utils.LongMap;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
 import com.regexgame.FindMatchReply;
@@ -15,16 +16,13 @@ import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
 import io.grpc.stub.StreamObserver;
 
-import java.util.HashMap;
-
 public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
-    // TODO(akashin): Use libgdx hashmap.
-    HashMap<Long, GameMatch> activeMatches;
+    LongMap<GameMatch> activeMatches;
     long firstFreeMatchIndex = 1;
     long firstFreeSessionToken = 1;
 
     public RegexGameImpl() {
-        this.activeMatches = new HashMap<Long, GameMatch>();
+        this.activeMatches = new LongMap<>();
     }
 
     private long generateMatchIndex() {
@@ -109,9 +107,9 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
     @Override
     public void findMatch(FindMatchRequest request, StreamObserver<FindMatchReply> responseObserver) {
         long matchId = 0;
-        for (HashMap.Entry<Long, GameMatch> match : activeMatches.entrySet()) {
-            if (match.getValue().getMatchState() == GameMatch.MatchState.WaitingForPlayers) {
-                matchId = match.getKey();
+        for (LongMap.Entry<GameMatch> match : activeMatches) {
+            if (match.value.getMatchState() == GameMatch.MatchState.WaitingForPlayers) {
+                matchId = match.key;
                 break;
             }
         }
