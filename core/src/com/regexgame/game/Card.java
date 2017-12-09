@@ -3,33 +3,44 @@ package com.regexgame.game;
 public class Card {
     public enum State {
         Open,
-        Selected,
         Hidden
     }
 
-    public State state;
+    private int id;
 
-    public String attack = "1";
+    private State state;
 
-    public String defence = "1";
+    private String attack;
 
-    public Card(String attack, String defence) {
+    private String defence;
+
+    public Card(int id, String attack, String defence) {
+        this.id = id;
         this.state = State.Open;
         this.attack = attack;
         this.defence = defence;
     }
 
-    public void select() {
-        if (state == State.Open) {
-            state = State.Selected;
-        } else if (state == State.Selected) {
-            state = State.Open;
-        }
+    public void damage(String attack) {
+        int attackValue = Integer.valueOf(attack);
+        int defenseValue = Integer.valueOf(defence);
+        defenseValue = Math.max(0, defenseValue - attackValue);
+        defence = Integer.toString(defenseValue);
     }
 
-    public void resetSelection() {
-        if (state == State.Selected) {
-            state = State.Open;
-        }
+    public int getId() {
+        return id;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public String getAttack() {
+        return attack;
+    }
+
+    public String getDefence() {
+        return defence;
     }
 }

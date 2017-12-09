@@ -3,11 +3,11 @@ package com.regexgame.client.screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
 import com.regexgame.client.RegexGameClient;
 import com.regexgame.client.view.CardView;
 import com.regexgame.game.Card;
 import com.regexgame.game.GameState;
+import com.regexgame.game.Player;
 
 import java.util.Random;
 
@@ -51,19 +51,19 @@ public class GameScreen extends BasicScreen {
 
         table.setFillParent(true);
 
-        for (Card card : gameState.getHand(GameState.Player.Second)) {
+        for (Card card : gameState.getCardsInHand(Player.Second)) {
             Actor cardView = new CardView(card, client.getAssetManager());
             enemyHandGroup.addActor(cardView);
         }
-        for (Card card : gameState.getInPlay(GameState.Player.Second)) {
+        for (Card card : gameState.getCardsInPlay(Player.Second)) {
             Actor cardView = new CardView(card, client.getAssetManager());
             enemyPlayGroup.addActor(cardView);
         }
-        for (Card card : gameState.getInPlay(GameState.Player.First)) {
+        for (Card card : gameState.getCardsInPlay(Player.First)) {
             Actor cardView = new CardView(card, client.getAssetManager());
             playerPlayGroup.addActor(cardView);
         }
-        for (Card card : gameState.getHand(GameState.Player.First)) {
+        for (Card card : gameState.getCardsInHand(Player.First)) {
             Actor cardView = new CardView(card, client.getAssetManager());
             playerHandGroup.addActor(cardView);
         }
@@ -72,32 +72,34 @@ public class GameScreen extends BasicScreen {
     }
 
     // TODO: remove this
-    private Card generateRandomCard(Random random) {
+    private Card generateRandomCard(Random random, int id) {
         String attack = Integer.toString(random.nextInt(10) + 1);
         String defence = Integer.toString(random.nextInt(20) + 1);
-        return new Card(attack, defence);
+        return new Card(id, attack, defence);
     }
 
     // TODO: remove this
     private void generateRandomCards() {
         Random random = new Random();
 
+        int lastId = 0;
+
         for (int i = 0; i < 4; ++i) {
-            Card card = generateRandomCard(random);
-            gameState.getHand(GameState.Player.First).add(card);
+            Card card = generateRandomCard(random, lastId++);
+            gameState.getCardsInHand(Player.First).add(card);
         }
         for (int i = 0; i < 3; ++i) {
-            Card card = generateRandomCard(random);
-            gameState.getInPlay(GameState.Player.First).add(card);
+            Card card = generateRandomCard(random, lastId++);
+            gameState.getCardsInPlay(Player.First).add(card);
         }
 
         for (int i = 0; i < 4; ++i) {
-            Card card = generateRandomCard(random);
-            gameState.getHand(GameState.Player.Second).add(card);
+            Card card = generateRandomCard(random, lastId++);
+            gameState.getCardsInHand(Player.Second).add(card);
         }
         for (int i = 0; i < 3; ++i) {
-            Card card = generateRandomCard(random);
-            gameState.getInPlay(GameState.Player.Second).add(card);
+            Card card = generateRandomCard(random, lastId++);
+            gameState.getCardsInPlay(Player.Second).add(card);
         }
     }
 }

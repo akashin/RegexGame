@@ -3,17 +3,13 @@ package com.regexgame.game;
 import com.badlogic.gdx.utils.Array;
 
 public class GameState {
-    public enum Player {
-        First,
-        Second,
-    }
     private Player currentPlayer;
 
-    private Array<Card> firstPlayerHand;
-    private Array<Card> firstPlayerInPlay;
+    private Cards firstPlayerCardsInHand;
+    private Cards firstPlayerCardsInPlay;
 
-    private Array<Card> secondPlayerHand;
-    private Array<Card> secondPlayerInPlay;
+    private Cards secondPlayerCardsInHand;
+    private Cards secondPlayerCardsInPlay;
 
     /**
      * Create empty GameState which should be updated from server
@@ -21,31 +17,51 @@ public class GameState {
     public GameState() {
         this.currentPlayer = Player.First;
 
-        this.firstPlayerHand = new Array<>();
-        this.firstPlayerInPlay = new Array<>();
+        this.firstPlayerCardsInHand = new Cards();
+        this.firstPlayerCardsInPlay = new Cards();
 
-        this.secondPlayerHand = new Array<>();
-        this.secondPlayerInPlay = new Array<>();
+        this.secondPlayerCardsInHand = new Cards();
+        this.secondPlayerCardsInPlay = new Cards();
     }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public Array<Card> getHand(Player player) {
+    public Cards getCardsInHand(Player player) {
         if (player == Player.First) {
-            return firstPlayerHand;
+            return firstPlayerCardsInHand;
         } else {
-            return secondPlayerHand;
+            return secondPlayerCardsInHand;
         }
     }
 
-    public Array<Card> getInPlay(Player player) {
+    public Cards getCardsInPlay(Player player) {
         if (player == Player.First) {
-            return firstPlayerInPlay;
+            return firstPlayerCardsInPlay;
         } else {
-            return secondPlayerInPlay;
+            return secondPlayerCardsInPlay;
         }
+    }
+
+    public Card getCardInHand(Player player, int id) {
+        Cards cardsInHand = getCardsInHand(player);
+        for (Card card : cardsInHand) {
+            if (card.getId() == id) {
+                return card;
+            }
+        }
+        throw new RuntimeException("There is no card with id = " + id + " in hand of " + player + " player");
+    }
+
+    public Card getCardInPlay(Player player, int id) {
+        Cards cardsInPlay = getCardsInPlay(player);
+        for (Card card : cardsInPlay) {
+            if (card.getId() == id) {
+                return card;
+            }
+        }
+        throw new RuntimeException("There is no card with id = " + id + " in play of " + player + " player");
     }
 
     public Player getOppositePlayer(Player player) {
@@ -54,18 +70,5 @@ public class GameState {
         } else {
             return Player.First;
         }
-    }
-
-    public void selectCardInPlay(int index) {
-        Array<Card> inPlay = getInPlay(currentPlayer);
-        inPlay.get(index).select();
-    }
-
-    public void selectCardToAttack(int index) {
-        for (Card card : getInPlay(currentPlayer)) {
-            card.resetSelection();
-        }
-        Array<Card> inPlay = getInPlay(getOppositePlayer(currentPlayer));
-        Card cardToAttack = inPlay.get(index);
     }
 }
