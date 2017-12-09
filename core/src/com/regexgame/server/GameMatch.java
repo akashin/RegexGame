@@ -1,5 +1,6 @@
 package com.regexgame.server;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongMap;
 import com.regexgame.AttackCard;
 import com.regexgame.CardAttacked;
@@ -7,8 +8,6 @@ import com.regexgame.GameEvent;
 import com.regexgame.NumberChanged;
 import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
-
-import java.util.ArrayList;
 
 // Represents a single game between players.
 public class GameMatch {
@@ -22,12 +21,12 @@ public class GameMatch {
     private int currentValue;
     private Player currentPlayer;
     private LongMap<Player> players;
-    private ArrayList<StreamObserver<GameEvent>> observers;
+    private Array<StreamObserver<GameEvent>> observers;
 
     public GameMatch() {
         matchState = MatchState.WaitingForPlayers;
         players = new LongMap<>();
-        observers = new ArrayList<StreamObserver<GameEvent>>();
+        observers = new Array<>();
         currentPlayer = Player.First;
     }
 
