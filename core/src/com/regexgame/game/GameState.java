@@ -1,15 +1,17 @@
 package com.regexgame.game;
 
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntSet;
 
 public class GameState {
     private Player currentPlayer;
 
     private Cards firstPlayerCardsInHand;
     private Cards firstPlayerCardsInPlay;
+    private IntSet firstPlayerSelectedCards;
 
     private Cards secondPlayerCardsInHand;
     private Cards secondPlayerCardsInPlay;
+    private IntSet secondPlayerSelectedCards;
 
     /**
      * Create empty GameState which should be updated from server
@@ -62,13 +64,5 @@ public class GameState {
             }
         }
         throw new RuntimeException("There is no card with id = " + id + " in play of " + player + " player");
-    }
-
-    public Player getOppositePlayer(Player player) {
-        if (player == Player.First) {
-            return Player.Second;
-        } else {
-            return Player.First;
-        }
     }
 }

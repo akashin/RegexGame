@@ -7,7 +7,7 @@ import com.regexgame.game.Player;
 public class AttackEventHandler extends EventHandler<AttackEvent> {
     @Override
     public EventResponse handle(GameState gameState, AttackEvent event) {
-        Player targetPlayer = gameState.getOppositePlayer(event.getAttacker());
+        Player targetPlayer = event.getAttacker().getOpposite();
         Card attackedCard = gameState.getCardInPlay(targetPlayer, event.getTargetCard());
 
         for (int id : event.getChosenCards()) {
