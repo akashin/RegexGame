@@ -1,6 +1,7 @@
 package com.regexgame.server;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.LongMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.regexgame.AttackCard;
@@ -9,7 +10,12 @@ import com.regexgame.GameEvent;
 import com.regexgame.GameStateUpdated;
 import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
+import com.regexgame.game.event.AttackEvent;
+import com.regexgame.game.event.AttackEventHandler;
 import io.grpc.stub.StreamObserver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // Represents a single game between players.
 public class GameMatch {
@@ -35,13 +41,23 @@ public class GameMatch {
         return state;
     }
 
+    public static Array<Integer> FromList(List<Integer> array) {
+        Array<Integer> result = new Array<>();
+        for (int x : array) {
+            result.add(x);
+        }
+        return result;
+    }
+
     public void attackCard(long session_token, AttackCard action) throws Exception {
         Player player = players.get(session_token);
         if (player != currentPlayer) {
             throw new Exception("Unexpected player move.");
         }
 
-        // TODO(akashin): Implement logic.
+        new AttackEventHandler().handle(gameState, new AttackEvent(
+                player.getOpposite(), player, FromList(action.getAttackerCardsList()), action.getAttackedCard()
+        ));
 
         broadcastEvent(
                 GameEvent.newBuilder().setCardAttacked(
