@@ -9,10 +9,17 @@ package regexgame;
 // Events that are happening in the game, that server sends to the clients.
 message GameEvent {
   oneof event {
-    CardAttacked card_attacked = 1;
+    GameStateUpdated game_state_updated = 1;
+    CardAttacked card_attacked = 2;
   }
 }
 
+// Emitted on the call to GetEvents to pass full game state.
+message GameStateUpdated {
+  // TODO(akashin): Put full visible game state here.
+}
+
+// Emitted on every successful card attack.
 message CardAttacked {
   int32 attacker_id = 1;
   int32 damage = 2;

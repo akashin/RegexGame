@@ -102,6 +102,11 @@ public class RegexGameClient extends Game {
             @Override
             public void onNext(GameEvent value) {
                 switch (value.getEventCase()) {
+                    case GAME_STATE_UPDATED: {
+                        Gdx.app.log("INFO","Received game state: " + value);
+                        // TODO(akashin): Either change screen here or modify data in GameScreen.
+                        break;
+                    }
                     case CARD_ATTACKED: {
                         Gdx.app.log("INFO","Card attacked: " + value);
                         break;

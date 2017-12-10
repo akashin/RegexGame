@@ -2,9 +2,11 @@ package com.regexgame.server;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.regexgame.AttackCard;
 import com.regexgame.CardAttacked;
 import com.regexgame.GameEvent;
+import com.regexgame.GameStateUpdated;
 import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
@@ -19,12 +21,12 @@ public class GameMatch {
     private MatchState state;
     private Player currentPlayer;
     private LongMap<Player> players;
-    private Array<StreamObserver<GameEvent>> observers;
+    private ObjectMap<Player, StreamObserver<GameEvent>> observers;
 
     public GameMatch() {
         state = MatchState.WaitingForPlayers;
         players = new LongMap<>();
-        observers = new Array<>();
+        observers = new ObjectMap<>();
         currentPlayer = Player.First;
     }
 
@@ -52,14 +54,18 @@ public class GameMatch {
 
     // Broadcasts event to all observers.
     private void broadcastEvent(GameEvent event) {
-        for (StreamObserver<GameEvent> observer : observers) {
+        for (StreamObserver<GameEvent> observer : observers.values()) {
             observer.onNext(event);
         }
     }
 
+    private void sendEvent(Player player, GameEvent event) {
+        observers.get(player).onNext(event);
+    }
+
     // Called when match is finished.
     public void finish() {
-        for (StreamObserver<GameEvent> observer : observers) {
+        for (StreamObserver<GameEvent> observer : observers.values()) {
             observer.onCompleted();
         }
     }
@@ -79,6 +85,8 @@ public class GameMatch {
     }
 
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {
-        observers.add(observer);
+        Player player = players.get(session_token);
+        observers.put(player, observer);
+        sendEvent(player, GameEvent.newBuilder().setGameStateUpdated(GameStateUpdated.getDefaultInstance()).build());
     }
 }
