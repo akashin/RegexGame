@@ -15,6 +15,7 @@ import com.regexgame.MakeActionReply;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
 import com.regexgame.game.Player;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
@@ -40,24 +41,33 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
         responseObserver.onCompleted();
     }
 
+    boolean validateMatchId(long matchId, StreamObserver<?> responseObserver) {
+        if (!this.activeMatches.containsKey(matchId)) {
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                    .withDescription("No match with id " + matchId + " found.")
+                    .asRuntimeException());
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void getEvents(GetEventsRequest request, StreamObserver<GameEvent> responseObserver) {
-        if (!this.activeMatches.containsKey(request.getMatchId())) {
-            responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
+        if (!validateMatchId(request.getMatchId(), responseObserver)) {
             return;
         }
+
         GameMatch match = this.activeMatches.get(request.getMatchId());
         match.subscribeForEvents(request.getSessionToken(), responseObserver);
     }
 
     @Override
     public void makeAction(MakeActionRequest request, StreamObserver<MakeActionReply> responseObserver) {
-        if (!this.activeMatches.containsKey(request.getMatchId())) {
-            responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
+        if (!validateMatchId(request.getMatchId(), responseObserver)) {
             return;
         }
-        GameMatch match = this.activeMatches.get(request.getMatchId());
 
+        GameMatch match = this.activeMatches.get(request.getMatchId());
         try {
             switch (request.getAction().getActionCase()) {
                 case INCREASE_NUMBER: {
@@ -94,9 +104,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
 
     @Override
     public void joinMatch(JoinMatchRequest request, StreamObserver<JoinMatchReply> responseObserver) {
-        // TODO(akashin): Move this to a separate function.
-        if (!this.activeMatches.containsKey(request.getMatchId())) {
-            responseObserver.onError(new Exception("No match with id " + request.getMatchId() + " found."));
+        if (!validateMatchId(request.getMatchId(), responseObserver)) {
             return;
         }
 
