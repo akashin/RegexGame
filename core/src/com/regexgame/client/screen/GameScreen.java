@@ -1,8 +1,11 @@
 package com.regexgame.client.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.regexgame.client.RegexGameClient;
 import com.regexgame.client.view.CardView;
 import com.regexgame.game.Card;
@@ -22,12 +25,16 @@ public class GameScreen extends BasicScreen {
 
     private GameState gameState;
 
+    private Player player;
+
     public GameScreen(RegexGameClient client) {
         super(client);
 
         // TODO: load GameState from server
         gameState = new GameState();
         generateRandomCards();
+
+        player = Player.First;
     }
 
     @Override
@@ -35,10 +42,10 @@ public class GameScreen extends BasicScreen {
         super.show();
         Table table = new Table();
 
-        enemyHandGroup = new HorizontalGroup();;
-        enemyPlayGroup = new HorizontalGroup();;
-        playerPlayGroup = new HorizontalGroup();;
-        playerHandGroup = new HorizontalGroup();;
+        enemyHandGroup = new HorizontalGroup();
+        enemyPlayGroup = new HorizontalGroup();
+        playerPlayGroup = new HorizontalGroup();
+        playerHandGroup = new HorizontalGroup();
 
         table.add(enemyHandGroup);
         table.row();
@@ -51,20 +58,59 @@ public class GameScreen extends BasicScreen {
 
         table.setFillParent(true);
 
+        class CardInputListener extends InputListener {
+            private final int cardId;
+
+            private CardInputListener(int cardId) {
+                this.cardId = cardId;
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (gameState.getCurrentPlayer() != player) {
+                    return;
+                }
+
+                if (gameState.isCardInPlay(player, cardId)) {
+                    CardView cardView = (CardView) event.getListenerActor();
+                    cardView.setSelected(!cardView.isSelected());
+                    gameState.selectCardToPlay(cardId);
+                } else if (gameState.isCardInPlay(player.getOpposite(), cardId)) {
+                    for (Actor actor : playerPlayGroup.getChildren()) {
+                        ((CardView) actor).setSelected(false);
+                    }
+                    Array<Integer> playerCards = gameState.getSelectedCards(player);
+                    Array<Integer> enemyCards = new Array<>();
+                    enemyCards.add(cardId);
+                    client.sendAttackAction(playerCards, enemyCards);
+                    gameState.resetSelection();
+                }
+            }
+        }
+
         for (Card card : gameState.getCardsInHand(Player.Second)) {
             Actor cardView = new CardView(card, client.getAssetManager());
+            cardView.addListener(new CardInputListener(card.getId()));
             enemyHandGroup.addActor(cardView);
         }
         for (Card card : gameState.getCardsInPlay(Player.Second)) {
             Actor cardView = new CardView(card, client.getAssetManager());
+            cardView.addListener(new CardInputListener(card.getId()));
             enemyPlayGroup.addActor(cardView);
         }
         for (Card card : gameState.getCardsInPlay(Player.First)) {
             Actor cardView = new CardView(card, client.getAssetManager());
+            cardView.addListener(new CardInputListener(card.getId()));
             playerPlayGroup.addActor(cardView);
         }
         for (Card card : gameState.getCardsInHand(Player.First)) {
             Actor cardView = new CardView(card, client.getAssetManager());
+            cardView.addListener(new CardInputListener(card.getId()));
             playerHandGroup.addActor(cardView);
         }
 

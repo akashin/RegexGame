@@ -11,25 +11,39 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.regexgame.game.Card;
 
 public class CardView extends Actor {
-    static final int CARD_BORDER = 10;
-    static final int CARD_PADDING = 5;
-    static final int CARD_WIDTH = 50;
-    static final int CARD_HEIGHT = 80;
+    private static final int CARD_SPACING = 5;
+    private static final int CARD_PADDING = 10;
+    private static final int CARD_BORDER = 5;
+    private static final int CARD_WIDTH = 50;
+    private static final int CARD_HEIGHT = 80;
 
+    // Data
     private Card card;
 
+    private boolean selected;
+
+    // Assets
     private Sprite cardSprite;
 
+    private Sprite selectionSprite;
+
     private BitmapFont font;
+
     private GlyphLayout glyphLayout;
 
     public CardView(Card card, AssetManager assetManager) {
         this.card = card;
-        setSize(CARD_WIDTH + 2 * CARD_BORDER, CARD_HEIGHT + 2 * CARD_BORDER);
+        this.selected = false;
+
+        setSize(CARD_WIDTH + 2 * CARD_PADDING, CARD_HEIGHT + 2 * CARD_PADDING);
 
         cardSprite = new Sprite(assetManager.get("empty.png", Texture.class));
         cardSprite.setSize(CARD_WIDTH, CARD_HEIGHT);
         cardSprite.setColor(Color.WHITE);
+
+        selectionSprite = new Sprite(assetManager.get("empty.png", Texture.class));
+        selectionSprite.setSize(CARD_WIDTH + 2 * CARD_BORDER, CARD_HEIGHT + 2 * CARD_BORDER);
+        selectionSprite.setColor(Color.RED);
 
         font = assetManager.get("size15.ttf", BitmapFont.class);
         glyphLayout = new GlyphLayout(font, card.getAttack());
@@ -39,15 +53,27 @@ public class CardView extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        cardSprite.setPosition(getX() + CARD_BORDER, getY());
-        cardSprite.setRotation(getRotation());
+        if (selected) {
+            selectionSprite.setPosition(getX() + CARD_PADDING - CARD_BORDER, getY() + CARD_PADDING - CARD_BORDER);
+            selectionSprite.draw(batch, parentAlpha);
+        }
+
+        cardSprite.setPosition(getX() + CARD_PADDING, getY() + CARD_PADDING);
         cardSprite.draw(batch, parentAlpha);
 
         font.draw(
                 batch,
                 card.getAttack(),
-                getX() + CARD_BORDER + CARD_PADDING,
-                getY() + CARD_BORDER + CARD_PADDING + glyphLayout.height
+                getX() + CARD_PADDING + CARD_SPACING,
+                getY() + CARD_PADDING + CARD_SPACING + glyphLayout.height
         );
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

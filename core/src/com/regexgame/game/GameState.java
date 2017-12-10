@@ -1,29 +1,32 @@
 package com.regexgame.game;
 
-import com.badlogic.gdx.utils.IntSet;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 
 public class GameState {
     private Player currentPlayer;
 
     private Cards firstPlayerCardsInHand;
     private Cards firstPlayerCardsInPlay;
-    private IntSet firstPlayerSelectedCards;
+    private Array<Integer> firstPlayerSelectedCards;
 
     private Cards secondPlayerCardsInHand;
     private Cards secondPlayerCardsInPlay;
-    private IntSet secondPlayerSelectedCards;
+    private Array<Integer> secondPlayerSelectedCards;
 
     /**
      * Create empty GameState which should be updated from server
      */
     public GameState() {
-        this.currentPlayer = Player.First;
+        currentPlayer = Player.First;
 
-        this.firstPlayerCardsInHand = new Cards();
-        this.firstPlayerCardsInPlay = new Cards();
+        firstPlayerCardsInHand = new Cards();
+        firstPlayerCardsInPlay = new Cards();
+        firstPlayerSelectedCards = new Array<>();
 
-        this.secondPlayerCardsInHand = new Cards();
-        this.secondPlayerCardsInPlay = new Cards();
+        secondPlayerCardsInHand = new Cards();
+        secondPlayerCardsInPlay = new Cards();
+        secondPlayerSelectedCards = new Array<>();
     }
 
     public Player getCurrentPlayer() {
@@ -46,6 +49,34 @@ public class GameState {
         }
     }
 
+    public int getCardInPlayIndex(Player player, int id) {
+        Cards cardsInPlay = getCardsInPlay(player);
+        for (int i = 0; i < cardsInPlay.size; ++i) {
+            if (cardsInPlay.get(i).getId() == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean isCardInPlay(Player player, int id) {
+        return getCardInPlayIndex(player, id) != -1;
+    }
+
+    public int getCardInHandIndex(Player player, int id) {
+        Cards cardsInHand = getCardsInHand(player);
+        for (int i = 0; i < cardsInHand.size; ++i) {
+            if (cardsInHand.get(i).getId() == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean isCardInHand(Player player, int id) {
+        return getCardInHandIndex(player, id) != -1;
+    }
+
     public Card getCardInHand(Player player, int id) {
         Cards cardsInHand = getCardsInHand(player);
         for (Card card : cardsInHand) {
@@ -64,5 +95,28 @@ public class GameState {
             }
         }
         throw new RuntimeException("There is no card with id = " + id + " in play of " + player + " player");
+    }
+
+    public Array<Integer> getSelectedCards(Player player) {
+        if (player == Player.First) {
+            return firstPlayerSelectedCards;
+        } else {
+            return secondPlayerSelectedCards;
+        }
+    }
+
+    public void selectCardToPlay(int id) {
+        Array<Integer> selectedCards = getSelectedCards(currentPlayer);
+        int index = selectedCards.indexOf(id, true);
+        if (index == -1) {
+            selectedCards.add(id);
+        } else {
+            selectedCards.removeIndex(index);
+        }
+        Gdx.app.log("GameState", "Selected cards of " + currentPlayer + " player: " + selectedCards);
+    }
+
+    public void resetSelection() {
+        getSelectedCards(currentPlayer).clear();
     }
 }
