@@ -43,7 +43,7 @@ public class GameMatch {
         broadcastEvent(
                 GameEvent.newBuilder().setCardAttacked(
                         CardAttacked.newBuilder()
-                                .setPlayerId(player.index)
+                                .setAttackerId(player.index)
                                 .setDamage(1)
                                 .addAllAttackerCards(action.getAttackerCardsList())
                                 .setAttackedCard(action.getAttackedCard())

@@ -14,7 +14,7 @@ message GameEvent {
 }
 
 message CardAttacked {
-  int32 player_id = 1;
+  int32 attacker_id = 1;
   int32 damage = 2;
   repeated int32 attacker_cards = 3;
   int32 attacked_card = 4;
