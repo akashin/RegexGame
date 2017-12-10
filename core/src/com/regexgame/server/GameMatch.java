@@ -1,5 +1,6 @@
 package com.regexgame.server;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.LongMap;
@@ -35,6 +36,8 @@ public class GameMatch {
         state = MatchState.WaitingForPlayers;
         players = new LongMap<>();
         observers = new ObjectMap<>();
+        gameState = new GameState();
+        currentPlayer = Player.First;
     }
 
     public MatchState getState() {
@@ -51,13 +54,14 @@ public class GameMatch {
 
     public void attackCard(long session_token, AttackCard action) throws Exception {
         Player player = players.get(session_token);
+        Gdx.app.log("DEBUG","Player: " + player + ", current player: " + currentPlayer + ".");
         if (player != currentPlayer) {
             throw new Exception("Unexpected player move.");
         }
 
-        new AttackEventHandler().handle(gameState, new AttackEvent(
-                player.getOpposite(), player, FromList(action.getAttackerCardsList()), action.getAttackedCard()
-        ));
+//        new AttackEventHandler().handle(gameState, new AttackEvent(
+//                player.getOpposite(), player, FromList(action.getAttackerCardsList()), action.getAttackedCard()
+//        ));
 
         broadcastEvent(
                 GameEvent.newBuilder().setCardAttacked(

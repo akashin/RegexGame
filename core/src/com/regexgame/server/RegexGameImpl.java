@@ -1,5 +1,6 @@
 package com.regexgame.server;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.LongMap;
 import com.regexgame.CreateMatchReply;
 import com.regexgame.CreateMatchRequest;
@@ -71,6 +72,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
         try {
             switch (request.getAction().getActionCase()) {
                 case ATTACK_CARD: {
+                    Gdx.app.log("INFO", "Attack action: " + request.getAction());
                     match.attackCard(request.getSessionToken(), request.getAction().getAttackCard());
                     break;
                 }
