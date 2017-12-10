@@ -109,7 +109,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
     public void findMatch(FindMatchRequest request, StreamObserver<FindMatchReply> responseObserver) {
         long matchId = 0;
         for (LongMap.Entry<GameMatch> match : activeMatches) {
-            if (match.value.getMatchState() == GameMatch.MatchState.WaitingForPlayers) {
+            if (match.value.getState() == GameMatch.MatchState.WaitingForPlayers) {
                 matchId = match.key;
                 break;
             }

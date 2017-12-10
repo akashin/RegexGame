@@ -17,21 +17,21 @@ public class GameMatch {
         Started
     }
 
-    private MatchState matchState;
+    private MatchState state;
     private int currentValue;
     private Player currentPlayer;
     private LongMap<Player> players;
     private Array<StreamObserver<GameEvent>> observers;
 
     public GameMatch() {
-        matchState = MatchState.WaitingForPlayers;
+        state = MatchState.WaitingForPlayers;
         players = new LongMap<>();
         observers = new Array<>();
         currentPlayer = Player.First;
     }
 
-    public MatchState getMatchState() {
-        return matchState;
+    public MatchState getState() {
+        return state;
     }
 
     public void attackCard(long session_token, AttackCard action) throws Exception {
@@ -88,7 +88,7 @@ public class GameMatch {
         }
         players.put(session_token, player);
         if (players.size == 2) {
-            matchState = MatchState.Started;
+            state = MatchState.Started;
         }
         return player;
     }
