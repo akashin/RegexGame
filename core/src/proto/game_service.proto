@@ -52,6 +52,7 @@ message JoinMatchRequest {
 }
 
 message JoinMatchReply {
+  int32 player_id = 1;
 }
 
 message FindMatchRequest {

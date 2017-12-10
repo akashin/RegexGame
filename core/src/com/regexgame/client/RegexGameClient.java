@@ -28,6 +28,7 @@ import com.regexgame.LoginRequest;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
 import com.regexgame.client.screen.GameScreen;
+import com.regexgame.game.Player;
 import com.regexgame.server.RegexGameServer;
 import io.grpc.ManagedChannel;
 import io.grpc.inprocess.InProcessChannelBuilder;
@@ -43,6 +44,7 @@ public class RegexGameClient extends Game {
     private RegexGameGrpc.RegexGameBlockingStub blockingStub;
     private long sessionToken;
     private long matchId;
+    private Player player;
 
     private AssetManager assetManager;
 
@@ -90,8 +92,9 @@ public class RegexGameClient extends Game {
             JoinMatchReply reply = blockingStub.joinMatch(JoinMatchRequest.newBuilder()
                     .setSessionToken(sessionToken)
                     .setMatchId(matchId).build());
+            player = Player.getByIndex(reply.getPlayerId());
         }
-        Gdx.app.log("INFO", "Connected to match " + matchId);
+        Gdx.app.log("INFO", "Connected to match " + matchId + " as player " + player);
 
         stub.getEvents(GetEventsRequest.newBuilder()
                 .setSessionToken(sessionToken)

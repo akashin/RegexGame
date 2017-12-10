@@ -79,7 +79,7 @@ public class GameMatch {
         }
     }
 
-    public void addPlayer(long session_token) {
+    public Player addPlayer(long session_token) {
         Player player;
         if (players.size == 0) {
             player = Player.First;
@@ -90,6 +90,7 @@ public class GameMatch {
         if (players.size == 2) {
             matchState = MatchState.Started;
         }
+        return player;
     }
 
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {

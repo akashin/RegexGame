@@ -14,6 +14,7 @@ import com.regexgame.LoginRequest;
 import com.regexgame.MakeActionReply;
 import com.regexgame.MakeActionRequest;
 import com.regexgame.RegexGameGrpc;
+import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
 public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
@@ -99,8 +100,8 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
             return;
         }
 
-        this.activeMatches.get(request.getMatchId()).addPlayer(request.getSessionToken());
-        responseObserver.onNext(JoinMatchReply.getDefaultInstance());
+        Player player = this.activeMatches.get(request.getMatchId()).addPlayer(request.getSessionToken());
+        responseObserver.onNext(JoinMatchReply.newBuilder().setPlayerId(player.index).build());
         responseObserver.onCompleted();
     }
 
