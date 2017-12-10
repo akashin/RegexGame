@@ -70,14 +70,6 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
         GameMatch match = this.activeMatches.get(request.getMatchId());
         try {
             switch (request.getAction().getActionCase()) {
-                case INCREASE_NUMBER: {
-                    match.increaseValue();
-                    break;
-                }
-                case DECREASE_NUMBER: {
-                    match.decreaseValue();
-                    break;
-                }
                 case ATTACK_CARD: {
                     match.attackCard(request.getSessionToken(), request.getAction().getAttackCard());
                     break;

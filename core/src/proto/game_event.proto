@@ -9,14 +9,8 @@ package regexgame;
 // Events that are happening in the game, that server sends to the clients.
 message GameEvent {
   oneof event {
-    NumberChanged number_changed = 1;
-    CardAttacked card_attacked = 2;
+    CardAttacked card_attacked = 1;
   }
-}
-
-// Indicates that the number have changed.
-message NumberChanged {
-  int32 value = 1;
 }
 
 message CardAttacked {

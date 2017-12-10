@@ -6,18 +6,11 @@ option objc_class_prefix = "HLW";
 
 package regexgame;
 
+// Actions that the client performs in the game.
 message GameAction {
   oneof action {
-    IncreaseNumber increase_number = 1;
-    DecreaseNumber decrease_number = 2;
-    AttackCard attack_card = 3;
+    AttackCard attack_card = 1;
   }
-}
-
-message IncreaseNumber {
-}
-
-message DecreaseNumber {
 }
 
 message AttackCard {

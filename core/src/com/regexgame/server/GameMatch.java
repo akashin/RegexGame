@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.LongMap;
 import com.regexgame.AttackCard;
 import com.regexgame.CardAttacked;
 import com.regexgame.GameEvent;
-import com.regexgame.NumberChanged;
 import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
@@ -18,7 +17,6 @@ public class GameMatch {
     }
 
     private MatchState state;
-    private int currentValue;
     private Player currentPlayer;
     private LongMap<Player> players;
     private Array<StreamObserver<GameEvent>> observers;
@@ -52,24 +50,11 @@ public class GameMatch {
                 ).build());
     }
 
-    public void increaseValue() {
-        setValue(currentValue + 1);
-    }
-
-    public void decreaseValue() {
-        setValue(currentValue - 1);
-    }
-
     // Broadcasts event to all observers.
     private void broadcastEvent(GameEvent event) {
         for (StreamObserver<GameEvent> observer : observers) {
             observer.onNext(event);
         }
-    }
-
-    private void setValue(int new_value) {
-        currentValue = new_value;
-        broadcastEvent(GameEvent.newBuilder().setNumberChanged(NumberChanged.newBuilder().setValue(new_value)).build());
     }
 
     // Called when match is finished.
