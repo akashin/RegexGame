@@ -7,6 +7,7 @@ import com.regexgame.AttackCard;
 import com.regexgame.CardAttacked;
 import com.regexgame.GameEvent;
 import com.regexgame.GameStateUpdated;
+import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
 import io.grpc.stub.StreamObserver;
 
@@ -18,6 +19,7 @@ public class GameMatch {
         Started
     }
 
+    private GameState gameState;
     private MatchState state;
     private Player currentPlayer;
     private LongMap<Player> players;
@@ -27,7 +29,6 @@ public class GameMatch {
         state = MatchState.WaitingForPlayers;
         players = new LongMap<>();
         observers = new ObjectMap<>();
-        currentPlayer = Player.First;
     }
 
     public MatchState getState() {
@@ -79,9 +80,15 @@ public class GameMatch {
         }
         players.put(session_token, player);
         if (players.size == 2) {
-            state = MatchState.Started;
+            startGame();
         }
         return player;
+    }
+
+    private void startGame() {
+        state = MatchState.Started;
+        gameState = new GameState();
+        currentPlayer = Player.First;
     }
 
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {
