@@ -39,6 +39,18 @@ public class GameScreen extends BasicScreen {
     private final int incomingEventsQueueCapacity = 1000;
     AtomicQueue<Event> incomingEvents;
 
+    Array<Event> getAllIncomingEvents() {
+        Array<Event> events = new Array<>();
+        while (true) {
+            Event event = incomingEvents.poll();
+            if (event == null) {
+                break;
+            }
+            events.add(event);
+        }
+        return events;
+    }
+
     public GameScreen(RegexGameClient game, MatchConnection matchConnection) {
         super(game);
         this.matchConnection = matchConnection;
