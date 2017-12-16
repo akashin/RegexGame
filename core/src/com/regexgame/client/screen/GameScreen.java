@@ -32,8 +32,8 @@ public class GameScreen extends BasicScreen {
     private Player player;
     private MatchConnection matchConnection;
 
-    public GameScreen(RegexGameClient client, MatchConnection matchConnection) {
-        super(client);
+    public GameScreen(RegexGameClient game, MatchConnection matchConnection) {
+        super(game);
         this.matchConnection = matchConnection;
         player = this.matchConnection.getPlayer();
 
