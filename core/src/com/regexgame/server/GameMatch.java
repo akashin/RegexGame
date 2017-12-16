@@ -1,17 +1,16 @@
 package com.regexgame.server;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.LongMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.regexgame.AttackCard;
 import com.regexgame.CardAttacked;
 import com.regexgame.GameEvent;
 import com.regexgame.GameStateUpdated;
-import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
+import com.regexgame.game.event.Event;
 import io.grpc.stub.StreamObserver;
+
+import java.util.function.Consumer;
 
 // Represents a single game between players.
 public class GameMatch {
@@ -22,7 +21,9 @@ public class GameMatch {
     }
 
     private MatchState state;
-    private Player currentPlayer;
+
+    private MatchGameState matchGameState;
+
     private LongMap<Player> players;
     private ObjectMap<Player, StreamObserver<GameEvent>> observers;
 
@@ -40,20 +41,16 @@ public class GameMatch {
         if (state != MatchState.Started) {
             throw new Exception("Game has not started yet.");
         }
-
         Player player = players.get(session_token);
-        if (player != currentPlayer) {
-            throw new Exception("Unexpected player move.");
-        }
 
-        broadcastEvent(
-                GameEvent.newBuilder().setCardAttacked(
-                        CardAttacked.newBuilder()
-                                .setAttackerId(player.index)
-                                .setDamage(1)
-                                .addAllAttackerCards(action.getAttackerCardsList())
-                                .setAttackedCard(action.getAttackedCard())
-                ).build());
+        ObjectMap<Player, Event> events = matchGameState.attackCard(player, action);
+        events.forEach(new Consumer<ObjectMap.Entry<Player, Event>>() {
+            @Override
+            public void accept(ObjectMap.Entry<Player, Event> playerEventEntry) {
+                sendEvent(playerEventEntry.key, playerEventEntry.value.toProto());
+            }
+        });
+
     }
 
     // Broadcasts event to all observers.
@@ -90,7 +87,7 @@ public class GameMatch {
 
     private void startGame() {
         state = MatchState.Started;
-        currentPlayer = Player.First;
+        matchGameState = new MatchGameState();
     }
 
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {

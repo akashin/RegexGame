@@ -2,7 +2,6 @@ package com.regexgame.game.event;
 
 import com.badlogic.gdx.Gdx;
 import com.regexgame.GameEvent;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 public class ProtoParser {
     public static Event parseEvent(GameEvent gameEvent) {

@@ -1,6 +1,8 @@
 package com.regexgame.game.event;
 
 import com.badlogic.gdx.utils.Array;
+import com.regexgame.CardAttacked;
+import com.regexgame.GameEvent;
 import com.regexgame.game.Player;
 
 public class AttackEvent extends Event {
@@ -27,5 +29,14 @@ public class AttackEvent extends Event {
 
     public int getTargetCard() {
         return targetCard;
+    }
+
+    public GameEvent toProto() {
+        return GameEvent.newBuilder()
+                .setCardAttacked(CardAttacked.newBuilder()
+                        .setAttackerId(attacker.index)
+                        .addAllAttackerCards(new Array.ArrayIterable<>(chosenCards))
+                        .setAttackedCard(targetCard))
+                .build();
     }
 }
