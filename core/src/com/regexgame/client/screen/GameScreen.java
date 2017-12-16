@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.AtomicQueue;
 import com.regexgame.GameEvent;
 import com.regexgame.client.MatchConnection;
 import com.regexgame.client.RegexGameClient;
@@ -14,6 +15,9 @@ import com.regexgame.client.view.CardView;
 import com.regexgame.game.Card;
 import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
+import com.regexgame.game.event.AttackEvent;
+import com.regexgame.game.event.Event;
+import com.regexgame.game.event.ProtoParser;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Random;
@@ -32,27 +36,21 @@ public class GameScreen extends BasicScreen {
     private Player player;
     private MatchConnection matchConnection;
 
+    private final int incomingEventsQueueCapacity = 1000;
+    AtomicQueue<Event> incomingEvents;
+
     public GameScreen(RegexGameClient game, MatchConnection matchConnection) {
         super(game);
         this.matchConnection = matchConnection;
         player = this.matchConnection.getPlayer();
+        incomingEvents = new AtomicQueue<>(incomingEventsQueueCapacity);
 
         this.matchConnection.getEvents(new StreamObserver<GameEvent>() {
             @Override
             public void onNext(GameEvent value) {
-                switch (value.getEventCase()) {
-                    case GAME_STATE_UPDATED: {
-                        Gdx.app.log("INFO","Received game state: " + value);
-                        // TODO(akashin): Either change screen here or modify data in GameScreen.
-                        break;
-                    }
-                    case CARD_ATTACKED: {
-                        Gdx.app.log("INFO","Card attacked: " + value);
-                        break;
-                    }
-                    default: {
-                        Gdx.app.log("ERROR", "Unrecognized event: " + value);
-                    }
+                Event parsed = ProtoParser.parseEvent(value);
+                if (parsed != null) {
+                    incomingEvents.put(parsed);
                 }
             }
 

@@ -11,12 +11,7 @@ import com.regexgame.GameEvent;
 import com.regexgame.GameStateUpdated;
 import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
-import com.regexgame.game.event.AttackEvent;
-import com.regexgame.game.event.AttackEventHandler;
 import io.grpc.stub.StreamObserver;
-
-import java.util.ArrayList;
-import java.util.List;
 
 // Represents a single game between players.
 public class GameMatch {
@@ -26,7 +21,6 @@ public class GameMatch {
         Started
     }
 
-    private GameState gameState;
     private MatchState state;
     private Player currentPlayer;
     private LongMap<Player> players;
@@ -42,14 +36,6 @@ public class GameMatch {
         return state;
     }
 
-    public static Array<Integer> FromList(List<Integer> array) {
-        Array<Integer> result = new Array<>();
-        for (int x : array) {
-            result.add(x);
-        }
-        return result;
-    }
-
     public void attackCard(long session_token, AttackCard action) throws Exception {
         if (state != MatchState.Started) {
             throw new Exception("Game has not started yet.");
@@ -59,10 +45,6 @@ public class GameMatch {
         if (player != currentPlayer) {
             throw new Exception("Unexpected player move.");
         }
-
-//        new AttackEventHandler().handle(gameState, new AttackEvent(
-//                player.getOpposite(), player, FromList(action.getAttackerCardsList()), action.getAttackedCard()
-//        ));
 
         broadcastEvent(
                 GameEvent.newBuilder().setCardAttacked(
@@ -108,7 +90,6 @@ public class GameMatch {
 
     private void startGame() {
         state = MatchState.Started;
-        gameState = new GameState();
         currentPlayer = Player.First;
     }
 
