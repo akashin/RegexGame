@@ -11,12 +11,12 @@ public abstract class BasicScreen implements Screen, InputProcessor {
 
     private float accumulatedTime = 0;
 
-    protected final RegexGameClient client;
+    protected final RegexGameClient game;
 
     protected Stage stage;
 
-    public BasicScreen(RegexGameClient client) {
-        this.client = client;
+    public BasicScreen(RegexGameClient game) {
+        this.game = game;
     }
 
     @Override

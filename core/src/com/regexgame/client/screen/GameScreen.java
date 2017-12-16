@@ -129,22 +129,22 @@ public class GameScreen extends BasicScreen {
         }
 
         for (Card card : gameState.getCardsInHand(Player.Second)) {
-            Actor cardView = new CardView(card, client.getAssetManager());
+            Actor cardView = new CardView(card, game.getAssetManager());
             cardView.addListener(new CardInputListener(card.getId()));
             enemyHandGroup.addActor(cardView);
         }
         for (Card card : gameState.getCardsInPlay(Player.Second)) {
-            Actor cardView = new CardView(card, client.getAssetManager());
+            Actor cardView = new CardView(card, game.getAssetManager());
             cardView.addListener(new CardInputListener(card.getId()));
             enemyPlayGroup.addActor(cardView);
         }
         for (Card card : gameState.getCardsInPlay(Player.First)) {
-            Actor cardView = new CardView(card, client.getAssetManager());
+            Actor cardView = new CardView(card, game.getAssetManager());
             cardView.addListener(new CardInputListener(card.getId()));
             playerPlayGroup.addActor(cardView);
         }
         for (Card card : gameState.getCardsInHand(Player.First)) {
-            Actor cardView = new CardView(card, client.getAssetManager());
+            Actor cardView = new CardView(card, game.getAssetManager());
             cardView.addListener(new CardInputListener(card.getId()));
             playerHandGroup.addActor(cardView);
         }
