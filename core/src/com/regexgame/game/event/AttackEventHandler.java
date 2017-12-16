@@ -17,15 +17,17 @@ public class AttackEventHandler extends EventHandler {
         Player targetPlayer = attackEvent.getAttacker().getOpposite();
         Card attackedCard = gameState.getCardInPlay(targetPlayer, attackEvent.getTargetCard());
 
+        int damageDealt = 0;
         for (int id : attackEvent.getChosenCards()) {
             Card card = gameState.getCardInPlay(attackEvent.getAttacker(), id);
-            attackedCard.damage(card.getAttack());
+            damageDealt += attackedCard.damage(card.getAttack());
         }
 
         return new AttackEventResponse(
                 attackEvent.getAttacker(),
                 attackEvent.getChosenCards(),
-                attackEvent.getTargetCard()
+                attackEvent.getTargetCard(),
+                damageDealt
         );
     }
 }

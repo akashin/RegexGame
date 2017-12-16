@@ -10,9 +10,17 @@ public class AttackEventResponse extends EventResponse {
 
     public final int targetCard;
 
-    public AttackEventResponse(Player attacker, Array<Integer> chosenCards, int targetCard) {
+    public final int damageDealt;
+
+    public AttackEventResponse(
+            Player attacker,
+            Array<Integer> chosenCards,
+            int targetCard,
+            int damageDealt
+    ) {
         this.attacker = attacker;
         this.chosenCards = chosenCards;
         this.targetCard = targetCard;
+        this.damageDealt = damageDealt;
     }
 }

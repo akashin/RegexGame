@@ -48,11 +48,27 @@ public class GameState {
         }
     }
 
+    public void setCardsInHand(Player player, Cards cards) {
+        if (player == Player.First) {
+            firstPlayerCardsInHand = cards;
+        } else {
+            secondPlayerCardsInHand = cards;
+        }
+    }
+
     public Cards getCardsInPlay(Player player) {
         if (player == Player.First) {
             return firstPlayerCardsInPlay;
         } else {
             return secondPlayerCardsInPlay;
+        }
+    }
+
+    public void setCardsInPlay(Player player, Cards cards) {
+        if (player == Player.First) {
+            firstPlayerCardsInPlay = cards;
+        } else {
+            secondPlayerCardsInPlay = cards;
         }
     }
 

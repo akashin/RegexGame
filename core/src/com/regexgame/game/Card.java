@@ -21,11 +21,12 @@ public class Card {
         this.defence = defence;
     }
 
-    public void damage(String attack) {
+    public int damage(String attack) {
         int attackValue = Integer.valueOf(attack);
         int defenseValue = Integer.valueOf(defence);
-        defenseValue = Math.max(0, defenseValue - attackValue);
-        defence = Integer.toString(defenseValue);
+        int damageDealt = Math.min(defenseValue, attackValue);
+        defence = Integer.toString(defenseValue - damageDealt);
+        return damageDealt;
     }
 
     public int getId() {
