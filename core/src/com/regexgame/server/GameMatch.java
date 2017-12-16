@@ -43,13 +43,8 @@ public class GameMatch {
         }
         Player player = players.get(session_token);
 
-        ObjectMap<Player, Event> events = matchGameState.attackCard(player, action);
-        events.forEach(new Consumer<ObjectMap.Entry<Player, Event>>() {
-            @Override
-            public void accept(ObjectMap.Entry<Player, Event> playerEventEntry) {
-                sendEvent(playerEventEntry.key, playerEventEntry.value.toProto());
-            }
-        });
+        matchGameState.attackCard(player, action)
+                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
 
     }
 
@@ -93,6 +88,8 @@ public class GameMatch {
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {
         Player player = players.get(session_token);
         observers.put(player, observer);
-        sendEvent(player, GameEvent.newBuilder().setGameStateUpdated(GameStateUpdated.getDefaultInstance()).build());
+
+        matchGameState.getGameStateUpdate(player)
+                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
     }
 }

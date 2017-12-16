@@ -1,5 +1,8 @@
 package com.regexgame.game.event;
 
+import com.badlogic.gdx.utils.Json;
+import com.regexgame.GameEvent;
+import com.regexgame.GameStateUpdated;
 import com.regexgame.game.Cards;
 import com.regexgame.game.Player;
 
@@ -48,5 +51,13 @@ public class GameStateUpdateEvent extends Event {
 
     public Cards getSecondPlayerCardsInPlay() {
         return secondPlayerCardsInPlay;
+    }
+
+    public GameEvent toProto() {
+        Json json = new Json();
+        return GameEvent.newBuilder()
+                .setGameStateUpdated(GameStateUpdated.newBuilder()
+                        .setJsonEncoded(json.toJson(this)))
+                .build();
     }
 }

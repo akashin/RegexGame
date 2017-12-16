@@ -1,6 +1,7 @@
 package com.regexgame.game.event;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Json;
 import com.regexgame.GameEvent;
 
 public class ProtoParser {
@@ -8,8 +9,8 @@ public class ProtoParser {
         switch (gameEvent.getEventCase()) {
             case GAME_STATE_UPDATED: {
                 Gdx.app.log("INFO","Received game state: " + gameEvent);
-                // TODO(akashin): Either change screen here or modify data in GameScreen.
-                return null;
+                Json json = new Json();
+                return json.fromJson(GameStateUpdateEvent.class, gameEvent.getGameStateUpdated().getJsonEncoded());
             }
             case CARD_ATTACKED: {
                 Gdx.app.log("INFO","Card attacked: " + gameEvent);

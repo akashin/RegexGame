@@ -16,7 +16,7 @@ message GameEvent {
 
 // Emitted on the call to GetEvents to pass full game state.
 message GameStateUpdated {
-  // TODO(akashin): Put full visible game state here.
+  string json_encoded = 1;
 }
 
 // Emitted on every successful card attack.
