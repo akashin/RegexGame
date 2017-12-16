@@ -15,9 +15,7 @@ import com.regexgame.client.view.CardView;
 import com.regexgame.game.Card;
 import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
-import com.regexgame.game.event.AttackEvent;
-import com.regexgame.game.event.Event;
-import com.regexgame.game.event.ProtoParser;
+import com.regexgame.game.event.*;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Random;
@@ -38,6 +36,8 @@ public class GameScreen extends BasicScreen {
 
     private final int incomingEventsQueueCapacity = 1000;
     AtomicQueue<Event> incomingEvents;
+
+    private Array<EventHandler> eventHandlers;
 
     Array<Event> getAllIncomingEvents() {
         Array<Event> events = new Array<>();
@@ -80,6 +80,10 @@ public class GameScreen extends BasicScreen {
         // TODO: load GameState from server
         gameState = new GameState();
         generateRandomCards();
+
+        eventHandlers = new Array<>();
+        eventHandlers.add(new AttackEventHandler());
+        eventHandlers.add(new GameStateUpdateEventHandler());
     }
 
     @Override
@@ -160,6 +164,26 @@ public class GameScreen extends BasicScreen {
         }
 
         stage.addActor(table);
+    }
+
+    @Override
+    protected void update(float delta) {
+        super.update(delta);
+
+        Array<Event> events = getAllIncomingEvents();
+        for (Event event : events) {
+            EventResponse response = handleEvent(event);
+            Gdx.app.log("EventResponse", response.getClass().getName());
+        }
+    }
+
+    private EventResponse handleEvent(Event event) {
+        for (EventHandler eventHandler : eventHandlers) {
+            if (eventHandler.canBeHandled(gameState, event)) {
+                return eventHandler.handle(gameState, event);
+            }
+        }
+        throw new RuntimeException("Event was not handled");
     }
 
     // TODO: remove this
