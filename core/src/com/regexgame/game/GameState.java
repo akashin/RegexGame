@@ -2,6 +2,9 @@ package com.regexgame.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.regexgame.game.event.Event;
+import com.regexgame.game.event.EventHandler;
+import com.regexgame.game.event.EventResponse;
 
 public class GameState {
     private Player currentPlayer;
@@ -13,6 +16,8 @@ public class GameState {
     private Cards secondPlayerCardsInHand;
     private Cards secondPlayerCardsInPlay;
     private Array<Integer> secondPlayerSelectedCards;
+
+    private Array<EventHandler> eventHandlers;
 
     /**
      * Create empty GameState which should be updated from server
@@ -27,6 +32,8 @@ public class GameState {
         secondPlayerCardsInHand = new Cards();
         secondPlayerCardsInPlay = new Cards();
         secondPlayerSelectedCards = new Array<>();
+
+        eventHandlers = new Array<>();
     }
 
     public Player getCurrentPlayer() {
@@ -118,5 +125,18 @@ public class GameState {
 
     public void resetSelection() {
         getSelectedCards(currentPlayer).clear();
+    }
+
+    public void addEventHandler(EventHandler eventHandler) {
+        eventHandlers.add(eventHandler);
+    }
+
+    public EventResponse processEvent(Event event) {
+        for (EventHandler eventHandler : eventHandlers) {
+            if (eventHandler.canBeHandled(this, event)) {
+                return eventHandler.handle(this, event);
+            }
+        }
+        throw new RuntimeException("Event was not handled");
     }
 }

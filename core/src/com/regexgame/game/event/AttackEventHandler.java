@@ -4,17 +4,28 @@ import com.regexgame.game.Card;
 import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
 
-public class AttackEventHandler extends EventHandler<AttackEvent> {
+public class AttackEventHandler extends EventHandler {
     @Override
-    public EventResponse handle(GameState gameState, AttackEvent event) {
-        Player targetPlayer = event.getAttacker().getOpposite();
-        Card attackedCard = gameState.getCardInPlay(targetPlayer, event.getTargetCard());
+    public boolean canBeHandled(GameState gameState, Event event) {
+        return event instanceof AttackEvent;
+    }
 
-        for (int id : event.getChosenCards()) {
-            Card card = gameState.getCardInPlay(event.getAttacker(), id);
+    @Override
+    public EventResponse handle(GameState gameState, Event event) {
+        AttackEvent attackEvent = (AttackEvent) event;
+
+        Player targetPlayer = attackEvent.getAttacker().getOpposite();
+        Card attackedCard = gameState.getCardInPlay(targetPlayer, attackEvent.getTargetCard());
+
+        for (int id : attackEvent.getChosenCards()) {
+            Card card = gameState.getCardInPlay(attackEvent.getAttacker(), id);
             attackedCard.damage(card.getAttack());
         }
 
-        return new AttackEventResponse(event.getAttacker(), event.getChosenCards(), event.getTargetCard());
+        return new AttackEventResponse(
+                attackEvent.getAttacker(),
+                attackEvent.getChosenCards(),
+                attackEvent.getTargetCard()
+        );
     }
 }
