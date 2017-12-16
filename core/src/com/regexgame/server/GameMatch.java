@@ -56,7 +56,9 @@ public class GameMatch {
     }
 
     private void sendEvent(Player player, GameEvent event) {
-        observers.get(player).onNext(event);
+        if (observers.containsKey(player)) {
+            observers.get(player).onNext(event);
+        }
     }
 
     // Called when match is finished.
@@ -83,13 +85,20 @@ public class GameMatch {
     private void startGame() {
         state = MatchState.Started;
         matchGameState = new MatchGameState();
+
+        matchGameState.getGameStateUpdate(Player.First)
+                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
+        matchGameState.getGameStateUpdate(Player.Second)
+                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
     }
 
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {
         Player player = players.get(session_token);
         observers.put(player, observer);
 
-        matchGameState.getGameStateUpdate(player)
-                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
+        if (state != MatchState.WaitingForPlayers) {
+            matchGameState.getGameStateUpdate(player)
+                    .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
+        }
     }
 }
