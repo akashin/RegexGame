@@ -39,12 +39,7 @@ public class MatchGameState {
 
     public <T> Array<T> toArray(Iterable<T> list) {
         Array<T> result = new Array<>();
-        list.forEach(new Consumer<T>() {
-            @Override
-            public void accept(T t) {
-                result.add(t);
-            }
-        });
+        list.forEach(t -> result.add(t));
         return result;
     }
 
