@@ -14,7 +14,8 @@ public class ProtoParser {
             }
             case CARD_ATTACKED: {
                 Gdx.app.log("INFO","Card attacked: " + gameEvent);
-                return null;
+                Json json = new Json();
+                return json.fromJson(AttackEvent.class, gameEvent.getCardAttacked().getJsonEncoded());
             }
             default: {
                 Gdx.app.log("ERROR", "Unrecognized event: " + gameEvent);

@@ -1,6 +1,7 @@
 package com.regexgame.game.event;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.regexgame.CardAttacked;
 import com.regexgame.GameEvent;
 import com.regexgame.game.Player;
@@ -32,11 +33,10 @@ public class AttackEvent extends Event {
     }
 
     public GameEvent toProto() {
+        Json json = new Json();
         return GameEvent.newBuilder()
                 .setCardAttacked(CardAttacked.newBuilder()
-                        .setAttackerId(attacker.index)
-                        .addAllAttackerCards(new Array.ArrayIterable<>(chosenCards))
-                        .setAttackedCard(targetCard))
+                        .setJsonEncoded(json.toJson(this)))
                 .build();
     }
 }
