@@ -25,6 +25,15 @@ public class MatchGameState {
     private Array<Integer> secondPlayerSelectedCards;
 
     MatchGameState() {
+        currentPlayer = Player.First;
+        firstPlayerCardsInHand = new Cards();
+        firstPlayerCardsInPlay = new Cards();
+        firstPlayerSelectedCards = new Array<>();
+
+        secondPlayerCardsInHand = new Cards();
+        secondPlayerCardsInPlay = new Cards();
+        secondPlayerSelectedCards = new Array<>();
+
         generateRandomCards();
     }
 
