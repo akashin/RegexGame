@@ -81,7 +81,10 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
                 }
             }
         } catch (Exception e) {
-            responseObserver.onError(e);
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                    .withDescription(e.getMessage())
+                    .withCause(e) // This can be attached to the Status locally, but NOT transmitted to the client!
+                    .asRuntimeException());
             return;
         }
         responseObserver.onNext(MakeActionReply.getDefaultInstance());

@@ -36,8 +36,6 @@ public class GameMatch {
         state = MatchState.WaitingForPlayers;
         players = new LongMap<>();
         observers = new ObjectMap<>();
-        gameState = new GameState();
-        currentPlayer = Player.First;
     }
 
     public MatchState getState() {
@@ -53,8 +51,11 @@ public class GameMatch {
     }
 
     public void attackCard(long session_token, AttackCard action) throws Exception {
+        if (state != MatchState.Started) {
+            throw new Exception("Game has not started yet.");
+        }
+
         Player player = players.get(session_token);
-        Gdx.app.log("DEBUG","Player: " + player + ", current player: " + currentPlayer + ".");
         if (player != currentPlayer) {
             throw new Exception("Unexpected player move.");
         }
