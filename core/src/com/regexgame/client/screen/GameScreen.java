@@ -1,16 +1,20 @@
 package com.regexgame.client.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import com.regexgame.GameEvent;
+import com.regexgame.client.MatchConnection;
 import com.regexgame.client.RegexGameClient;
 import com.regexgame.client.view.CardView;
 import com.regexgame.game.Card;
 import com.regexgame.game.GameState;
 import com.regexgame.game.Player;
+import io.grpc.stub.StreamObserver;
 
 import java.util.Random;
 
@@ -26,15 +30,46 @@ public class GameScreen extends BasicScreen {
     private GameState gameState;
 
     private Player player;
+    private MatchConnection matchConnection;
 
-    public GameScreen(RegexGameClient client) {
+    public GameScreen(RegexGameClient client, MatchConnection matchConnection) {
         super(client);
+        this.matchConnection = matchConnection;
+        player = this.matchConnection.getPlayer();
+
+        this.matchConnection.getEvents(new StreamObserver<GameEvent>() {
+            @Override
+            public void onNext(GameEvent value) {
+                switch (value.getEventCase()) {
+                    case GAME_STATE_UPDATED: {
+                        Gdx.app.log("INFO","Received game state: " + value);
+                        // TODO(akashin): Either change screen here or modify data in GameScreen.
+                        break;
+                    }
+                    case CARD_ATTACKED: {
+                        Gdx.app.log("INFO","Card attacked: " + value);
+                        break;
+                    }
+                    default: {
+                        Gdx.app.log("ERROR", "Unrecognized event: " + value);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Gdx.app.log("ERROR", "Error received: " + t.toString());
+            }
+
+            @Override
+            public void onCompleted() {
+                Gdx.app.log("INFO", "Match completed.");
+            }
+        });
 
         // TODO: load GameState from server
         gameState = new GameState();
         generateRandomCards();
-
-        player = Player.First;
     }
 
     @Override
@@ -87,7 +122,7 @@ public class GameScreen extends BasicScreen {
                     Array<Integer> playerCards = gameState.getSelectedCards(player);
                     Array<Integer> enemyCards = new Array<>();
                     enemyCards.add(cardId);
-                    client.sendAttackAction(playerCards, enemyCards);
+                    matchConnection.sendAttackAction(playerCards, enemyCards);
                     gameState.resetSelection();
                 }
             }
