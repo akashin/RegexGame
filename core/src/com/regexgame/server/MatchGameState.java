@@ -3,6 +3,7 @@ package com.regexgame.server;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.regexgame.AttackCard;
+import com.regexgame.common.Utils;
 import com.regexgame.game.Card;
 import com.regexgame.game.Cards;
 import com.regexgame.game.Player;
@@ -37,12 +38,6 @@ public class MatchGameState {
         generateRandomCards();
     }
 
-    public <T> Array<T> toArray(Iterable<T> list) {
-        Array<T> result = new Array<>();
-        list.forEach(t -> result.add(t));
-        return result;
-    }
-
     public ObjectMap<Player, Event> attackCard(Player player, AttackCard action) throws Exception {
         if (player != currentPlayer) {
             throw new Exception("Unexpected player move.");
@@ -50,7 +45,7 @@ public class MatchGameState {
 
         ObjectMap<Player, Event> events = new ObjectMap<>();
 
-        Event event = new AttackEvent(player.getOpposite(), player, toArray(action.getAttackerCardsList()),
+        Event event = new AttackEvent(player.getOpposite(), player, Utils.toArray(action.getAttackerCardsList()),
                 action.getAttackedCard());
 
         events.put(Player.First, event);
