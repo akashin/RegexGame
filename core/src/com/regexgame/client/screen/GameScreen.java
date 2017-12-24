@@ -60,9 +60,14 @@ public class GameScreen extends BasicScreen {
         this.matchConnection.getEvents(new StreamObserver<GameEvent>() {
             @Override
             public void onNext(GameEvent value) {
-                Event parsed = ProtoParser.parseEvent(value);
-                if (parsed != null) {
-                    incomingEvents.put(parsed);
+                try {
+                    Event parsed = ProtoParser.parseEvent(value);
+                    if (parsed != null) {
+                        incomingEvents.put(parsed);
+                    }
+                } catch (Throwable t) {
+                    Gdx.app.log("ERROR","Failed to process event: " + t);
+                    throw t;
                 }
             }
 
