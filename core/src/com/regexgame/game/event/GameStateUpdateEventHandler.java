@@ -1,23 +1,26 @@
 package com.regexgame.game.event;
 
-import com.regexgame.game.GameState;
+import com.regexgame.game.MatchState;
 import com.regexgame.game.Player;
 
 public class GameStateUpdateEventHandler extends EventHandler {
     @Override
-    public boolean canBeHandled(GameState gameState, Event event) {
+    public boolean canBeHandled(MatchState matchState, Event event) {
         return event instanceof GameStateUpdateEvent;
     }
 
     @Override
-    public EventResponse handle(GameState gameState, Event event) {
+    public EventResponse handle(MatchState matchState, Event event) {
         GameStateUpdateEvent gameStateUpdateEvent = (GameStateUpdateEvent) event;
 
-        gameState.setCardsInHand(Player.First, gameStateUpdateEvent.getFirstPlayerCardsInHand());
-        gameState.setCardsInHand(Player.Second, gameStateUpdateEvent.getSecondPlayerCardsInHand());
+        matchState.setCardsInHand(Player.First, gameStateUpdateEvent.getFirstPlayerCardsInHand());
+        matchState.setCardsInHand(Player.Second, gameStateUpdateEvent.getSecondPlayerCardsInHand());
 
-        gameState.setCardsInPlay(Player.First, gameStateUpdateEvent.getFirstPlayerCardsInPlay());
-        gameState.setCardsInPlay(Player.Second, gameStateUpdateEvent.getSecondPlayerCardsInPlay());
+        matchState.setCardsInPlay(Player.First, gameStateUpdateEvent.getFirstPlayerCardsInPlay());
+        matchState.setCardsInPlay(Player.Second, gameStateUpdateEvent.getSecondPlayerCardsInPlay());
+
+        matchState.setPlayerAttributes(Player.First, gameStateUpdateEvent.getFirstPlayerAttributes());
+        matchState.setPlayerAttributes(Player.Second, gameStateUpdateEvent.getSecondPlayerAttributes());
 
         return new GameStateUpdateEventResponse(gameStateUpdateEvent.getClientPlayer());
     }

@@ -1,9 +1,9 @@
 package com.regexgame.game.event;
 
-import com.regexgame.game.GameState;
+import com.regexgame.game.MatchState;
 
 abstract public class EventHandler {
-    abstract public boolean canBeHandled(GameState gameState, Event event);
+    abstract public boolean canBeHandled(MatchState matchState, Event event);
 
-    abstract public EventResponse handle(GameState gameState, Event event);
+    abstract public EventResponse handle(MatchState matchState, Event event);
 }

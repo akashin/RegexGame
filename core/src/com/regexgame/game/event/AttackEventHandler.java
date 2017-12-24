@@ -1,27 +1,28 @@
 package com.regexgame.game.event;
 
 import com.regexgame.game.Card;
-import com.regexgame.game.GameState;
+import com.regexgame.game.MatchState;
 import com.regexgame.game.Player;
 
 public class AttackEventHandler extends EventHandler {
     @Override
-    public boolean canBeHandled(GameState gameState, Event event) {
+    public boolean canBeHandled(MatchState matchState, Event event) {
         return event instanceof AttackEvent;
     }
 
     @Override
-    public EventResponse handle(GameState gameState, Event event) {
+    public EventResponse handle(MatchState matchState, Event event) {
         AttackEvent attackEvent = (AttackEvent) event;
 
         Player targetPlayer = attackEvent.getAttacker().getOpposite();
-        Card attackedCard = gameState.getCardInPlay(targetPlayer, attackEvent.getTargetCard());
+        Card attackedCard = matchState.getCardInPlay(targetPlayer, attackEvent.getTargetCard());
 
         int damageDealt = 0;
         for (int id : attackEvent.getChosenCards()) {
-            Card card = gameState.getCardInPlay(attackEvent.getAttacker(), id);
+            Card card = matchState.getCardInPlay(attackEvent.getAttacker(), id);
             damageDealt += attackedCard.damage(card.getAttack());
         }
+        matchState.damagePlayer(targetPlayer, damageDealt);
 
         return new AttackEventResponse(
                 attackEvent.getAttacker(),

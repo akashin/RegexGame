@@ -3,21 +3,23 @@ package com.regexgame.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
-public class GameState {
+public class MatchState {
     private Player currentPlayer;
 
     private Cards firstPlayerCardsInHand;
     private Cards firstPlayerCardsInPlay;
+    private PlayerAttributes firstPlayerAttributes;
     private Array<Integer> firstPlayerSelectedCards;
 
     private Cards secondPlayerCardsInHand;
     private Cards secondPlayerCardsInPlay;
+    private PlayerAttributes secondPlayerAttributes;
     private Array<Integer> secondPlayerSelectedCards;
 
     /**
-     * Create empty GameState which should be updated from server
+     * Create empty MatchState which should be updated from server
      */
-    public GameState() {
+    public MatchState() {
         currentPlayer = Player.First;
 
         firstPlayerCardsInHand = new Cards();
@@ -31,6 +33,14 @@ public class GameState {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public void changePlayer() {
+        if (currentPlayer == Player.First) {
+            currentPlayer = Player.Second;
+        } else {
+            currentPlayer = Player.First;
+        }
     }
 
     public Cards getCardsInHand(Player player) {
@@ -129,10 +139,36 @@ public class GameState {
         } else {
             selectedCards.removeIndex(index);
         }
-        Gdx.app.log("GameState", "Selected cards of " + currentPlayer + " player: " + selectedCards);
+        Gdx.app.log("MatchState", "Selected cards of " + currentPlayer + " player: " + selectedCards);
     }
 
     public void resetSelection() {
         getSelectedCards(currentPlayer).clear();
+    }
+
+    public PlayerAttributes getPlayerAttributes(Player player) {
+        if (player == Player.First) {
+            return firstPlayerAttributes;
+        } else {
+            return secondPlayerAttributes;
+        }
+    }
+
+    public void setPlayerAttributes(Player player, PlayerAttributes playerAttributes) {
+        if (player == Player.First) {
+            firstPlayerAttributes = playerAttributes;
+        } else {
+            secondPlayerAttributes = playerAttributes;
+        }
+    }
+
+    public int getPlayerHealth(Player player) {
+        return getPlayerAttributes(player).getHealth();
+    }
+
+    public void damagePlayer(Player player, int damage) {
+        PlayerAttributes attributes = getPlayerAttributes(player);
+        int damageDealt = Math.min(attributes.getHealth(), damage);
+        attributes.setHealth(attributes.getHealth() - damageDealt);
     }
 }
