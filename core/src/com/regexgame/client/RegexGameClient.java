@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.regexgame.client.screen.GameScreen;
 
 public class RegexGameClient extends Game {
@@ -20,6 +22,8 @@ public class RegexGameClient extends Game {
     MatchConnection matchConnection;
 
     private AssetManager assetManager;
+
+    private Skin skin;
 
     @Override
     public void create() {
@@ -46,17 +50,36 @@ public class RegexGameClient extends Game {
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-        FreeTypeFontLoaderParameter fontLoaderParameters = new FreeTypeFontLoaderParameter();
-        fontLoaderParameters.fontFileName = "arial.ttf";
-        fontLoaderParameters.fontParameters.size = 10;
-        fontLoaderParameters.fontParameters.color = Color.BLACK;
-        assetManager.load("size15.ttf", BitmapFont.class, fontLoaderParameters);
+        {
+            FreeTypeFontLoaderParameter fontLoaderParameters = new FreeTypeFontLoaderParameter();
+            fontLoaderParameters.fontFileName = "arial.ttf";
+            fontLoaderParameters.fontParameters.size = 15;
+            fontLoaderParameters.fontParameters.color = Color.WHITE;
+            assetManager.load("size15w.ttf", BitmapFont.class, fontLoaderParameters);
+        }
+
+        {
+            FreeTypeFontLoaderParameter fontLoaderParameters = new FreeTypeFontLoaderParameter();
+            fontLoaderParameters.fontFileName = "arial.ttf";
+            fontLoaderParameters.fontParameters.size = 10;
+            fontLoaderParameters.fontParameters.color = Color.BLACK;
+            assetManager.load("size10b.ttf", BitmapFont.class, fontLoaderParameters);
+        }
 
         assetManager.finishLoading();
+
+        BitmapFont font15 = assetManager.get("size15w.ttf", BitmapFont.class);
+        skin = new Skin();
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font15, Color.WHITE);
+        skin.add("default", labelStyle, Label.LabelStyle.class);
     }
 
     public AssetManager getAssetManager() {
         return assetManager;
+    }
+
+    public Skin getSkin() {
+        return skin;
     }
 
     @Override

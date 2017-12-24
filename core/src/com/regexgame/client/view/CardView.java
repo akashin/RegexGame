@@ -45,7 +45,7 @@ public class CardView extends Actor {
         selectionSprite.setSize(CARD_WIDTH + 2 * CARD_BORDER, CARD_HEIGHT + 2 * CARD_BORDER);
         selectionSprite.setColor(Color.RED);
 
-        font = assetManager.get("size15.ttf", BitmapFont.class);
+        font = assetManager.get("size10b.ttf", BitmapFont.class);
         glyphLayout = new GlyphLayout(font, card.getAttack());
     }
 

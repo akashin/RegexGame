@@ -1,10 +1,13 @@
 package com.regexgame.client.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.AtomicQueue;
@@ -28,6 +31,8 @@ public class GameScreen extends BasicScreen {
     private HorizontalGroup playerPlayGroup;
 
     private HorizontalGroup playerHandGroup;
+
+    private Label label;
 
     private GameState gameState;
 
@@ -82,9 +87,7 @@ public class GameScreen extends BasicScreen {
             }
         });
 
-        // TODO: load GameState from server
         gameState = new GameState();
-        generateRandomCards();
 
         eventHandlers = new Array<>();
         eventHandlers.add(new AttackEventHandler());
@@ -111,7 +114,14 @@ public class GameScreen extends BasicScreen {
         table.row();
 
         table.setFillParent(true);
+        stage.addActor(table);
 
+        label = new Label("", game.getSkin());
+        label.setPosition(0, 0);
+        stage.addActor(label);
+    }
+
+    private void initCards() {
         class CardInputListener extends InputListener {
             private final int cardId;
 
@@ -167,8 +177,6 @@ public class GameScreen extends BasicScreen {
             cardView.addListener(new CardInputListener(card.getId()));
             playerHandGroup.addActor(cardView);
         }
-
-        stage.addActor(table);
     }
 
     @Override
@@ -179,6 +187,11 @@ public class GameScreen extends BasicScreen {
         for (Event event : events) {
             EventResponse response = handleEvent(event);
             Gdx.app.log("EventResponse", response.getClass().getName());
+            if (response instanceof GameStateUpdateEventResponse) {
+                initCards();
+                player = ((GameStateUpdateEventResponse) response).player;
+                label.setText(player.toString());
+            }
         }
     }
 
@@ -189,37 +202,5 @@ public class GameScreen extends BasicScreen {
             }
         }
         throw new RuntimeException("Event was not handled");
-    }
-
-    // TODO: remove this
-    private Card generateRandomCard(Random random, int id) {
-        String attack = Integer.toString(random.nextInt(10) + 1);
-        String defence = Integer.toString(random.nextInt(20) + 1);
-        return new Card(id, attack, defence);
-    }
-
-    // TODO: remove this
-    private void generateRandomCards() {
-        Random random = new Random();
-
-        int lastId = 0;
-
-        for (int i = 0; i < 4; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            gameState.getCardsInHand(Player.First).add(card);
-        }
-        for (int i = 0; i < 3; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            gameState.getCardsInPlay(Player.First).add(card);
-        }
-
-        for (int i = 0; i < 4; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            gameState.getCardsInHand(Player.Second).add(card);
-        }
-        for (int i = 0; i < 3; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            gameState.getCardsInPlay(Player.Second).add(card);
-        }
     }
 }
