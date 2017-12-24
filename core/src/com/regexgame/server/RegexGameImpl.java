@@ -72,7 +72,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
         try {
             switch (request.getAction().getActionCase()) {
                 case ATTACK_CARD: {
-                    Gdx.app.log("INFO", "Attack action: " + request.getAction());
+                    System.err.println("Attack action: " + request.getAction());
                     match.attackCard(request.getSessionToken(), request.getAction().getAttackCard());
                     break;
                 }
@@ -81,6 +81,7 @@ public class RegexGameImpl extends RegexGameGrpc.RegexGameImplBase {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Failed to handle client action: " + e);
             responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription(e.getMessage())
                     .withCause(e) // This can be attached to the Status locally, but NOT transmitted to the client!
