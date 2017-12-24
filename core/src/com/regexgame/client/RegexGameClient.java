@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoa
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.regexgame.client.screen.GameScreen;
+import com.regexgame.client.screen.MatchResultsScreen;
 
 public class RegexGameClient extends Game {
     // Object to maintain the connection with the game server.

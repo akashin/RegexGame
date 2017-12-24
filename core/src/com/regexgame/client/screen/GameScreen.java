@@ -94,6 +94,7 @@ public class GameScreen extends BasicScreen {
         eventHandlers = new Array<>();
         eventHandlers.add(new AttackEventHandler());
         eventHandlers.add(new GameStateUpdateEventHandler());
+        eventHandlers.add(new MatchFinishedEventHandler());
     }
 
     @Override
@@ -228,6 +229,9 @@ public class GameScreen extends BasicScreen {
                 currentPlayerLabel.setText(CURRENT_PLAYER_PREFIX + matchState.getCurrentPlayer());
                 enemyHealthLabel.setText(HEALTH_PREFIX + matchState.getPlayerHealth(clientPlayer.getOpposite()));
                 playerHealthLabel.setText(HEALTH_PREFIX + matchState.getPlayerHealth(clientPlayer));
+            } else if (response instanceof MatchFinishedEventResponse) {
+                MatchFinishedEventResponse matchFinishedEventResponse = (MatchFinishedEventResponse) response;
+                game.setScreen(new MatchResultsScreen(game, matchFinishedEventResponse.winner == clientPlayer));
             }
         }
     }
