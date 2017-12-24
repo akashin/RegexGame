@@ -2,6 +2,7 @@ package com.regexgame.server;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.google.common.collect.Iterables;
 import com.regexgame.AttackCard;
 import com.regexgame.common.Utils;
 import com.regexgame.game.Card;
@@ -17,24 +18,19 @@ import java.util.function.Consumer;
 public class MatchGameState {
     private Player currentPlayer;
 
-    private Cards firstPlayerCardsInHand;
-    private Cards firstPlayerCardsInPlay;
-    private Array<Integer> firstPlayerSelectedCards;
-
-    private Cards secondPlayerCardsInHand;
-    private Cards secondPlayerCardsInPlay;
-    private Array<Integer> secondPlayerSelectedCards;
+    private ObjectMap<Player, Cards> cardsInHand;
+    private ObjectMap<Player, Cards> cardsInPlay;
 
     MatchGameState() {
         currentPlayer = Player.First;
-        firstPlayerCardsInHand = new Cards();
-        firstPlayerCardsInPlay = new Cards();
-        firstPlayerSelectedCards = new Array<>();
 
-        secondPlayerCardsInHand = new Cards();
-        secondPlayerCardsInPlay = new Cards();
-        secondPlayerSelectedCards = new Array<>();
+        cardsInHand = new ObjectMap<>();
+        cardsInPlay = new ObjectMap<>();
 
+        for (Player player : Player.values()) {
+            cardsInHand.put(player, new Cards());
+            cardsInPlay.put(player, new Cards());
+        }
         generateRandomCards();
     }
 
@@ -45,8 +41,9 @@ public class MatchGameState {
 
         ObjectMap<Player, Event> events = new ObjectMap<>();
 
+
         Event event = new AttackEvent(player.getOpposite(), player, Utils.toArray(action.getAttackerCardsList()),
-                action.getAttackedCard());
+                action.getAttackedCard(), 1);
 
         events.put(Player.First, event);
         events.put(Player.Second, event);
@@ -59,10 +56,10 @@ public class MatchGameState {
 
         Event event = new GameStateUpdateEvent(
                 player, currentPlayer,
-                firstPlayerCardsInHand,
-                firstPlayerCardsInPlay,
-                secondPlayerCardsInHand,
-                secondPlayerCardsInPlay);
+                cardsInHand.get(Player.First),
+                cardsInPlay.get(Player.First),
+                cardsInHand.get(Player.Second),
+                cardsInPlay.get(Player.Second));
 
         events.put(player, event);
         return events;
@@ -73,23 +70,15 @@ public class MatchGameState {
         Random random = new Random();
 
         int lastId = 0;
-
-        for (int i = 0; i < 4; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            firstPlayerCardsInHand.add(card);
-        }
-        for (int i = 0; i < 3; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            firstPlayerCardsInPlay.add(card);
-        }
-
-        for (int i = 0; i < 4; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            secondPlayerCardsInHand.add(card);
-        }
-        for (int i = 0; i < 3; ++i) {
-            Card card = generateRandomCard(random, lastId++);
-            secondPlayerCardsInPlay.add(card);
+        for (Player player : Player.values()) {
+            for (int i = 0; i < 4; ++i) {
+                Card card = generateRandomCard(random, lastId++);
+                cardsInHand.get(player).add(card);
+            }
+            for (int i = 0; i < 3; ++i) {
+                Card card = generateRandomCard(random, lastId++);
+                cardsInPlay.get(player).add(card);
+            }
         }
     }
 

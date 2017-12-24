@@ -13,11 +13,14 @@ public class AttackEvent extends Event {
 
     private int targetCard;
 
-    public AttackEvent(Player owner, Player attacker, Array<Integer> chosenCards, int targetCard) {
+    private int damage;
+
+    public AttackEvent(Player owner, Player attacker, Array<Integer> chosenCards, int targetCard, int damage) {
         super(owner);
         this.attacker = attacker;
         this.chosenCards = chosenCards;
         this.targetCard = targetCard;
+        this.damage = damage;
     }
 
     public Player getAttacker() {
@@ -30,6 +33,10 @@ public class AttackEvent extends Event {
 
     public int getTargetCard() {
         return targetCard;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     public GameEvent toProto() {
