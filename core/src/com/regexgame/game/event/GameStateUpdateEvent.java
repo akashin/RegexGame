@@ -5,17 +5,18 @@ import com.regexgame.GameEvent;
 import com.regexgame.GameStateUpdated;
 import com.regexgame.game.Cards;
 import com.regexgame.game.Player;
+import com.regexgame.game.PlayerAttributes;
 
 public class GameStateUpdateEvent extends Event {
     private Player currentPlayer;
 
-    private int firstPlayerHealth;
+    private PlayerAttributes firstPlayerAttributes;
 
     private Cards firstPlayerCardsInHand;
 
     private Cards firstPlayerCardsInPlay;
 
-    private int secondPlayerHealth;
+    private PlayerAttributes secondPlayerAttributes;
 
     private Cards secondPlayerCardsInHand;
 
@@ -24,25 +25,33 @@ public class GameStateUpdateEvent extends Event {
     public GameStateUpdateEvent(
             Player owner,
             Player currentPlayer,
-            int firstPlayerHealth,
+            PlayerAttributes firstPlayerAttributes,
             Cards firstPlayerCardsInHand,
             Cards firstPlayerCardsInPlay,
-            int secondPlayerHealth,
+            PlayerAttributes secondPlayerAttributes,
             Cards secondPlayerCardsInHand,
             Cards secondPlayerCardsInPlay
     ) {
         super(owner);
         this.currentPlayer = currentPlayer;
-        this.firstPlayerHealth = firstPlayerHealth;
+        this.firstPlayerAttributes = firstPlayerAttributes;
         this.firstPlayerCardsInHand = firstPlayerCardsInHand;
         this.firstPlayerCardsInPlay = firstPlayerCardsInPlay;
-        this.secondPlayerHealth = secondPlayerHealth;
+        this.secondPlayerAttributes = secondPlayerAttributes;
         this.secondPlayerCardsInHand = secondPlayerCardsInHand;
         this.secondPlayerCardsInPlay = secondPlayerCardsInPlay;
     }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public PlayerAttributes getFirstPlayerAttributes() {
+        return firstPlayerAttributes;
+    }
+
+    public PlayerAttributes getSecondPlayerAttributes() {
+        return secondPlayerAttributes;
     }
 
     public Cards getFirstPlayerCardsInHand() {
