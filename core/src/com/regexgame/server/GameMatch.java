@@ -43,9 +43,9 @@ public class GameMatch {
         }
         Player player = players.get(session_token);
 
-        matchGameState.attackCard(player, action)
-                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
-
+        EventObserver eventObserver = new EventObserver();
+        matchGameState.attackCard(player, action, eventObserver);
+        eventObserver.dumpEvents();
     }
 
     // Broadcasts event to all observers.
@@ -82,14 +82,23 @@ public class GameMatch {
         return player;
     }
 
+    class EventObserver {
+        public void onNext(Player player, Event event) {
+            sendEvent(player, event.toProto());
+        }
+
+        protected void dumpEvents() {
+        }
+    };
+
     private void startGame() {
         state = MatchState.Started;
         matchGameState = new MatchGameState();
 
-        matchGameState.getGameStateUpdate(Player.First)
-                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
-        matchGameState.getGameStateUpdate(Player.Second)
-                .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
+        EventObserver eventObserver = new EventObserver();
+        matchGameState.getGameStateUpdate(Player.First, eventObserver);
+        matchGameState.getGameStateUpdate(Player.Second, eventObserver);
+        eventObserver.dumpEvents();
     }
 
     public void subscribeForEvents(long session_token, StreamObserver<GameEvent> observer) {
@@ -97,8 +106,9 @@ public class GameMatch {
         observers.put(player, observer);
 
         if (state != MatchState.WaitingForPlayers) {
-            matchGameState.getGameStateUpdate(player)
-                    .forEach(playerEventEntry -> sendEvent(playerEventEntry.key, playerEventEntry.value.toProto()));
+            EventObserver eventObserver = new EventObserver();
+            matchGameState.getGameStateUpdate(player, eventObserver);
+            eventObserver.dumpEvents();
         }
     }
 }

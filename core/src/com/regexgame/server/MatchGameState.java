@@ -47,7 +47,7 @@ public class MatchGameState {
         }
     }
 
-    public ObjectMap<Player, Event> attackCard(Player player, AttackCard action) throws Exception {
+    public void attackCard(Player player, AttackCard action, GameMatch.EventObserver observer) throws Exception {
         if (player != currentPlayer) {
             throw new Exception("Unexpected player move.");
         }
@@ -73,8 +73,6 @@ public class MatchGameState {
         attributes.setHealth(attributes.getHealth() - damage);
         currentPlayer = currentPlayer.getOpposite();
 
-        ObjectMap<Player, Event> events = new ObjectMap<>();
-
         Event event = new AttackEvent(
                 player,
                 Utils.toArray(action.getAttackerCardsList()),
@@ -82,9 +80,8 @@ public class MatchGameState {
                 damage
         );
 
-        events.put(Player.First, event);
-        events.put(Player.Second, event);
-        return events;
+        observer.onNext(Player.First, event);
+        observer.onNext(Player.Second, event);
     }
 
     static Card getCardWithId(Cards cards, int id) {
@@ -96,9 +93,7 @@ public class MatchGameState {
     }
 
     // TODO(akashin): Maybe replace this with joinGame action.
-    public ObjectMap<Player, Event> getGameStateUpdate(Player player) {
-        ObjectMap<Player, Event> events = new ObjectMap<>();
-
+    public void getGameStateUpdate(Player player, GameMatch.EventObserver observer) {
         Event event = new GameStateUpdateEvent(
                 player, currentPlayer,
                 playerAttributes.get(Player.First),
@@ -108,7 +103,6 @@ public class MatchGameState {
                 cardsInHand.get(Player.Second),
                 cardsInPlay.get(Player.Second));
 
-        events.put(player, event);
-        return events;
+        observer.onNext(player, event);
     }
 }
