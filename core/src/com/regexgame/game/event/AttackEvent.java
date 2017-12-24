@@ -39,4 +39,6 @@ public class AttackEvent extends Event {
                         .setJsonEncoded(json.toJson(this)))
                 .build();
     }
+
+    private AttackEvent() {}
 }
