@@ -17,7 +17,8 @@ public class GameMatch {
 
     enum MatchState {
         WaitingForPlayers,
-        Started
+        Started,
+        Finished
     }
 
     private MatchState state;

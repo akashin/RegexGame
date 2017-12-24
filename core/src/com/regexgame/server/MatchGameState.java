@@ -7,6 +7,7 @@ import com.regexgame.game.*;
 import com.regexgame.game.event.AttackEvent;
 import com.regexgame.game.event.Event;
 import com.regexgame.game.event.GameStateUpdateEvent;
+import com.regexgame.game.event.MatchFinishedEvent;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -73,15 +74,23 @@ public class MatchGameState {
         attributes.setHealth(attributes.getHealth() - damage);
         currentPlayer = currentPlayer.getOpposite();
 
-        Event event = new AttackEvent(
-                player,
-                Utils.toArray(action.getAttackerCardsList()),
-                action.getAttackedCard(),
-                damage
-        );
+        {
+            Event event = new AttackEvent(
+                    player,
+                    Utils.toArray(action.getAttackerCardsList()),
+                    action.getAttackedCard(),
+                    damage
+            );
 
-        observer.onNext(Player.First, event);
-        observer.onNext(Player.Second, event);
+            observer.onNext(Player.First, event);
+            observer.onNext(Player.Second, event);
+        }
+
+        if (attributes.getHealth() <= 0) {
+            Event event = new MatchFinishedEvent(player);
+            observer.onNext(Player.First, event);
+            observer.onNext(Player.Second, event);
+        }
     }
 
     static Card getCardWithId(Cards cards, int id) {
