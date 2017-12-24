@@ -44,4 +44,6 @@ public class Card {
     public String getDefence() {
         return defence;
     }
+
+    private Card() {}
 }

@@ -60,4 +60,6 @@ public class GameStateUpdateEvent extends Event {
                         .setJsonEncoded(json.toJson(this)))
                 .build();
     }
+
+    private GameStateUpdateEvent() {}
 }

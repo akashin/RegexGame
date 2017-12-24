@@ -15,4 +15,6 @@ abstract public class Event {
     }
 
     public GameEvent toProto() { throw new UnsupportedOperationException(); }
+
+    protected Event() {}
 }
