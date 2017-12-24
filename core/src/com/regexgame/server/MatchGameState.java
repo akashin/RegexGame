@@ -59,7 +59,10 @@ public class MatchGameState {
         }
         String attackString = attackBuilder.toString();
         int damage = attackString.length();
+
+        // Apply effects of the action.
         playerHealth.put(player.getOpposite(), playerHealth.get(player.getOpposite()) - damage);
+        currentPlayer = currentPlayer.getOpposite();
 
         ObjectMap<Player, Event> events = new ObjectMap<>();
 
