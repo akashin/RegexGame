@@ -12,6 +12,7 @@ import com.regexgame.game.event.AttackEvent;
 import com.regexgame.game.event.Event;
 import com.regexgame.game.event.GameStateUpdateEvent;
 
+import java.util.Iterator;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -39,15 +40,37 @@ public class MatchGameState {
             throw new Exception("Unexpected player move.");
         }
 
+        Card attackedCard = getCardWithId(cardsInPlay.get(player.getOpposite()), action.getAttackedCard());
+        if (attackedCard == null) {
+            throw new Exception("Attacked card with id " + action.getAttackedCard() + " not found.");
+        }
+
+        StringBuilder attackBuilder = new StringBuilder();
+        for (int id : action.getAttackerCardsList()) {
+            Card attackerCard = getCardWithId(cardsInPlay.get(player), id);
+            if (attackerCard == null) {
+                throw new Exception("Attacker card with id " + id + " not found.");
+            }
+            attackBuilder.append(attackerCard.getAttack());
+        }
+        String attackString = attackBuilder.toString();
+
         ObjectMap<Player, Event> events = new ObjectMap<>();
 
-
         Event event = new AttackEvent(player.getOpposite(), player, Utils.toArray(action.getAttackerCardsList()),
-                action.getAttackedCard(), 1);
+                action.getAttackedCard(), attackString.length());
 
         events.put(Player.First, event);
         events.put(Player.Second, event);
         return events;
+    }
+
+    static Card getCardWithId(Cards cards, int id) {
+        Iterator<Card> it = cards.select(card -> card.getId() == id).iterator();
+        if (!it.hasNext()) {
+            return null;
+        }
+        return it.next();
     }
 
     // TODO(akashin): Maybe replace this with joinGame action.
