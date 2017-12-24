@@ -3,10 +3,7 @@ package com.regexgame.server;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.regexgame.AttackCard;
 import com.regexgame.common.Utils;
-import com.regexgame.game.Card;
-import com.regexgame.game.Cards;
-import com.regexgame.game.Player;
-import com.regexgame.game.PlayerAttributes;
+import com.regexgame.game.*;
 import com.regexgame.game.event.AttackEvent;
 import com.regexgame.game.event.Event;
 import com.regexgame.game.event.GameStateUpdateEvent;
@@ -16,9 +13,11 @@ import java.util.Random;
 
 public class MatchGameState {
     private static final int kStartingHealth = 10;
+    private static final int kCardsInDeck = 20;
     private Player currentPlayer;
 
     private ObjectMap<Player, PlayerAttributes> playerAttributes;
+    private ObjectMap<Player, Deck> playerDecks;
     private ObjectMap<Player, Cards> cardsInHand;
     private ObjectMap<Player, Cards> cardsInPlay;
 
@@ -26,15 +25,26 @@ public class MatchGameState {
         currentPlayer = Player.First;
 
         playerAttributes = new ObjectMap<>();
+        playerDecks = new ObjectMap<>();
         cardsInHand = new ObjectMap<>();
         cardsInPlay = new ObjectMap<>();
 
+        int cardStartId = 0;
         for (Player player : Player.values()) {
             playerAttributes.put(player, new PlayerAttributes(kStartingHealth));
+            playerDecks.put(player, new Deck(Deck.generateRandomCards(kCardsInDeck, cardStartId)));
+            cardStartId += kCardsInDeck;
+
             cardsInHand.put(player, new Cards());
+            for (int i = 0; i < 4; ++i) {
+                cardsInHand.get(player).add(playerDecks.get(player).dealCard());
+            }
+
             cardsInPlay.put(player, new Cards());
+            for (int i = 0; i < 3; ++i) {
+                cardsInPlay.get(player).add(playerDecks.get(player).dealCard());
+            }
         }
-        generateRandomCards();
     }
 
     public ObjectMap<Player, Event> attackCard(Player player, AttackCard action) throws Exception {
@@ -100,29 +110,5 @@ public class MatchGameState {
 
         events.put(player, event);
         return events;
-    }
-
-    // TODO: remove this
-    private void generateRandomCards() {
-        Random random = new Random();
-
-        int lastId = 0;
-        for (Player player : Player.values()) {
-            for (int i = 0; i < 4; ++i) {
-                Card card = generateRandomCard(random, lastId++);
-                cardsInHand.get(player).add(card);
-            }
-            for (int i = 0; i < 3; ++i) {
-                Card card = generateRandomCard(random, lastId++);
-                cardsInPlay.get(player).add(card);
-            }
-        }
-    }
-
-    // TODO: remove this
-    private static Card generateRandomCard(Random random, int id) {
-        String attack = Integer.toString(random.nextInt(10) + 1);
-        String defence = Integer.toString(random.nextInt(20) + 1);
-        return new Card(id, attack, defence);
     }
 }
