@@ -11,6 +11,7 @@ message GameEvent {
   oneof event {
     GameStateUpdated game_state_updated = 1;
     CardAttacked card_attacked = 2;
+    MatchFinished match_finished = 3;
   }
 }
 
@@ -21,5 +22,10 @@ message GameStateUpdated {
 
 // Emitted on every successful card attack.
 message CardAttacked {
+  string json_encoded = 1;
+}
+
+// Emmited when match is finished.
+message MatchFinished {
   string json_encoded = 1;
 }

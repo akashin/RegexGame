@@ -17,6 +17,11 @@ public class ProtoParser {
                 Json json = new Json();
                 return json.fromJson(AttackEvent.class, gameEvent.getCardAttacked().getJsonEncoded());
             }
+            case MATCH_FINISHED: {
+                Gdx.app.log("INFO","Match finished: " + gameEvent);
+                Json json = new Json();
+                return json.fromJson(MatchFinishedEvent.class, gameEvent.getMatchFinished().getJsonEncoded());
+            }
             default: {
                 Gdx.app.log("ERROR", "Unrecognized event: " + gameEvent);
                 return null;
