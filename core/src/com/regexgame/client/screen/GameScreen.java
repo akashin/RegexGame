@@ -116,7 +116,7 @@ public class GameScreen extends BasicScreen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        label = new Label("", game.getSkin());
+        label = new Label("[PLAYER]", game.getSkin());
         label.setPosition(0, 0);
         stage.addActor(label);
     }
@@ -189,7 +189,7 @@ public class GameScreen extends BasicScreen {
             Gdx.app.log("EventResponse", response.getClass().getName());
             if (response instanceof GameStateUpdateEventResponse) {
                 initCards();
-                player = ((GameStateUpdateEventResponse) response).player;
+                player = ((GameStateUpdateEventResponse) response).clientPlayer;
                 label.setText(player.toString());
             }
         }

@@ -8,6 +8,8 @@ import com.regexgame.game.Player;
 import com.regexgame.game.PlayerAttributes;
 
 public class GameStateUpdateEvent extends Event {
+    private Player clientPlayer;
+
     private Player currentPlayer;
 
     private PlayerAttributes firstPlayerAttributes;
@@ -23,7 +25,7 @@ public class GameStateUpdateEvent extends Event {
     private Cards secondPlayerCardsInPlay;
 
     public GameStateUpdateEvent(
-            Player owner,
+            Player clientPlayer,
             Player currentPlayer,
             PlayerAttributes firstPlayerAttributes,
             Cards firstPlayerCardsInHand,
@@ -32,7 +34,7 @@ public class GameStateUpdateEvent extends Event {
             Cards secondPlayerCardsInHand,
             Cards secondPlayerCardsInPlay
     ) {
-        super(owner);
+        this.clientPlayer = clientPlayer;
         this.currentPlayer = currentPlayer;
         this.firstPlayerAttributes = firstPlayerAttributes;
         this.firstPlayerCardsInHand = firstPlayerCardsInHand;
@@ -40,6 +42,10 @@ public class GameStateUpdateEvent extends Event {
         this.secondPlayerAttributes = secondPlayerAttributes;
         this.secondPlayerCardsInHand = secondPlayerCardsInHand;
         this.secondPlayerCardsInPlay = secondPlayerCardsInPlay;
+    }
+
+    public Player getClientPlayer() {
+        return clientPlayer;
     }
 
     public Player getCurrentPlayer() {

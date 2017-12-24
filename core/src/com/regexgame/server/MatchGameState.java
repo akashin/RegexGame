@@ -65,8 +65,12 @@ public class MatchGameState {
 
         ObjectMap<Player, Event> events = new ObjectMap<>();
 
-        Event event = new AttackEvent(player.getOpposite(), player, Utils.toArray(action.getAttackerCardsList()),
-                action.getAttackedCard(), damage);
+        Event event = new AttackEvent(
+                player,
+                Utils.toArray(action.getAttackerCardsList()),
+                action.getAttackedCard(),
+                damage
+        );
 
         events.put(Player.First, event);
         events.put(Player.Second, event);

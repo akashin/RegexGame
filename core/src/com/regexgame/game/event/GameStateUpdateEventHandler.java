@@ -19,6 +19,6 @@ public class GameStateUpdateEventHandler extends EventHandler {
         gameState.setCardsInPlay(Player.First, gameStateUpdateEvent.getFirstPlayerCardsInPlay());
         gameState.setCardsInPlay(Player.Second, gameStateUpdateEvent.getSecondPlayerCardsInPlay());
 
-        return new GameStateUpdateEventResponse(gameStateUpdateEvent.getOwner());
+        return new GameStateUpdateEventResponse(gameStateUpdateEvent.getClientPlayer());
     }
 }

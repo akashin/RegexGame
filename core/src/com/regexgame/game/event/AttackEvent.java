@@ -15,8 +15,7 @@ public class AttackEvent extends Event {
 
     private int damage;
 
-    public AttackEvent(Player owner, Player attacker, Array<Integer> chosenCards, int targetCard, int damage) {
-        super(owner);
+    public AttackEvent(Player attacker, Array<Integer> chosenCards, int targetCard, int damage) {
         this.attacker = attacker;
         this.chosenCards = chosenCards;
         this.targetCard = targetCard;

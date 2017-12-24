@@ -3,9 +3,9 @@ package com.regexgame.game.event;
 import com.regexgame.game.Player;
 
 public class GameStateUpdateEventResponse extends EventResponse {
-    public final Player player;
+    public final Player clientPlayer;
 
-    public GameStateUpdateEventResponse(Player player) {
-        this.player = player;
+    public GameStateUpdateEventResponse(Player clientPlayer) {
+        this.clientPlayer = clientPlayer;
     }
 }
