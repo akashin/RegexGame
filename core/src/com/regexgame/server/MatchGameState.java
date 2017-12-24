@@ -17,18 +17,22 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 public class MatchGameState {
+    private static final int kStartingHealth = 10;
     private Player currentPlayer;
 
+    private ObjectMap<Player, Integer> playerHealth;
     private ObjectMap<Player, Cards> cardsInHand;
     private ObjectMap<Player, Cards> cardsInPlay;
 
     MatchGameState() {
         currentPlayer = Player.First;
 
+        playerHealth = new ObjectMap<>();
         cardsInHand = new ObjectMap<>();
         cardsInPlay = new ObjectMap<>();
 
         for (Player player : Player.values()) {
+            playerHealth.put(player, kStartingHealth);
             cardsInHand.put(player, new Cards());
             cardsInPlay.put(player, new Cards());
         }
@@ -54,11 +58,13 @@ public class MatchGameState {
             attackBuilder.append(attackerCard.getAttack());
         }
         String attackString = attackBuilder.toString();
+        int damage = attackString.length();
+        playerHealth.put(player.getOpposite(), playerHealth.get(player.getOpposite()) - damage);
 
         ObjectMap<Player, Event> events = new ObjectMap<>();
 
         Event event = new AttackEvent(player.getOpposite(), player, Utils.toArray(action.getAttackerCardsList()),
-                action.getAttackedCard(), attackString.length());
+                action.getAttackedCard(), damage);
 
         events.put(Player.First, event);
         events.put(Player.Second, event);
@@ -79,8 +85,10 @@ public class MatchGameState {
 
         Event event = new GameStateUpdateEvent(
                 player, currentPlayer,
+                playerHealth.get(Player.First),
                 cardsInHand.get(Player.First),
                 cardsInPlay.get(Player.First),
+                playerHealth.get(Player.Second),
                 cardsInHand.get(Player.Second),
                 cardsInPlay.get(Player.Second));
 

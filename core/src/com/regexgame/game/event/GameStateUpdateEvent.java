@@ -9,9 +9,13 @@ import com.regexgame.game.Player;
 public class GameStateUpdateEvent extends Event {
     private Player currentPlayer;
 
+    private int firstPlayerHealth;
+
     private Cards firstPlayerCardsInHand;
 
     private Cards firstPlayerCardsInPlay;
+
+    private int secondPlayerHealth;
 
     private Cards secondPlayerCardsInHand;
 
@@ -20,15 +24,19 @@ public class GameStateUpdateEvent extends Event {
     public GameStateUpdateEvent(
             Player owner,
             Player currentPlayer,
+            int firstPlayerHealth,
             Cards firstPlayerCardsInHand,
             Cards firstPlayerCardsInPlay,
+            int secondPlayerHealth,
             Cards secondPlayerCardsInHand,
             Cards secondPlayerCardsInPlay
     ) {
         super(owner);
         this.currentPlayer = currentPlayer;
+        this.firstPlayerHealth = firstPlayerHealth;
         this.firstPlayerCardsInHand = firstPlayerCardsInHand;
         this.firstPlayerCardsInPlay = firstPlayerCardsInPlay;
+        this.secondPlayerHealth = secondPlayerHealth;
         this.secondPlayerCardsInHand = secondPlayerCardsInHand;
         this.secondPlayerCardsInPlay = secondPlayerCardsInPlay;
     }
